@@ -20,7 +20,7 @@ let
 
     stdenv = nixpkgs.gcc13Stdenv;
 
-    inherit git python;
+    inherit git python ours;
 
     # Throwing options here feels suss as fuck.
     inherit amaranth_rev amaranth_git_sha256;

@@ -15,10 +15,7 @@ if amaranth_dev_mode then
   }
 else
   hdx.pkgs.mkShell {
-    buildInputs = with hdx.pkgs; [
-      amaranth
-      yosys
-    ];
+    buildInputs = builtins.attrValues hdx.ours;
 
     IN_NIX_SHELL_NAMED = "hdx";
   }
