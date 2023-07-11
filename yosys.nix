@@ -4,7 +4,8 @@
   fetchgit,
   fetchzip,
 
-  hdxPython,
+  python,
+  git,
 
   yosys_rev,
   yosys_git_sha256,
@@ -51,19 +52,17 @@ stdenv.mkDerivation {
   '';
 
   nativeBuildInputs = with pkgs; [
-    which
-
     pkg-config
     git
     tcl
     bison
     flex
-    hdxPython
+    python
 
     readline
     zlib
     libffi
-    (boost.override { python = hdxPython; enablePython = true; })
+    (boost.override { inherit python; enablePython = true; })
   ];
 
   enableParallelBuilding = true;
