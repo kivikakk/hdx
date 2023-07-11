@@ -13,6 +13,8 @@ let
   callPackage = pkgs.lib.callPackageWith (pkgs // hdx);
 
   hdx = {
+    inherit pkgs;
+
     stdenv = pkgs.gcc13Stdenv;
 
     inherit hdxPython;
