@@ -1,13 +1,11 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  hdxPkgs = pkgs.callPackage ./. {};
+  hdx = pkgs.callPackage ./. {};
 
 in
 pkgs.mkShell {
-  buildInputs = with pkgs; [
-    hdxPkgs.yosys
-  ];
+  buildInputs = hdx.all;
 
   IN_NIX_SHELL_NAMED = "hdx";
 }

@@ -1,25 +1,28 @@
 {
-  pkgs ? import <nixpkgs> {},
+  pkgs,
+  stdenv,
+  fetchgit,
+  fetchzip,
 
-  python ? pkgs.python311,
+  hdxPython,
 
-  yosys_rev ? "14d50a176d59a5eac95a57a01f9e933297251d5b",
-  yosys_git_sha256 ? "1SiCI4hs59Ebn3kh7GESkgHuKySPaGPRvxWH7ajSGRM=",
-  abc_rev ? "bb64142b07794ee685494564471e67365a093710",
-  abc_tgz_sha256 ? "Qkk61Lh84ervtehWskSB9GKh+JPB7mI1IuG32OSZMdg=",
+  yosys_rev,
+  yosys_git_sha256,
+  abc_rev,
+  abc_tgz_sha256,
 }:
 
-pkgs.gcc13Stdenv.mkDerivation {
+stdenv.mkDerivation {
   name = "yosys";
 
   srcs = [
-    (pkgs.fetchgit {
+    (fetchgit {
       name = "yosys";
       url = "https://github.com/YosysHQ/yosys.git";
       rev = yosys_rev;
       sha256 = yosys_git_sha256;
     })
-    (pkgs.fetchzip {
+    (fetchzip {
       name = "abc";
       url = "https://github.com/YosysHQ/abc/archive/${abc_rev}.tar.gz";
       sha256 = abc_tgz_sha256;
@@ -55,12 +58,12 @@ pkgs.gcc13Stdenv.mkDerivation {
     tcl
     bison
     flex
-    python
+    hdxPython
 
     readline
     zlib
     libffi
-    (boost.override { python = python; enablePython = true; })
+    (boost.override { python = hdxPython; enablePython = true; })
   ];
 
   enableParallelBuilding = true;
