@@ -1,0 +1,3 @@
+[submodule "dev/amaranth"]
+  path = dev/amaranth
+  url = git@github.com:charlottia/amaranth.git

@@ -1,4 +1,5 @@
 {
+  pkgs,
   fetchgit,
 
   python,
@@ -6,7 +7,6 @@
 
   yosys,
 
-  amaranth_dev_mode,
   amaranth_rev,
   amaranth_git_sha256,
 }:
@@ -15,20 +15,21 @@ python.pkgs.buildPythonPackage rec {
   name = "amaranth";
   format = "pyproject";
 
-  src = if amaranth_dev_mode then ./amaranth else (fetchgit {
+  src = fetchgit {
     url = "https://github.com/amaranth-lang/amaranth.git";
     rev = amaranth_rev;
     sha256 = amaranth_git_sha256;
-    leaveDotGit = true;
-  });
+    leaveDotGit = true;  # needed for setuptools-scm
+  };
 
-  nativeBuildInputs = [
-    git
-  ];
-
-  propagatedBuildInputs = with python.pkgs; [
+  nativeBuildInputs = with python.pkgs; [
+    pkgs.git
     setuptools
     setuptools-scm
+    yosys  # not available in shell without
+  ];
+
+  buildInputs = with python.pkgs; [
     pyvcd
     jinja2
     yosys
