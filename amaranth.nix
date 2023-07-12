@@ -26,7 +26,6 @@ python.pkgs.buildPythonPackage rec {
     pkgs.git
     setuptools
     setuptools-scm
-    yosys  # not available in shell without
   ];
 
   buildInputs = with python.pkgs; [

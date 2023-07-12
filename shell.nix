@@ -4,9 +4,17 @@
   hdx ? import ./. {},
 }:
 
+let
+  ours = builtins.attrValues hdx.ours;
+
+in
 if amaranth_dev_mode then
-  hdx.amaranth.overridePythonAttrs {
+  hdx.amaranth.overridePythonAttrs (prev: {
     src = null;
+
+    nativeBuildInputs =
+      prev.nativeBuildInputs ++
+      (builtins.filter (p: p != hdx.amaranth) ours);
 
     preShellHook = ''
       # pipShellHook looks for pyproject.toml in cwd.
@@ -14,10 +22,10 @@ if amaranth_dev_mode then
     '';
 
     IN_NIX_SHELL_NAMED = "hdx-amaranth";
-  }
+  })
 else
   hdx.pkgs.mkShell {
-    buildInputs = builtins.attrValues hdx.ours;
+    buildInputs = ours;
 
     IN_NIX_SHELL_NAMED = "hdx";
   }
