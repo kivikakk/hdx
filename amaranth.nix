@@ -8,6 +8,7 @@
   yosys,
 
   amaranth_rev,
+  amaranth_git_sha256,
 }:
 
 python.pkgs.buildPythonPackage rec {
@@ -17,7 +18,7 @@ python.pkgs.buildPythonPackage rec {
   src = fetchgit {
     url = "https://github.com/amaranth-lang/amaranth.git";
     rev = amaranth_rev;
-    hash = null;
+    sha256 = amaranth_git_sha256;
     leaveDotGit = true;  # needed for setuptools-scm
   };
 
