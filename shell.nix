@@ -6,6 +6,8 @@
 
 if amaranth_dev_mode then
   hdx.amaranth.overridePythonAttrs {
+    src = null;
+
     preShellHook = ''
       # pipShellHook looks for pyproject.toml in cwd.
       cd dev/amaranth
