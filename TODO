@@ -1,0 +1,3 @@
+- nextpnr
+- sby/etc.
+- Yosys "development mode" as the only other one I'm likely to need at the moment.
