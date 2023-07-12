@@ -54,11 +54,13 @@ stdenv.mkDerivation {
   nativeBuildInputs = with pkgs; [
     pkg-config
     git
-    tcl
     bison
     flex
-    python
+  ];
 
+  buildInputs = with pkgs; [
+    python
+    tcl
     readline
     zlib
     libffi

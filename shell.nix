@@ -9,11 +9,11 @@ let
 
 in
 if amaranth_dev_mode then
-  hdx.amaranth.overridePythonAttrs (prev: {
+  hdx.amaranth.overridePythonAttrs ({ nativeBuildInputs, ... }: {
     src = null;
 
     nativeBuildInputs =
-      prev.nativeBuildInputs ++
+      nativeBuildInputs ++
       (builtins.filter (p: p != hdx.amaranth) ours);
 
     preShellHook = ''
