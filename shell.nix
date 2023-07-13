@@ -1,11 +1,12 @@
 {
   amaranth_dev_mode ? false,
+  nextpnr_archs ? ["ice40" "ecp5"],
 
-  hdx ? import ./. {},
+  hdx ? import ./. { inherit nextpnr_archs; },
 }:
 
 let
-  ours = builtins.attrValues hdx.ours;
+  all = builtins.attrValues hdx.all;
 
 in
 if amaranth_dev_mode then
@@ -14,7 +15,7 @@ if amaranth_dev_mode then
 
     nativeBuildInputs =
       nativeBuildInputs ++
-      (builtins.filter (p: p != hdx.amaranth) ours);
+      (builtins.filter (p: p != hdx.amaranth) all);
 
     preShellHook = ''
       # pipShellHook looks for pyproject.toml in cwd.
@@ -25,7 +26,7 @@ if amaranth_dev_mode then
   })
 else
   hdx.pkgs.mkShell {
-    buildInputs = ours;
+    buildInputs = all;
 
     IN_NIX_SHELL_NAMED = "hdx";
   }

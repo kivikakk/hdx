@@ -1,8 +1,6 @@
 {
   pkgs,
   stdenv,
-  fetchgit,
-  fetchzip,
 
   python,
   git,
@@ -14,7 +12,7 @@
 stdenv.mkDerivation {
   name = "icestorm";
 
-  src = fetchgit {
+  src = pkgs.fetchgit {
     name = "icestorm";
     url = "https://github.com/YosysHQ/icestorm.git";
     rev = icestorm_rev;

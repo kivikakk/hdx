@@ -1,8 +1,6 @@
 {
   pkgs,
   stdenv,
-  fetchgit,
-  fetchzip,
 
   python,
   git,
@@ -17,13 +15,13 @@ stdenv.mkDerivation {
   name = "yosys";
 
   srcs = [
-    (fetchgit {
+    (pkgs.fetchgit {
       name = "yosys";
       url = "https://github.com/YosysHQ/yosys.git";
       rev = yosys_rev;
       sha256 = yosys_git_sha256;
     })
-    (fetchzip {
+    (pkgs.fetchzip {
       name = "abc";
       url = "https://github.com/YosysHQ/abc/archive/${abc_rev}.tar.gz";
       sha256 = abc_tgz_sha256;

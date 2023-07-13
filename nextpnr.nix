@@ -1,22 +1,25 @@
 {
   pkgs,
   stdenv,
-  fetchgit,
-  fetchzip,
 
   python,
   git,
 
-  icestorm,
+  icestorm ? null,
+  trellis ? null,
 
   nextpnr_rev,
   nextpnr_git_sha256,
+  nextpnr_archs,
+  nextpnr-support,
 }:
 
-stdenv.mkDerivation {
+with pkgs.lib;
+
+stdenv.mkDerivation ({
   name = "nextpnr";
 
-  src = fetchgit {
+  src = pkgs.fetchgit {
     name = "nextpnr";
     url = "https://github.com/YosysHQ/nextpnr.git";
     rev = nextpnr_rev;
@@ -26,8 +29,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = with pkgs; [
     pkg-config
     cmake
-    icestorm
-  ];
+  ] ++ nextpnr-support.enabled_pkgs;
 
   buildInputs = with pkgs; [
     python
@@ -36,11 +38,12 @@ stdenv.mkDerivation {
   ];
 
   cmakeFlags = [
-    "-DARCH=ice40"
-    # TODO "-DARCH=ice40;ecp5"
+    ("-DARCH=" + builtins.concatStringsSep ";" nextpnr_archs)
   ];
 
-  ICESTORM_INSTALL_PREFIX = icestorm;
-
   enableParallelBuilding = true;
-}
+} // optionalAttrs (nextpnr-support.enabled icestorm) {
+  ICESTORM_INSTALL_PREFIX = icestorm;
+} // optionalAttrs (nextpnr-support.enabled trellis) {
+  TRELLIS_INSTALL_PREFIX = trellis;
+})

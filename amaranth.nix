@@ -1,6 +1,5 @@
 {
   pkgs,
-  fetchgit,
 
   python,
   git,
@@ -15,7 +14,7 @@ python.pkgs.buildPythonPackage rec {
   name = "amaranth";
   format = "pyproject";
 
-  src = fetchgit {
+  src = pkgs.fetchgit {
     url = "https://github.com/amaranth-lang/amaranth.git";
     rev = amaranth_rev;
     sha256 = builtins.getAttr pkgs.system amaranth_git_sha256s;
