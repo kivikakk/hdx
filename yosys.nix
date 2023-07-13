@@ -41,13 +41,11 @@ stdenv.mkDerivation {
     echo "${abc_rev}" | grep -q ^"$abcrev"
   '';
 
-  configurePhase = ''
-    cat >Makefile.conf <<EOF
-    PREFIX = $prefix
-    CONFIG = gcc
-    PRETTY = 0
-    EOF
-  '';
+  makeFlags = [
+    "PREFIX=$(out)"
+    "CONFIG=gcc"
+    "PRETTY=0"
+  ];
 
   nativeBuildInputs = with pkgs; [
     pkg-config

@@ -19,9 +19,9 @@ stdenv.mkDerivation {
     sha256 = icestorm_git_sha256;
   };
 
-  configurePhase = ''
-    export PREFIX="$prefix"
-  '';
+  makeFlags = [
+    "PREFIX=$(out)"
+  ];
 
   nativeBuildInputs = with pkgs; [
     pkg-config
