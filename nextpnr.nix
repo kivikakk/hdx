@@ -42,8 +42,10 @@ stdenv.mkDerivation ({
   ];
 
   enableParallelBuilding = true;
+
 } // optionalAttrs (nextpnr-support.enabled icestorm) {
   ICESTORM_INSTALL_PREFIX = icestorm;
+
 } // optionalAttrs (nextpnr-support.enabled trellis) {
   TRELLIS_INSTALL_PREFIX = trellis;
 })

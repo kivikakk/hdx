@@ -26,6 +26,9 @@
   nextpnr_rev ? "54b2045726fc3fe77857c05c81a5ab77e98ba851",
   nextpnr_git_sha256 ? "BhNQKACh8ls2cnQ9tMn8YSrpEiIz5nqhcnuYLnEbJXw=",
   nextpnr_archs ? ["ice40" "ecp5"],
+
+  symbiyosys_rev ? "fbbbab235f4ecdce6353cb6c9062d790c450dddc",
+  symbiyosys_git_sha256 ? "F2kylUuX1cbVnyEvObRr4l8EoqJIzZJjwpFyNyy+iP8=",
 }:
 
 with pkgs.lib;
@@ -49,6 +52,7 @@ let
     inherit trellis_rev trellis_git_sha256;
     inherit nextpnr_rev nextpnr_git_sha256;
     nextpnr_archs = sort lessThan nextpnr_archs;
+    inherit symbiyosys_rev symbiyosys_git_sha256;
 
     nextpnr-support = callPackage ./nextpnr-support.nix {};
   }
@@ -60,6 +64,7 @@ let
     amaranth = callPackage ./amaranth.nix {};
     yosys = callPackage ./yosys.nix {};
     nextpnr = callPackage ./nextpnr.nix {};
+    symbiyosys = callPackage ./symbiyosys.nix {};
   };
 
   nextpnr-arch-deps = {
