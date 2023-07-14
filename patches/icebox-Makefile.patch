@@ -1,0 +1,11 @@
+--- a/icebox/Makefile
++++ b/icebox/Makefile
+@@ -2,7 +2,3 @@
+ 
+-ifneq ($(shell uname -s),Darwin)
+-  SED_I = sed -i
+-else
+-  SED_I = sed -i ''
+-endif
++SED_I = sed -i
+ 

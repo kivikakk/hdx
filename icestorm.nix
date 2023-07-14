@@ -18,6 +18,10 @@ stdenv.mkDerivation {
     sha256 = icestorm_git_sha256;
   };
 
+  patches = [
+    ./patches/icebox-Makefile.patch
+  ];
+
   makeFlags = [
     "PREFIX=$(out)"
   ];
