@@ -4,19 +4,21 @@
   icestorm,
   trellis,
 
-  nextpnr_archs,
+  hdx-config,
 }:
 
 with pkgs.lib;
 
 let
+  inherit (hdx-config.nextpnr) archs;
+
   ARCH_MAPPINGS = {
     ice40 = icestorm;
     ecp5 = trellis;
   };
 
   arch_enabled =
-    flip elem nextpnr_archs;
+    flip elem archs;
 
   enabled =
     flip elem enabled_pkgs;
@@ -24,8 +26,8 @@ let
   enabled_pkgs =
     assert all
       (a: assertOneOf "each nextpnr arch" a (attrNames ARCH_MAPPINGS))
-      nextpnr_archs;
-    map (flip getAttr ARCH_MAPPINGS) nextpnr_archs;
+      archs;
+    map (flip getAttr ARCH_MAPPINGS) archs;
 
 in
 

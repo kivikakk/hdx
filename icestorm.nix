@@ -5,8 +5,7 @@
   python,
   git,
 
-  icestorm_rev,
-  icestorm_git_sha256,
+  hdx-versions,
 }:
 
 stdenv.mkDerivation {
@@ -14,8 +13,7 @@ stdenv.mkDerivation {
 
   src = pkgs.fetchgit {
     url = "https://github.com/YosysHQ/icestorm.git";
-    rev = icestorm_rev;
-    sha256 = icestorm_git_sha256;
+    inherit (hdx-versions.icestorm) rev sha256;
   };
 
   patches = [

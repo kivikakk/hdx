@@ -5,10 +5,7 @@
   python,
   git,
 
-  yosys_rev,
-  yosys_git_sha256,
-  abc_rev,
-  abc_tgz_sha256,
+  hdx-versions,
 }:
 
 stdenv.mkDerivation {
@@ -18,13 +15,12 @@ stdenv.mkDerivation {
     (pkgs.fetchgit {
       name = "yosys";
       url = "https://github.com/YosysHQ/yosys.git";
-      rev = yosys_rev;
-      sha256 = yosys_git_sha256;
+      inherit (hdx-versions.yosys) rev sha256;
     })
-    (pkgs.fetchzip {
+    (pkgs.fetchgit {
       name = "abc";
-      url = "https://github.com/YosysHQ/abc/archive/${abc_rev}.tar.gz";
-      sha256 = abc_tgz_sha256;
+      url = "https://github.com/YosysHQ/abc.git";
+      inherit (hdx-versions.abc) rev sha256;
     })
   ];
 
@@ -33,12 +29,12 @@ stdenv.mkDerivation {
   postUnpack = ''
     cp -r abc yosys
     chmod -R u+w yosys/abc
-    echo -n ${yosys_rev} >yosys/.gitcommit
+    echo -n ${hdx-versions.yosys.rev} >yosys/.gitcommit
 
     # Confirm abc we asked for matches yosys default.
     abcrev="$((make -qpf yosys/Makefile 2>/dev/null || true) | awk -F' = ' '$1=="ABCREV" {print $2}')"
     echo "$abcrev" | grep -qiE '^[a-f0-9]+$'
-    echo "${abc_rev}" | grep -q ^"$abcrev"
+    echo "${hdx-versions.abc.rev}" | grep -q ^"$abcrev"
   '';
 
   makeFlags = [

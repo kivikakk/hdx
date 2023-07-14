@@ -5,8 +5,7 @@
   python,
   git,
 
-  symbiyosys_rev,
-  symbiyosys_git_sha256,
+  hdx-versions,
 }:
 
 with pkgs.lib;
@@ -16,8 +15,7 @@ stdenv.mkDerivation {
 
   src = pkgs.fetchgit {
     url = "https://github.com/YosysHQ/sby.git";
-    rev = symbiyosys_rev;
-    sha256 = symbiyosys_git_sha256;
+    inherit (hdx-versions.symbiyosys) rev sha256;
   };
 
   makeFlags = [

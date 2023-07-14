@@ -5,8 +5,7 @@
   python,
   git,
 
-  z3_rev,
-  z3_git_sha256,
+  hdx-versions,
 }:
 
 with pkgs.lib;
@@ -16,8 +15,7 @@ stdenv.mkDerivation {
 
   src = pkgs.fetchgit {
     url = "https://github.com/Z3Prover/z3.git";
-    rev = z3_rev;
-    sha256 = z3_git_sha256;
+    inherit (hdx-versions.z3) rev sha256;
   };
 
   patches = [

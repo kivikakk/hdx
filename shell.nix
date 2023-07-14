@@ -1,11 +1,10 @@
 {
   amaranth_dev_mode ? false,
   nextpnr_archs ? ["ice40" "ecp5"],
-
-  hdx ? import ./. { inherit nextpnr_archs; },
 }:
 
 let
+  hdx = (import ./. {}).override { nextpnr.archs = nextpnr_archs; };
   all = builtins.attrValues hdx.all;
 
 in

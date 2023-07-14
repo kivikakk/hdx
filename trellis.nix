@@ -5,8 +5,7 @@
   python,
   git,
 
-  trellis_rev,
-  trellis_git_sha256,
+  hdx-versions,
 }:
 
 stdenv.mkDerivation {
@@ -15,8 +14,7 @@ stdenv.mkDerivation {
   src = pkgs.fetchgit {
     name = "prjtrellis";
     url = "https://github.com/YosysHQ/prjtrellis.git";
-    rev = trellis_rev;
-    sha256 = trellis_git_sha256;
+    inherit (hdx-versions.trellis) rev sha256;
   };
 
   sourceRoot = "prjtrellis/libtrellis";

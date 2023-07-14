@@ -6,9 +6,10 @@
 
   yosys,
 
-  amaranth_rev,
-  amaranth_git_sha256s,
+  hdx-versions,
 }:
+
+with pkgs.lib;
 
 python.pkgs.buildPythonPackage rec {
   name = "amaranth";
@@ -16,8 +17,8 @@ python.pkgs.buildPythonPackage rec {
 
   src = pkgs.fetchgit {
     url = "https://github.com/amaranth-lang/amaranth.git";
-    rev = amaranth_rev;
-    sha256 = builtins.getAttr pkgs.system amaranth_git_sha256s;
+    inherit (hdx-versions.amaranth) rev;
+    sha256 = getAttr pkgs.system hdx-versions.amaranth.sha256s;
     leaveDotGit = true;  # needed for setuptools-scm
   };
 

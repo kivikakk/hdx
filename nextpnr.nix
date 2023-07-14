@@ -8,9 +8,8 @@
   icestorm ? null,
   trellis ? null,
 
-  nextpnr_rev,
-  nextpnr_git_sha256,
-  nextpnr_archs,
+  hdx-config,
+  hdx-versions,
   nextpnr-support,
 }:
 
@@ -21,8 +20,7 @@ stdenv.mkDerivation ({
 
   src = pkgs.fetchgit {
     url = "https://github.com/YosysHQ/nextpnr.git";
-    rev = nextpnr_rev;
-    sha256 = nextpnr_git_sha256;
+    inherit (hdx-versions.nextpnr) rev sha256;
   };
 
   nativeBuildInputs = with pkgs; [
@@ -37,7 +35,7 @@ stdenv.mkDerivation ({
   ];
 
   cmakeFlags = [
-    ("-DARCH=" + builtins.concatStringsSep ";" nextpnr_archs)
+    ("-DARCH=" + builtins.concatStringsSep ";" hdx-config.nextpnr.archs)
   ];
 
   enableParallelBuilding = true;
