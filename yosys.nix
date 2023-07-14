@@ -11,7 +11,7 @@
   abc_tgz_sha256,
 }:
 
-pkgs.gcc13Stdenv.mkDerivation {
+stdenv.mkDerivation {
   name = "yosys";
 
   srcs = [
@@ -43,8 +43,12 @@ pkgs.gcc13Stdenv.mkDerivation {
 
   makeFlags = [
     "PREFIX=$(out)"
-    "CONFIG=gcc"
     "PRETTY=0"
+    # https://github.com/YosysHQ/yosys/issues/2011
+    "CONFIG=clang"
+    "ABCMKARGS+=CC=cc"
+    "CXX=c++"
+    "LD=c++"
   ];
 
   nativeBuildInputs = with pkgs; [
