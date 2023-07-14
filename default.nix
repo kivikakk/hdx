@@ -29,6 +29,9 @@
 
   symbiyosys_rev ? "fbbbab235f4ecdce6353cb6c9062d790c450dddc",
   symbiyosys_git_sha256 ? "F2kylUuX1cbVnyEvObRr4l8EoqJIzZJjwpFyNyy+iP8=",
+
+  z3_rev ? "z3-4.12.2",
+  z3_git_sha256 ? "DTgpKEG/LtCGZDnicYvbxG//JMLv25VHn/NaF307JYA=",
 }:
 
 with pkgs.lib;
@@ -53,6 +56,7 @@ let
     inherit nextpnr_rev nextpnr_git_sha256;
     nextpnr_archs = sort lessThan nextpnr_archs;
     inherit symbiyosys_rev symbiyosys_git_sha256;
+    inherit z3_rev z3_git_sha256;
 
     nextpnr-support = callPackage ./nextpnr-support.nix {};
   }
@@ -65,6 +69,7 @@ let
     yosys = callPackage ./yosys.nix {};
     nextpnr = callPackage ./nextpnr.nix {};
     symbiyosys = callPackage ./symbiyosys.nix {};
+    z3 = callPackage ./z3.nix {};
   };
 
   nextpnr-arch-deps = {

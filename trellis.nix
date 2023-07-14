@@ -13,13 +13,13 @@ stdenv.mkDerivation {
   name = "trellis";
 
   src = pkgs.fetchgit {
-    name = "trellis";
+    name = "prjtrellis";
     url = "https://github.com/YosysHQ/prjtrellis.git";
     rev = trellis_rev;
     sha256 = trellis_git_sha256;
   };
 
-  sourceRoot = "trellis/libtrellis";
+  sourceRoot = "prjtrellis/libtrellis";
 
   nativeBuildInputs = with pkgs; [
     pkg-config

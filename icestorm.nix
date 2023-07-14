@@ -13,7 +13,6 @@ stdenv.mkDerivation {
   name = "icestorm";
 
   src = pkgs.fetchgit {
-    name = "icestorm";
     url = "https://github.com/YosysHQ/icestorm.git";
     rev = icestorm_rev;
     sha256 = icestorm_git_sha256;

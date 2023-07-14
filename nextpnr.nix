@@ -20,7 +20,6 @@ stdenv.mkDerivation ({
   name = "nextpnr";
 
   src = pkgs.fetchgit {
-    name = "nextpnr";
     url = "https://github.com/YosysHQ/nextpnr.git";
     rev = nextpnr_rev;
     sha256 = nextpnr_git_sha256;
