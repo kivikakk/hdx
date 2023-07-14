@@ -11,9 +11,7 @@
 
 with pkgs.lib;
 
-# Doesn't really want to build with GCC right now.
-# That's okay.  Neither do I.
-pkgs.llvmPackages_16.stdenv.mkDerivation {
+stdenv.mkDerivation {
   name = "z3";
 
   src = pkgs.fetchgit {

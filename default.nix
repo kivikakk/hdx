@@ -44,7 +44,7 @@ let
   callPackage = callPackageWith env;
   env = {
     inherit pkgs;
-    stdenv = pkgs.gcc13Stdenv;
+    stdenv = pkgs.llvmPackages_16.stdenv;
 
     inherit git python;
 

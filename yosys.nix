@@ -11,7 +11,7 @@
   abc_tgz_sha256,
 }:
 
-stdenv.mkDerivation {
+pkgs.gcc13Stdenv.mkDerivation {
   name = "yosys";
 
   srcs = [
