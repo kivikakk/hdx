@@ -1,8 +1,7 @@
 {
   pkgs,
   stdenv,
-  python,
-  git,
+  hdx-config,
   hdx-versions,
 }:
 with pkgs.lib;
@@ -21,7 +20,7 @@ with pkgs.lib;
 
     nativeBuildInputs = with pkgs; [
       cmake
-      python
+      hdx-config.python
       gmp
     ];
 

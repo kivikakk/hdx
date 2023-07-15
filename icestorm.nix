@@ -1,8 +1,7 @@
 {
   pkgs,
   stdenv,
-  python,
-  git,
+  hdx-config,
   hdx-versions,
 }:
 stdenv.mkDerivation {
@@ -24,7 +23,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = with pkgs; [
     pkg-config
-    python
+    hdx-config.python
     libftdi
   ];
 }

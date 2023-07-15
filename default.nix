@@ -1,13 +1,13 @@
 {
   pkgs ? import <nixpkgs> {},
-  git ? pkgs.git,
-  python ? pkgs.python311,
 }:
 with pkgs.lib;
   makeOverridable (
     opts @ {...}: let
       hdx-config = (import ./config.nix {inherit pkgs;}).process opts;
       hdx-versions = import ./versions.nix;
+
+      llvmPackages = pkgs.llvmPackages_16;
 
       # I feel iffy about not mixing in pkgs here too, but it was causing me
       # bugs when icestorm/trellis were falling through to base packages while
@@ -16,9 +16,10 @@ with pkgs.lib;
       callPackage = callPackageWith env;
       env =
         {
-          inherit pkgs git python;
+          inherit pkgs;
           inherit hdx-config hdx-versions;
-          stdenv = pkgs.llvmPackages_16.stdenv;
+          inherit llvmPackages;
+          inherit (llvmPackages) stdenv;
         }
         // toplevels
         // nextpnr-arch-deps;

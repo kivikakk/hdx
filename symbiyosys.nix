@@ -1,8 +1,7 @@
 {
   pkgs,
   stdenv,
-  python,
-  git,
+  hdx-config,
   hdx-versions,
 }:
 with pkgs.lib;
@@ -20,6 +19,6 @@ with pkgs.lib;
     ];
 
     propagatedBuildInputs = [
-      python.pkgs.click
+      hdx-config.python.pkgs.click
     ];
   }

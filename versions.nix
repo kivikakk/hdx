@@ -11,7 +11,7 @@
 
   yosys = {
     rev = "14d50a176d59a5eac95a57a01f9e933297251d5b";
-    sha256 = "1SiCI4hs59Ebn3kh7GESkgHuKySPaGPRvxWH7ajSGRM=";
+    sha256 = "ZdtQ3tUEImJGYzN2j4f3fuxYUzTmSx6Vz8U7mLjgZXY=";
   };
   abc = {
     rev = "bb64142b07794ee685494564471e67365a093710";

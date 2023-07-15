@@ -1,8 +1,7 @@
 {
   pkgs,
   stdenv,
-  python,
-  git,
+  llvmPackages,
   icestorm ? null,
   trellis ? null,
   hdx-config,
@@ -10,7 +9,7 @@
   nextpnr-support,
 }:
 with pkgs.lib;
-  stdenv.mkDerivation ({
+  pkgs.gcc13Stdenv..mkDerivation ({
       name = "nextpnr";
 
       src = pkgs.fetchFromGitHub {
@@ -21,29 +20,30 @@ with pkgs.lib;
 
       nativeBuildInputs = with pkgs;
         [
-          pkg-config
           cmake
-        ]
-        ++ nextpnr-support.enabled_pkgs;
+        ];
 
       buildInputs = with pkgs; [
-        python
-        eigen
+        hdx-config.python
         (boost.override {
-          inherit python;
+          inherit (hdx-config) python;
           enablePython = true;
         })
+        eigen
+        hdx-config.python.pkgs.apycula
+        llvmPackages.openmp
       ];
 
       cmakeFlags = [
+        "-DUSE_OPENMP=ON"
         ("-DARCH=" + builtins.concatStringsSep ";" hdx-config.nextpnr.archs)
-      ];
+      ] ++
+        # XXX Is this going to build anyway even if disabled? How lazy is string interpolation?
+        (optional (nextpnr-support.enabled icestorm) "-DICESTORM_INSTALL_PREFIX=${icestorm}");
 
-      enableParallelBuilding = true;
-    }
-    // optionalAttrs (nextpnr-support.enabled icestorm) {
-      ICESTORM_INSTALL_PREFIX = icestorm;
+      enableParallelBuilding = false;
     }
     // optionalAttrs (nextpnr-support.enabled trellis) {
       TRELLIS_INSTALL_PREFIX = trellis;
+      TRELLIS_LIBDIR = "${trellis}/lib/trellis";
     })

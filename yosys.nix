@@ -1,8 +1,7 @@
 {
   pkgs,
   stdenv,
-  python,
-  git,
+  hdx-config,
   hdx-versions,
 }:
 stdenv.mkDerivation {
@@ -54,13 +53,13 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = with pkgs; [
-    python
+    hdx-config.python
     tcl
     readline
     zlib
     libffi
     (boost.override {
-      inherit python;
+      inherit (hdx-config) python;
       enablePython = true;
     })
   ];

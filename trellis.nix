@@ -1,11 +1,11 @@
 {
   pkgs,
   stdenv,
-  python,
-  git,
+  hdx-config,
   hdx-versions,
 }:
-stdenv.mkDerivation {
+with pkgs.lib;
+pkgs.gcc13Stdenv.mkDerivation {
   name = "trellis";
 
   src = pkgs.fetchFromGitHub {
@@ -18,16 +18,21 @@ stdenv.mkDerivation {
   sourceRoot = "prjtrellis/libtrellis";
 
   nativeBuildInputs = with pkgs; [
-    pkg-config
     cmake
-    python
+    hdx-config.python
     libftdi
   ];
 
   buildInputs = with pkgs; [
     (boost.override {
-      inherit python;
+      inherit (hdx-config) python;
       enablePython = true;
     })
   ];
+
+  postInstall = optionalString stdenv.isDarwin ''
+    for f in $out/bin/* ; do
+      install_name_tool -change "$out/lib/libtrellis.dylib" "$out/lib/trellis/libtrellis.dylib" "$f"
+    done
+  '';
 }

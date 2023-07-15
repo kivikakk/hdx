@@ -1,6 +1,8 @@
 {pkgs}:
 with pkgs.lib; let
   DEFAULTS = {
+    python = pkgs.python311;
+
     amaranth.enable = true;
     yosys.enable = true;
     nextpnr = {

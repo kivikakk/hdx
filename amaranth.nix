@@ -1,12 +1,11 @@
 {
   pkgs,
-  python,
-  git,
   yosys,
+  hdx-config,
   hdx-versions,
 }:
 with pkgs.lib;
-  python.pkgs.buildPythonPackage rec {
+  hdx-config.python.pkgs.buildPythonPackage rec {
     name = "amaranth";
     format = "pyproject";
 
@@ -18,13 +17,13 @@ with pkgs.lib;
       leaveDotGit = true; # needed for setuptools-scm
     };
 
-    nativeBuildInputs = with python.pkgs; [
+    nativeBuildInputs = with hdx-config.python.pkgs; [
       pkgs.git
       setuptools
       setuptools-scm
     ];
 
-    buildInputs = with python.pkgs; [
+    buildInputs = with hdx-config.python.pkgs; [
       pyvcd
       jinja2
       yosys
