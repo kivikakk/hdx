@@ -13,8 +13,9 @@ with pkgs.lib;
 stdenv.mkDerivation {
   name = "z3";
 
-  src = pkgs.fetchgit {
-    url = "https://github.com/Z3Prover/z3.git";
+  src = pkgs.fetchFromGitHub {
+    owner = "Z3Prover";
+    repo = "z3";
     inherit (hdx-versions.z3) rev sha256;
   };
 

@@ -21,11 +21,10 @@ if amaranth_dev_mode then
       cd dev/amaranth
     '';
 
-    IN_NIX_SHELL_NAMED = "hdx-amaranth";
+    # IN_NIX_SHELL_NAMED = "hdx-amaranth";
   })
 else
   hdx.pkgs.mkShell {
+    name = "hdx";
     buildInputs = all;
-
-    IN_NIX_SHELL_NAMED = "hdx";
   }

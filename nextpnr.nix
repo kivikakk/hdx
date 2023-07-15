@@ -18,8 +18,9 @@ with pkgs.lib;
 stdenv.mkDerivation ({
   name = "nextpnr";
 
-  src = pkgs.fetchgit {
-    url = "https://github.com/YosysHQ/nextpnr.git";
+  src = pkgs.fetchFromGitHub {
+    owner = "YosysHQ";
+    repo = "nextpnr";
     inherit (hdx-versions.nextpnr) rev sha256;
   };
 

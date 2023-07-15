@@ -21,7 +21,7 @@
 
   nextpnr = {
     rev = "54b2045726fc3fe77857c05c81a5ab77e98ba851";
-    sha256 = "BhNQKACh8ls2cnQ9tMn8YSrpEiIz5nqhcnuYLnEbJXw=";
+    sha256 = "pLRuKMvpxgLHt43tI0tEmYXoMExqYTXqy+Q2HBezfkM=";
   };
   icestorm = {
     rev = "d20a5e9001f46262bf0cef220f1a6943946e421d";

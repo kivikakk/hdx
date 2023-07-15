@@ -15,10 +15,11 @@ python.pkgs.buildPythonPackage rec {
   name = "amaranth";
   format = "pyproject";
 
-  src = pkgs.fetchgit {
-    url = "https://github.com/amaranth-lang/amaranth.git";
+  src = pkgs.fetchFromGitHub {
+    owner = "amaranth-lang";
+    repo = "amaranth";
     inherit (hdx-versions.amaranth) rev;
-    sha256 = getAttr pkgs.system hdx-versions.amaranth.sha256s;
+    sha256 = hdx-versions.amaranth.sha256s.${pkgs.system};
     leaveDotGit = true;  # needed for setuptools-scm
   };
 

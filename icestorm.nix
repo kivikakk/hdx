@@ -11,8 +11,9 @@
 stdenv.mkDerivation {
   name = "icestorm";
 
-  src = pkgs.fetchgit {
-    url = "https://github.com/YosysHQ/icestorm.git";
+  src = pkgs.fetchFromGitHub {
+    owner = "YosysHQ";
+    repo = "icestorm";
     inherit (hdx-versions.icestorm) rev sha256;
   };
 

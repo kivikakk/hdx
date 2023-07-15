@@ -12,14 +12,16 @@ stdenv.mkDerivation {
   name = "yosys";
 
   srcs = [
-    (pkgs.fetchgit {
+    (pkgs.fetchFromGitHub {
       name = "yosys";
-      url = "https://github.com/YosysHQ/yosys.git";
+      owner = "YosysHQ";
+      repo = "yosys";
       inherit (hdx-versions.yosys) rev sha256;
     })
-    (pkgs.fetchgit {
+    (pkgs.fetchFromGitHub {
       name = "abc";
-      url = "https://github.com/YosysHQ/abc.git";
+      owner = "YosysHQ";
+      repo = "abc";
       inherit (hdx-versions.abc) rev sha256;
     })
   ];

@@ -11,9 +11,10 @@
 stdenv.mkDerivation {
   name = "trellis";
 
-  src = pkgs.fetchgit {
+  src = pkgs.fetchFromGitHub {
     name = "prjtrellis";
-    url = "https://github.com/YosysHQ/prjtrellis.git";
+    owner = "YosysHQ";
+    repo = "prjtrellis";
     inherit (hdx-versions.trellis) rev sha256;
   };
 

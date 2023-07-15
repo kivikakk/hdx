@@ -13,8 +13,9 @@ with pkgs.lib;
 stdenv.mkDerivation {
   name = "symbiyosys";
 
-  src = pkgs.fetchgit {
-    url = "https://github.com/YosysHQ/sby.git";
+  src = pkgs.fetchFromGitHub {
+    owner = "YosysHQ";
+    repo = "sby";
     inherit (hdx-versions.symbiyosys) rev sha256;
   };
 
