@@ -1,8 +1,5 @@
-{ pkgs }:
-
-with pkgs.lib;
-
-let
+{pkgs}:
+with pkgs.lib; let
   DEFAULTS = {
     amaranth.enable = true;
     yosys.enable = true;
@@ -16,12 +13,8 @@ let
     };
   };
 
-  process = opts@{ ... }:
-    let
-      effective = recursiveUpdate DEFAULTS opts;
-
-    in
+  process = opts @ {...}: let
+    effective = recursiveUpdate DEFAULTS opts;
+  in
     effective;
-
-in
-{ inherit process; }
+in {inherit process;}

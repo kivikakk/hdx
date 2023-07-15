@@ -7,7 +7,6 @@
       x86_64-linux = "OcgXn5sgTssl1Iiu/YLZ2fUgfCZXomsF/MDc85BCCaQ=";
       aarch64-darwin = "afMA0nj+HQD0rxNqgf6dtI1lkUCetirnxQToDxE987g=";
     };
-
   };
 
   yosys = {
@@ -29,7 +28,7 @@
   };
   trellis = {
     rev = "e830a28077e1a789d32e75841312120ae624c8d6";
-    sha256 = "COC5iPJHkpfB6rZUAz1P6EvpdqfbSLsc59dhAm1nXMA=";
+    sha256 = "AbrrR7tWRpk/DND8XUcXytFOTGN2FRskIX+/LINcPeA=";
   };
 
   symbiyosys = {

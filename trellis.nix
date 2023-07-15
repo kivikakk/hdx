@@ -1,13 +1,10 @@
 {
   pkgs,
   stdenv,
-
   python,
   git,
-
   hdx-versions,
 }:
-
 stdenv.mkDerivation {
   name = "trellis";
 
@@ -28,6 +25,9 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = with pkgs; [
-    (boost.override { inherit python; enablePython = true; })
+    (boost.override {
+      inherit python;
+      enablePython = true;
+    })
   ];
 }

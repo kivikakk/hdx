@@ -1,13 +1,10 @@
 {
   pkgs,
   stdenv,
-
   python,
   git,
-
   hdx-versions,
 }:
-
 stdenv.mkDerivation {
   name = "icestorm";
 

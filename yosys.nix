@@ -1,13 +1,10 @@
 {
   pkgs,
   stdenv,
-
   python,
   git,
-
   hdx-versions,
 }:
-
 stdenv.mkDerivation {
   name = "yosys";
 
@@ -62,7 +59,10 @@ stdenv.mkDerivation {
     readline
     zlib
     libffi
-    (boost.override { inherit python; enablePython = true; })
+    (boost.override {
+      inherit python;
+      enablePython = true;
+    })
   ];
 
   enableParallelBuilding = true;
