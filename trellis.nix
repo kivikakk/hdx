@@ -3,6 +3,7 @@
   stdenv,
   hdx-config,
   hdx-versions,
+  boost,
 }:
 stdenv.mkDerivation {
   name = "trellis";
@@ -12,6 +13,7 @@ stdenv.mkDerivation {
     owner = "YosysHQ";
     repo = "prjtrellis";
     inherit (hdx-versions.trellis) rev sha256;
+    fetchSubmodules = true;
   };
 
   sourceRoot = "prjtrellis/libtrellis";
@@ -22,12 +24,7 @@ stdenv.mkDerivation {
     libftdi
   ];
 
-  buildInputs = with pkgs; [
-    (boost.override {
-      inherit (hdx-config) python;
-      enablePython = true;
-    })
-  ];
+  buildInputs = [boost];
 
   postInstall = pkgs.lib.optionalString stdenv.isDarwin ''
     for f in $out/bin/* ; do

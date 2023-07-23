@@ -7,6 +7,7 @@
   hdx-config,
   hdx-versions,
   nextpnr-support,
+  boost,
 }:
 with pkgs.lib;
   stdenv.mkDerivation ({
@@ -24,10 +25,7 @@ with pkgs.lib;
 
       buildInputs = with pkgs; [
         hdx-config.python
-        (boost.override {
-          inherit (hdx-config) python;
-          enablePython = true;
-        })
+        boost
         eigen
         hdx-config.python.pkgs.apycula
         llvmPackages.openmp

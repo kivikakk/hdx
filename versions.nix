@@ -28,7 +28,7 @@
   };
   trellis = {
     rev = "e830a28077e1a789d32e75841312120ae624c8d6";
-    sha256 = "AbrrR7tWRpk/DND8XUcXytFOTGN2FRskIX+/LINcPeA=";
+    sha256 = "COC5iPJHkpfB6rZUAz1P6EvpdqfbSLsc59dhAm1nXMA=";
   };
 
   symbiyosys = {

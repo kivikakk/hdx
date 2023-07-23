@@ -3,6 +3,7 @@
   stdenv,
   hdx-config,
   hdx-versions,
+  boost,
 }:
 stdenv.mkDerivation {
   name = "yosys";
@@ -58,10 +59,7 @@ stdenv.mkDerivation {
     readline
     zlib
     libffi
-    (boost.override {
-      inherit (hdx-config) python;
-      enablePython = true;
-    })
+    boost
   ];
 
   enableParallelBuilding = true;
