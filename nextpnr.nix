@@ -9,7 +9,7 @@
   nextpnr-support,
 }:
 with pkgs.lib;
-  pkgs.gcc13Stdenv..mkDerivation ({
+  stdenv.mkDerivation ({
       name = "nextpnr";
 
       src = pkgs.fetchFromGitHub {
@@ -18,10 +18,9 @@ with pkgs.lib;
         inherit (hdx-versions.nextpnr) rev sha256;
       };
 
-      nativeBuildInputs = with pkgs;
-        [
-          cmake
-        ];
+      nativeBuildInputs = with pkgs; [
+        cmake
+      ];
 
       buildInputs = with pkgs; [
         hdx-config.python
@@ -34,10 +33,12 @@ with pkgs.lib;
         llvmPackages.openmp
       ];
 
-      cmakeFlags = [
-        "-DUSE_OPENMP=ON"
-        ("-DARCH=" + builtins.concatStringsSep ";" hdx-config.nextpnr.archs)
-      ] ++
+      cmakeFlags =
+        [
+          "-DUSE_OPENMP=ON"
+          ("-DARCH=" + builtins.concatStringsSep ";" hdx-config.nextpnr.archs)
+        ]
+        ++
         # XXX Is this going to build anyway even if disabled? How lazy is string interpolation?
         (optional (nextpnr-support.enabled icestorm) "-DICESTORM_INSTALL_PREFIX=${icestorm}");
 
