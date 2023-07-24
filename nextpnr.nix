@@ -1,7 +1,6 @@
 {
   pkgs,
   stdenv,
-  llvmPackages,
   icestorm ? null,
   trellis ? null,
   hdx-config,
@@ -28,12 +27,10 @@ with pkgs.lib;
         boost
         eigen
         hdx-config.python.pkgs.apycula
-        llvmPackages.openmp
       ];
 
       cmakeFlags =
         [
-          "-DUSE_OPENMP=ON"
           ("-DARCH=" + builtins.concatStringsSep ";" hdx-config.nextpnr.archs)
         ]
         ++

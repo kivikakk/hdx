@@ -14,7 +14,7 @@ with pkgs.lib;
         {
           inherit pkgs;
           inherit hdx-config hdx-versions;
-          inherit (hdx-config) stdenv llvmPackages;
+          inherit (hdx-config) stdenv;
 
           boost = callPackage ./boost.nix {};
         }

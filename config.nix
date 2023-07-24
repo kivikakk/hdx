@@ -1,10 +1,7 @@
 {pkgs}:
 with pkgs.lib; let
-  llvmPackages = pkgs.llvmPackages_16;
-
   DEFAULTS = {
-    inherit (llvmPackages) stdenv;
-    inherit llvmPackages;
+    inherit (pkgs) stdenv;
 
     python = pkgs.python311;
 
