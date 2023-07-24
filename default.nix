@@ -16,15 +16,7 @@ with pkgs.lib;
           inherit hdx-config hdx-versions;
           inherit (hdx-config) stdenv llvmPackages;
 
-          boost = pkgs.boost.override {
-            inherit (hdx-config) stdenv python;
-            enablePython = true;
-            extraB2Args = [
-              # To build on LLVM 16.
-              "define=BOOST_NO_CXX98_FUNCTION_BASE"
-              "cxxflags=-Wno-enum-constexpr-conversion"
-            ];
-          };
+          boost = callPackage ./boost.nix {};
         }
         // toplevels
         // nextpnr-arch-deps;
