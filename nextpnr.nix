@@ -1,8 +1,8 @@
 {
   pkgs,
   stdenv,
-  icestorm ? null,
-  trellis ? null,
+  icestorm,
+  trellis,
   hdx-config,
   hdx-versions,
   nextpnr-support,
@@ -22,22 +22,22 @@ with pkgs.lib;
         cmake
       ];
 
-      buildInputs = with pkgs; [
-        hdx-config.python
-        boost
-        eigen
-        hdx-config.python.pkgs.apycula
-      ];
-
-      cmakeFlags =
+      buildInputs = with pkgs;
         [
-          ("-DARCH=" + builtins.concatStringsSep ";" hdx-config.nextpnr.archs)
+          hdx-config.python
+          boost
+          eigen
+          hdx-config.python.pkgs.apycula
         ]
-        ++
-        # XXX Is this going to build anyway even if disabled? How lazy is string interpolation?
-        (optional (nextpnr-support.enabled icestorm) "-DICESTORM_INSTALL_PREFIX=${icestorm}");
+        ++ (optional (nextpnr-support.enabled icestorm) icestorm)
+        ++ (optional (nextpnr-support.enabled trellis) trellis);
 
-      enableParallelBuilding = false;
+      cmakeFlags = [
+        "-DARCH=${concatStringsSep ";" (sort lessThan hdx-config.nextpnr.archs)}"
+      ];
+    }
+    // optionalAttrs (nextpnr-support.enabled icestorm) {
+      ICESTORM_INSTALL_PREFIX = icestorm;
     }
     // optionalAttrs (nextpnr-support.enabled trellis) {
       TRELLIS_INSTALL_PREFIX = trellis;
