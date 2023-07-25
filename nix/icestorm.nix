@@ -14,7 +14,7 @@ stdenv.mkDerivation {
   };
 
   patches = [
-    ./patches/icebox-Makefile.patch
+    ../patches/icebox-Makefile.patch
   ];
 
   makeFlags = [

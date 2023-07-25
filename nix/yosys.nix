@@ -4,9 +4,8 @@
   hdx-config,
   hdx-versions,
   boost,
-  makefileConfPrefix ? "$(out)",
 }:
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   name = "yosys";
 
   srcs = [
@@ -22,6 +21,7 @@ stdenv.mkDerivation rec {
       repo = "abc";
       inherit (hdx-versions.abc) rev sha256;
     })
+    (pkgs.writeTextDir "yosys-Makefile.conf" finalAttrs.makefileConf)
   ];
 
   sourceRoot = "yosys";
@@ -29,24 +29,26 @@ stdenv.mkDerivation rec {
   postUnpack = ''
     cp -r abc yosys
     chmod -R u+w yosys/abc
+
     echo -n ${hdx-versions.yosys.rev} >yosys/.gitcommit
+    cp yosys-Makefile.conf/yosys-Makefile.conf yosys/Makefile.conf
 
     # Confirm abc we asked for matches yosys default.
-    abcrev="$((make -qpf yosys/Makefile 2>/dev/null || true) | awk -F' = ' '$1=="ABCREV" {print $2}')"
+    abcrev="$((cd yosys && make -qp 2>/dev/null || true) | awk -F' = ' '$1=="ABCREV" {print $2}')"
     echo "$abcrev" | grep -qiE '^[a-f0-9]+$'
     echo "${hdx-versions.abc.rev}" | grep -q ^"$abcrev"
   '';
 
   # makeFlags with CXXFLAGS+=... ends up overriding CXXFLAGS entirely. Awkward.
+  # yosys's Makefile.conf can't override CXX. Double awkward.
+  makefileConfPrefix = "$(out)";
   makefileConf = ''
-    PREFIX=${makefileConfPrefix}
+    PREFIX=${finalAttrs.makefileConfPrefix}
     PRETTY=0
     CONFIG=clang
     # https://github.com/YosysHQ/yosys/issues/2011
     CXXFLAGS+=-xc++
   '';
-
-  preBuild = "cat >Makefile.conf <<'EOF'\n${makefileConf}\nEOF\n";
 
   nativeBuildInputs = with pkgs; [
     pkg-config
@@ -65,4 +67,4 @@ stdenv.mkDerivation rec {
   ];
 
   enableParallelBuilding = true;
-}
+})

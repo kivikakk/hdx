@@ -1,4 +1,7 @@
-{pkgs}:
+{
+  pkgs,
+  nextpnr_archs ? null,
+}:
 with pkgs.lib; let
   DEFAULTS = {
     inherit (pkgs) stdenv;
@@ -17,8 +20,12 @@ with pkgs.lib; let
     };
   };
 
-  process = opts @ {...}: let
-    effective = recursiveUpdate DEFAULTS opts;
+  mergeNonNullOptions = opts @ {...}: let
+    filtered = filterAttrsRecursive (n: v: v != null) opts;
+    effective = recursiveUpdate DEFAULTS filtered;
   in
     effective;
-in {inherit process;}
+in
+  mergeNonNullOptions {
+    nextpnr.archs = nextpnr_archs;
+  }

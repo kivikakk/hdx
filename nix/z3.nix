@@ -15,7 +15,7 @@ with pkgs.lib;
     };
 
     patches = [
-      ./patches/z3.pc.cmake.in.patch
+      ../patches/z3.pc.cmake.in.patch
     ];
 
     nativeBuildInputs = with pkgs; [
