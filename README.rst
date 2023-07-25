@@ -59,7 +59,7 @@ Any ``nix-shell`` invocation may take the following arguments:
 
 ``nextpnr_archs``
   A list of nextpnr_ architectures to build support for.  Valid items are
-  ``"ice40"`` and ``"ecp5"``.
+  ``"generic"``, ``"ice40"`` and ``"ecp5"``.  At least one must be specified.
 
 More configurability is available but not yet exposed -- see
 `<nix/hdx-config.nix>`_.  I'm not really sure what's idiomatic yet.
