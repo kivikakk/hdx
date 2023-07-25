@@ -5,7 +5,7 @@
 with pkgs.lib;
   makeOverridable (
     opts @ {...}: let
-      hdx-config = import ./nix/hdx-config.nix ({inherit pkgs;} // opts);
+      hdx-config = import ./nix/hdx-config.nix {inherit pkgs;} opts;
       hdx-versions = import ./nix/hdx-versions.nix;
 
       stdenv = hdx-config.stdenv;
@@ -30,18 +30,18 @@ with pkgs.lib;
         // nextpnr-arch-deps;
 
       toplevels = {
-        amaranth = callPackage ./nix/amaranth.nix {};
-        yosys = callPackage ./nix/yosys.nix {};
-        nextpnr = callPackage ./nix/nextpnr.nix {inherit nextpnr-support;};
-        symbiyosys = callPackage ./nix/symbiyosys.nix {};
-        z3 = callPackage ./nix/z3.nix {};
+        amaranth = callPackage ./pkg/amaranth.nix {};
+        yosys = callPackage ./pkg/yosys.nix {};
+        nextpnr = callPackage ./pkg/nextpnr.nix {inherit nextpnr-support;};
+        symbiyosys = callPackage ./pkg/symbiyosys.nix {};
+        z3 = callPackage ./pkg/z3.nix {};
       };
 
       nextpnr-support = callPackage ./nix/nextpnr-support.nix {};
 
       nextpnr-arch-deps = {
-        icestorm = callPackage ./nix/icestorm.nix {};
-        trellis = callPackage ./nix/trellis.nix {};
+        icestorm = callPackage ./pkg/icestorm.nix {};
+        trellis = callPackage ./pkg/trellis.nix {};
       };
 
       selected-nextpnr-arch-deps =

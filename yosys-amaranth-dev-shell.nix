@@ -19,14 +19,14 @@ in
       preShellHook = ''
         cd dev/yosys
         cat >Makefile.conf <<'EOF'
-        ${(hdx.yosys.overrideAttrs {makefileConfPrefix = toString ./dev/yosys;}).makefileConf}
+        ${(hdx.yosys.overrideAttrs {makefileConfPrefix = toString ./dev/out;}).makefileConf}
         EOF
         cd ../..
 
         # setuptoolsShellHook looks for setup.py in cwd.
         cd dev/amaranth
 
-        export PATH="${toString ./dev/yosys}:$PATH"
+        export PATH="${toString ./dev/out/bin}:$PATH"
       '';
 
       postShellHook = ''

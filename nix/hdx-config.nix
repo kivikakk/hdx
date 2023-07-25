@@ -1,22 +1,19 @@
-{
-  pkgs,
-  nextpnr_archs ? null,
-}:
+{pkgs}: {nextpnr_archs ? null}:
 with pkgs.lib; let
   DEFAULTS = {
     inherit (pkgs) stdenv;
 
     python = pkgs.python311;
 
-    amaranth.enable = true;
-    yosys.enable = true;
+    amaranth.enable = true; # TODO
+    yosys.enable = true; # TODO
     nextpnr = {
-      enable = true;
+      enable = true; # TODO
       archs = ["ice40" "ecp5"];
     };
     symbiyosys = {
-      enable = true;
-      solvers = ["z3"];
+      enable = true; # TODO
+      solvers = ["z3"]; # TODO
     };
   };
 
@@ -26,6 +23,7 @@ with pkgs.lib; let
   in
     effective;
 in
+  # Translate flat options.
   mergeNonNullOptions {
     nextpnr.archs = nextpnr_archs;
   }

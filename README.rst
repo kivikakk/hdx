@@ -2,11 +2,64 @@
  hdx 
 =====
 
-Hello, baby's first little Nix repository thingy.
+Hello, baby's first little Nix repository thingy.  At present, I'm reproducing
+the setup described in `Installing an HDL toolchain from source`_, except
+Nix-y.
 
-At present, I'm reproducing the setup described in `Installing an HDL toolchain
-from source`_, except Nix-y.  Right now it's building Yosys and Amaranth, and
-you can drop into a ``nix-shell`` with a submodule-cloned Amaranth in editable
-mode.
+Modes of operation
+==================
+
++ ``nix-shell``
+
+  This is the default mode of operation.  The following packages are built from
+  definitions in ``pkg/`` and added to ``PATH``:
+
+  * Amaranth_
+  * Yosys_
+  * nextpnr_
+  * `Project IceStorm`_
+  * `Project Trellis`_
+  * SymbiYosys_
+  * Z3_
+
+  Amaranth is configured to use the Yosys built by hdx, and not its builtin
+  one.
+
++ ``nix-shell amaranth-dev-shell.nix``
+
+  Like above, except Amaranth is not built and installed.  Instead, the
+  submodule checkout at ``dev/amaranth/`` is installed in editable mode.
+
++ ``nix-shell yosys-amaranth-dev-shell.nix``
+
+  Like above, except Yosys is also not built and installed.  Instead, the
+  submodule checkout at ``dev/yosys/`` is configured to be compiled and
+  installed to ``dev/out/``, and ``PATH`` has ``dev/out/bin/`` prepended.
+  You'll need to actually ``make install`` Yosys at least once for this mode to
+  function, including any use of Amaranth that depends on Yosys.
+
+``nix-build`` (a) doesn't work on ``default.nix`` presently (TODO), and (b)
+doesn't work on ``*-shell.nix`` (intentional).
 
 .. _Installing an HDL toolchain from source: https://notes.hrzn.ee/posts/0001-hdl-toolchain-source/
+
+.. _Amaranth: https://github.com/amaranth-lang/amaranth
+.. _Yosys: https://github.com/YosysHQ/yosys
+.. _nextpnr: https://github.com/YosysHQ/nextpnr
+.. _Project IceStorm: https://github.com/YosysHQ/icestorm
+.. _Project Trellis: https://github.com/YosysHQ/prjtrellis
+.. _SymbiYosys: https://github.com/YosysHQ/sby
+.. _Z3: https://github.com/Z3Prover/z3
+
+
+Configurability
+===============
+
+Any ``nix-shell`` invocation may take the following arguments:
+
+``nextpnr_archs``
+  A list of nextpnr_ architectures to build support for.  Valid items are
+  ``"ice40"`` and ``"ecp5"``.
+
+More configurability is available but not yet exposed -- see
+`<nix/hdx-config.nix>`_.  I'm not really sure what's idiomatic yet.
