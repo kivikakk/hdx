@@ -4,6 +4,7 @@
   hdx-config,
   hdx-versions,
   boost,
+  makefileConfPrefix ? "$(out)",
 }:
 stdenv.mkDerivation rec {
   name = "yosys";
@@ -38,17 +39,14 @@ stdenv.mkDerivation rec {
 
   # makeFlags with CXXFLAGS+=... ends up overriding CXXFLAGS entirely. Awkward.
   makefileConf = ''
-    PREFIX=$(out)
+    PREFIX=${makefileConfPrefix}
     PRETTY=0
     CONFIG=clang
     # https://github.com/YosysHQ/yosys/issues/2011
     CXXFLAGS+=-xc++
   '';
 
-  preBuild = ''
-    cat >Makefile.conf <<'EOF'
-  '' + makefileConf + "\nEOF" + ''
-  '';
+  preBuild = "cat >Makefile.conf <<'EOF'\n${makefileConf}\nEOF\n";
 
   nativeBuildInputs = with pkgs; [
     pkg-config
