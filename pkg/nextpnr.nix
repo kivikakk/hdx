@@ -1,11 +1,10 @@
 {
   pkgs,
   stdenv,
-  icestorm,
-  trellis,
+  icestorm ? null,
+  trellis ? null,
   hdx-config,
   hdx-versions,
-  nextpnr-support,
   boost,
 }:
 with pkgs.lib;
@@ -22,21 +21,20 @@ with pkgs.lib;
       cmake
     ];
 
-    buildInputs = with pkgs;
-      [
-        hdx-config.python
-        boost
-        eigen
-        hdx-config.python.pkgs.apycula
-      ]
-      ++ (optional (nextpnr-support.enabled icestorm) icestorm)
-      ++ (optional (nextpnr-support.enabled trellis) trellis);
+    buildInputs = with pkgs; [
+      hdx-config.python
+      boost
+      eigen
+      hdx-config.python.pkgs.apycula
+      icestorm
+      trellis
+    ];
 
     cmakeFlags =
       [
-        "-DARCH=${concatStringsSep ";" (sort lessThan hdx-config.nextpnr.archs)}"
+        "-DARCH=${concatStringsSep ";" (unique (sort lessThan hdx-config.nextpnr.archs))}"
       ]
-      ++ (optional (nextpnr-support.enabled icestorm) "-DICESTORM_INSTALL_PREFIX=${icestorm}")
-      ++ (optional (nextpnr-support.enabled trellis) "-DTRELLIS_INSTALL_PREFIX=${trellis}")
-      ++ (optional (nextpnr-support.enabled trellis) "-DTRELLIS_LIBDIR=${trellis}/lib/trellis");
+      ++ (optional (icestorm != null) "-DICESTORM_INSTALL_PREFIX=${icestorm}")
+      ++ (optional (trellis != null) "-DTRELLIS_INSTALL_PREFIX=${trellis}")
+      ++ (optional (trellis != null) "-DTRELLIS_LIBDIR=${trellis}/lib/trellis");
   }

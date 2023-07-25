@@ -1,7 +1,7 @@
 {
   pkgs,
-  yosys,
-  symbiyosys,
+  yosys ? null,
+  symbiyosys ? null,
   hdx-config,
   hdx-versions,
 }:
@@ -26,7 +26,6 @@ with pkgs.lib;
     };
 
     nativeBuildInputs = with hdx-config.python.pkgs; [
-      yosys
       pkgs.git
       setuptools
       setuptools-scm
@@ -39,10 +38,15 @@ with pkgs.lib;
       yosys
     ];
 
+    AMARANTH_USE_YOSYS = "system";
+
+    doCheck = yosys != null && symbiyosys != null;
+
+    pythonImportsCheck = ["amaranth"];
+
     nativeCheckInputs = [
+      yosys
       symbiyosys
       pkgs.yices # XXX
     ];
-
-    AMARANTH_USE_YOSYS = "system";
   }

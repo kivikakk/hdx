@@ -26,28 +26,21 @@ with pkgs.lib;
 
           boost = callPackage ./nix/boost.nix {};
         }
-        // toplevels
-        // nextpnr-arch-deps;
+        // ours;
 
-      toplevels = {
-        amaranth = callPackage ./pkg/amaranth.nix {};
-        yosys = callPackage ./pkg/yosys.nix {};
-        nextpnr = callPackage ./pkg/nextpnr.nix {inherit nextpnr-support;};
-        symbiyosys = callPackage ./pkg/symbiyosys.nix {};
-        z3 = callPackage ./pkg/z3.nix {};
-      };
-
-      nextpnr-support = callPackage ./nix/nextpnr-support.nix {};
-
-      nextpnr-arch-deps = {
-        icestorm = callPackage ./pkg/icestorm.nix {};
-        trellis = callPackage ./pkg/trellis.nix {};
-      };
-
-      selected-nextpnr-arch-deps =
-        filterAttrs (_: nextpnr-support.enabled) nextpnr-arch-deps;
-
-      ours = toplevels // selected-nextpnr-arch-deps;
+      ours =
+        {}
+        // optionalAttrs (hdx-config.amaranth.enable) {amaranth = callPackage ./pkg/amaranth.nix {};}
+        // optionalAttrs (hdx-config.yosys.enable) {yosys = callPackage ./pkg/yosys.nix {};}
+        // optionalAttrs (hdx-config.nextpnr.enable) (
+          {nextpnr = callPackage ./pkg/nextpnr.nix {};}
+          // optionalAttrs (elem "ice40" hdx-config.nextpnr.archs) {icestorm = callPackage ./pkg/icestorm.nix {};}
+          // optionalAttrs (elem "ecp5" hdx-config.nextpnr.archs) {trellis = callPackage ./pkg/trellis.nix {};}
+        )
+        // optionalAttrs (hdx-config.symbiyosys.enable) (
+          {symbiyosys = callPackage ./pkg/symbiyosys.nix {};}
+          // optionalAttrs (elem "z3" hdx-config.symbiyosys.solvers) {z3 = callPackage ./pkg/z3.nix {};}
+        );
     in
       stdenv.mkDerivation
       {
@@ -58,6 +51,8 @@ with pkgs.lib;
             inherit pkgs ours;
           }
           // ours;
+
+        AMARANTH_USE_YOSYS = "system";
       }
   )
   opts
