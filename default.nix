@@ -41,6 +41,7 @@ with pkgs.lib;
         // optionalAttrs (hdx-config.symbiyosys.enable) (
           {symbiyosys = callPackage ./pkg/symbiyosys.nix {};}
           // optionalAttrs (elem "z3" hdx-config.symbiyosys.solvers) {z3 = callPackage ./pkg/z3.nix {};}
+          // optionalAttrs (elem "yices" hdx-config.symbiyosys.solvers) {yices = callPackage ./pkg/yices.nix {};}
         );
     in
       stdenv.mkDerivation

@@ -2,6 +2,7 @@
   pkgs,
   yosys ? null,
   symbiyosys ? null,
+  yices ? null,
   hdx-config,
   hdx-versions,
 }:
@@ -78,13 +79,13 @@ in
       then "system"
       else "builtin";
 
-    doCheck = yosys != null && symbiyosys != null;
+    doCheck = yosys != null && symbiyosys != null && yices != null;
 
     pythonImportsCheck = ["amaranth"];
 
     nativeCheckInputs = [
       yosys
       symbiyosys
-      pkgs.yices # XXX
+      yices
     ];
   }

@@ -35,6 +35,10 @@
     rev = "fbbbab235f4ecdce6353cb6c9062d790c450dddc";
     sha256 = "F2kylUuX1cbVnyEvObRr4l8EoqJIzZJjwpFyNyy+iP8=";
   };
+  yices = {
+    rev = "Yices-2.6.4";
+    sha256 = "qdxh86CkKdm65oHcRgaafTG9GUOoIgTDjeWmRofIpNE=";
+  };
   z3 = {
     rev = "z3-4.12.2";
     sha256 = "DTgpKEG/LtCGZDnicYvbxG//JMLv25VHn/NaF307JYA=";

@@ -20,6 +20,7 @@ Modes of operation
   * `Project IceStorm`_
   * `Project Trellis`_
   * SymbiYosys_
+  * `Yices 2`_
   * Z3_
 
   Amaranth is configured to use the Yosys built by hdx, and not its built-in
@@ -50,6 +51,7 @@ Modes of operation
 .. _Project IceStorm: https://github.com/YosysHQ/icestorm
 .. _Project Trellis: https://github.com/YosysHQ/prjtrellis
 .. _SymbiYosys: https://github.com/YosysHQ/sby
+.. _Yices 2: https://github.com/SRI-CSL/yices2
 .. _Z3: https://github.com/Z3Prover/z3
 
 
