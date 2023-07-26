@@ -38,8 +38,8 @@ Modes of operation
   You'll need to actually ``make install`` Yosys at least once for this mode to
   function, including any use of Amaranth that depends on Yosys.
 
-``nix-build`` (a) doesn't work on ``default.nix`` presently (TODO), and (b)
-doesn't work on ``*-shell.nix`` (intentional).
+``nix-build`` (a) doesn't work on ``default.nix`` (TODO), and (b) doesn't work
+on ``*-shell.nix`` (intentional).
 
 .. _Installing an HDL toolchain from source: https://notes.hrzn.ee/posts/0001-hdl-toolchain-source/
 

@@ -1,5 +1,2 @@
-- separate chipdb derivations in nextpnr per https://github.com/YosysHQ/nextpnr#pre-generating-chip-databases -- are we doing anything similar already in the actual icestorm/trellis builds tho?
 - nix-build
 - support amaranth's builtin-yosys (via amaranth-yosys on PyPI) if not building yosys ourselves
-- tests to ensure that building with only one of ice40/ecp5 doesn't build the other
-- is there some way to systematically test removing build deps from derivations to see which are actually required?

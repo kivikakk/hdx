@@ -24,7 +24,10 @@ with pkgs.lib; let
   # defaults from the individual *-shell.nix.  (There is no way to override
   # with a null.)
   unflattened = {
-    nextpnr.archs = nextpnr_archs;
+    nextpnr.archs =
+      if nextpnr_archs != null
+      then unique (sort lessThan nextpnr_archs)
+      else null;
   };
 
   filtered = filterAttrsRecursive (n: v: v != null) unflattened;
