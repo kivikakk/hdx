@@ -28,15 +28,16 @@ with pkgs.lib;
         }
         // ours;
 
+      nextpnrArchs =
+        {}
+        // optionalAttrs (elem "ice40" hdx-config.nextpnr.archs) {icestorm = callPackage ./pkg/icestorm.nix {};}
+        // optionalAttrs (elem "ecp5" hdx-config.nextpnr.archs) {trellis = callPackage ./pkg/trellis.nix {};};
+
       ours =
         {}
         // optionalAttrs (hdx-config.amaranth.enable) {amaranth = callPackage ./pkg/amaranth.nix {};}
         // optionalAttrs (hdx-config.yosys.enable) {yosys = callPackage ./pkg/yosys.nix {};}
-        // optionalAttrs (hdx-config.nextpnr.enable) (
-          {nextpnr = callPackage ./pkg/nextpnr.nix {};}
-          // optionalAttrs (elem "ice40" hdx-config.nextpnr.archs) {icestorm = callPackage ./pkg/icestorm.nix {};}
-          // optionalAttrs (elem "ecp5" hdx-config.nextpnr.archs) {trellis = callPackage ./pkg/trellis.nix {};}
-        )
+        // optionalAttrs (hdx-config.nextpnr.enable) ({nextpnr = callPackage ./pkg/nextpnr.nix {inherit nextpnrArchs;};} // nextpnrArchs)
         // optionalAttrs (hdx-config.symbiyosys.enable) (
           {symbiyosys = callPackage ./pkg/symbiyosys.nix {};}
           // optionalAttrs (elem "z3" hdx-config.symbiyosys.solvers) {z3 = callPackage ./pkg/z3.nix {};}

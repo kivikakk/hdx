@@ -1,11 +1,10 @@
 {
   pkgs,
   stdenv,
-  icestorm ? null,
-  trellis ? null,
   hdx-config,
   hdx-versions,
   boost,
+  nextpnrArchs,
 }:
 with pkgs.lib; let
   src = pkgs.fetchFromGitHub {
@@ -14,46 +13,38 @@ with pkgs.lib; let
     inherit (hdx-versions.nextpnr) rev sha256;
   };
 
-  chipdbs = {
-    generic = null;
-    ice40 = stdenv.mkDerivation {
-      name = "nextpnr-chipdb-ice40";
+  mkChipdbDerivation = pkg: let
+    inherit (pkg.nextpnr) archName cmakeFlags;
+  in
+    stdenv.mkDerivation (finalAttrs: {
+      name = "nextpnr-chipdb-${archName}";
       inherit src;
+      sourceRoot = "source/${archName}";
+
       nativeBuildInputs = [
         pkgs.cmake
         hdx-config.python
       ];
-      sourceRoot = "source/ice40";
-      cmakeFlags = ["-DICESTORM_INSTALL_PREFIX=${icestorm}"];
+
+      inherit cmakeFlags;
+
       installPhase = ''
         cp -r chipdb $out
       '';
-    };
-    ecp5 = stdenv.mkDerivation {
-      name = "nextpnr-chipdb-ecp5";
-      inherit src;
-      nativeBuildInputs = [
-        pkgs.cmake
-        hdx-config.python
+
+      passthru.nextpnr.cmakeFlags = [
+        "-D${toUpper archName}_CHIPDB=${finalAttrs.finalPackage}"
       ];
-      sourceRoot = "source/ecp5";
-      cmakeFlags = [
-        "-DTRELLIS_INSTALL_PREFIX=${trellis}"
-        "-DTRELLIS_LIBDIR=${trellis}/lib/trellis"
-      ];
-      installPhase = ''
-        cp -r chipdb $out
-      '';
-    };
-  };
+    });
+
+  chipdbs = map mkChipdbDerivation (attrValues nextpnrArchs);
 in
   stdenv.mkDerivation {
     name = "nextpnr";
     inherit src;
 
-    nativeBuildInputs = [
-      pkgs.cmake
-    ] ++ attrVals hdx-config.nextpnr.archs chipdbs;
+    nativeBuildInputs =
+      [pkgs.cmake] ++ chipdbs;
 
     buildInputs = with pkgs;
       [
@@ -61,17 +52,10 @@ in
         boost
         eigen
         hdx-config.python.pkgs.apycula
-        icestorm
-        trellis
-      ];
+      ]
+      ++ attrValues nextpnrArchs;
 
     cmakeFlags =
-      [
-        "-DARCH=${concatStringsSep ";" hdx-config.nextpnr.archs}"
-      ]
-      ++ (optional (icestorm != null) "-DICE40_CHIPDB=${chipdbs.ice40}")
-      ++ (optional (icestorm != null) "-DICESTORM_INSTALL_PREFIX=${icestorm}")
-      ++ (optional (trellis != null) "-DECP5_CHIPDB=${chipdbs.ecp5}")
-      ++ (optional (trellis != null) "-DTRELLIS_INSTALL_PREFIX=${trellis}")
-      ++ (optional (trellis != null) "-DTRELLIS_LIBDIR=${trellis}/lib/trellis");
+      ["-DARCH=${concatStringsSep ";" hdx-config.nextpnr.archs}"]
+      ++ concatMap (pkg: pkg.nextpnr.cmakeFlags) (chipdbs ++ attrValues nextpnrArchs);
   }

@@ -5,7 +5,7 @@
   hdx-versions,
   boost,
 }:
-stdenv.mkDerivation {
+stdenv.mkDerivation (finalAttrs: {
   name = "trellis";
 
   src = pkgs.fetchFromGitHub {
@@ -31,4 +31,12 @@ stdenv.mkDerivation {
       install_name_tool -change "$out/lib/libtrellis.dylib" "$out/lib/trellis/libtrellis.dylib" "$f"
     done
   '';
-}
+
+  passthru.nextpnr = {
+    archName = "ecp5";
+    cmakeFlags = [
+      "-DTRELLIS_INSTALL_PREFIX=${finalAttrs.finalPackage}"
+      "-DTRELLIS_LIBDIR=${finalAttrs.finalPackage}/lib/trellis"
+    ];
+  };
+})

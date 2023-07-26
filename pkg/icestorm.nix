@@ -4,7 +4,7 @@
   hdx-config,
   hdx-versions,
 }:
-stdenv.mkDerivation {
+stdenv.mkDerivation (finalAttrs: {
   name = "icestorm";
 
   src = pkgs.fetchFromGitHub {
@@ -26,4 +26,11 @@ stdenv.mkDerivation {
     hdx-config.python
     libftdi
   ];
-}
+
+  passthru.nextpnr = {
+    archName = "ice40";
+    cmakeFlags = [
+      "-DICESTORM_INSTALL_PREFIX=${finalAttrs.finalPackage}"
+    ];
+  };
+})
