@@ -1,2 +1,1 @@
-- nix-build
 - support amaranth's builtin-yosys (via amaranth-yosys on PyPI) if not building yosys ourselves

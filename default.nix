@@ -72,7 +72,7 @@ with pkgs.lib;
         passthru =
           {inherit pkgs ours;} // ours;
 
-        AMARANTH_USE_YOSYS = "system";
+        AMARANTH_USE_YOSYS = ours.amaranth.AMARANTH_USE_YOSYS or null;
       }
   )
   opts
