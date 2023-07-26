@@ -22,7 +22,7 @@ Modes of operation
   * SymbiYosys_
   * Z3_
 
-  Amaranth is configured to use the Yosys built by hdx, and not its builtin
+  Amaranth is configured to use the Yosys built by hdx, and not its built-in
   one.
 
 + ``nix-shell amaranth-dev-shell.nix``
@@ -62,5 +62,9 @@ Any ``nix-shell`` invocation may take the following arguments:
   A list of nextpnr_ architectures to build support for.  Valid items are
   ``"generic"``, ``"ice40"`` and ``"ecp5"``.  At least one must be specified.
 
-More configurability is available but not yet exposed -- see
-`<nix/hdx-config.nix>`_.  I'm not really sure what's idiomatic yet.
+More configurability is available, but not yet exposed -- I'm not really sure
+what's idiomatic yet.  See `<nix/hdx-config.nix>`_:
+
++ Any of the packages included can be disabled.
+
++ If Yosys isn't built, Amaranth's built-in Yosys will be used instead.
