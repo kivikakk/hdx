@@ -46,12 +46,31 @@ with pkgs.lib;
       stdenv.mkDerivation
       {
         name = "hdx";
+
+        dontUnpack = true;
+
+        propagatedBuildInputs = [
+          hdx-config.python
+        ];
+
         buildInputs = attrValues ours;
+
+        # Yuck.
+        installPhase =
+          ''
+            mkdir $out
+          ''
+          + (let
+            f = pkg: ''
+              cp -a ${pkg}/* $out
+              find $out -type d -exec chmod u+w '{}' \;
+              rm -f $out/nix-support/propagated-build-inputs
+            '';
+          in
+            concatMapStringsSep "\n" f (attrValues ours));
+
         passthru =
-          {
-            inherit pkgs ours;
-          }
-          // ours;
+          {inherit pkgs ours;} // ours;
 
         AMARANTH_USE_YOSYS = "system";
       }
