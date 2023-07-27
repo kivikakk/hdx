@@ -47,36 +47,29 @@ with pkgs.lib;
           // optionalAttrs (elem "yices" hdx-config.symbiyosys.solvers) {yices = callPackage ./pkg/yices.nix {};}
         );
     in
-      stdenv.mkDerivation
-      {
-        name = "hdx";
+      stdenv.mkDerivation ({
+          name = "hdx";
 
-        dontUnpack = true;
+          dontUnpack = true;
 
-        propagatedBuildInputs = [
-          hdx-config.python
-        ];
+          propagatedBuildInputs =
+            [
+              hdx-config.python
+            ]
+            ++ attrValues ours;
 
-        buildInputs = attrValues ours;
+          passthru = ours // {inherit pkgs ours;};
+        }
+        // optionalAttrs (hdx-config.amaranth.enable) rec {
+          buildInputs = [pkgs.makeWrapper];
 
-        # Yuck.
-        installPhase =
-          ''
-            mkdir $out
-          ''
-          + (let
-            f = pkg: ''
-              cp -a ${pkg}/* $out
-              find $out -type d -exec chmod u+w '{}' \;
-              rm -f $out/nix-support/propagated-build-inputs
-            '';
-          in
-            concatMapStringsSep "\n" f (attrValues ours));
+          AMARANTH_USE_YOSYS = ours.amaranth.AMARANTH_USE_YOSYS;
 
-        passthru =
-          {inherit pkgs ours;} // ours;
-
-        AMARANTH_USE_YOSYS = ours.amaranth.AMARANTH_USE_YOSYS or null;
-      }
+          installPhase = ''
+            for b in ${hdx-config.python}/bin/*; do
+              makeWrapper "$b" "$out/bin/$(basename "$b")" --inherit-argv0 --set AMARANTH_USE_YOSYS ${AMARANTH_USE_YOSYS}
+            done
+          '';
+        })
   )
   opts
