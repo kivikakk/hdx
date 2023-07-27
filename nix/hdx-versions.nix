@@ -9,6 +9,14 @@
     };
   };
 
+  amaranth-boards = {
+    rev = "510c28e3799aeca1cbf72ba26771d0951f98412e";
+    sha256s = {
+      x86_64-linux = "abcdeWkcuolUMMy9AVdvApvjiE6oS0PPAp/n5sIEel4=";
+      aarch64-darwin = "5jIchMuBHrqEOKpbWHirUpAGcemLlpk5T6rxl6EbzW8=";
+    };
+  };
+
   yosys = {
     rev = "14d50a176d59a5eac95a57a01f9e933297251d5b";
     sha256 = "ZdtQ3tUEImJGYzN2j4f3fuxYUzTmSx6Vz8U7mLjgZXY=";

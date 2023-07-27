@@ -40,8 +40,9 @@ with pkgs.lib; let
     doCheck = true;
   };
 in
-  pythonPkgs.buildPythonPackage {
+  pythonPkgs.buildPythonPackage rec {
     name = "amaranth";
+    realVersion = "0.4.dev1+g${substring 0 7 src.rev}";
 
     # https://github.com/NixOS/nixpkgs/commit/7a65bb76f1db44f8af6e13d81d13f41d69fb1948
     # This fix exists for "setuptools", but not "pyproject" (which ends up
@@ -73,6 +74,10 @@ in
       jinja2
       yosys
     ];
+
+    preBuild = ''
+      export SETUPTOOLS_SCM_PRETEND_VERSION="${realVersion}"
+    '';
 
     AMARANTH_USE_YOSYS =
       if yosys != null

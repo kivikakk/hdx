@@ -35,7 +35,10 @@ with pkgs.lib;
 
       ours =
         {}
-        // optionalAttrs (hdx-config.amaranth.enable) {amaranth = callPackage ./pkg/amaranth.nix {};}
+        // optionalAttrs (hdx-config.amaranth.enable) {
+          amaranth = callPackage ./pkg/amaranth.nix {};
+          amaranth-boards = callPackage ./pkg/amaranth-boards.nix {};
+        }
         // optionalAttrs (hdx-config.yosys.enable) {yosys = callPackage ./pkg/yosys.nix {};}
         // optionalAttrs (hdx-config.nextpnr.enable) ({nextpnr = callPackage ./pkg/nextpnr.nix {inherit nextpnrArchs;};} // nextpnrArchs)
         // optionalAttrs (hdx-config.symbiyosys.enable) (
