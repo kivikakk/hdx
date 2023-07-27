@@ -39,9 +39,30 @@ Modes of operation
   You'll need to actually ``make install`` Yosys at least once for this mode to
   function, including any use of Amaranth that depends on Yosys.
 
-+ ``nix-build``
++ Your project's ``shell.nix``
 
-  Uhh.  You can do this, but I don't think it's very useful.  Just use Nixpkgs?
+  .. code:: nix
+
+      {pkgs ? import <nixpkgs> {}}: let
+        hdx = import (pkgs.fetchFromGitHub {
+          owner = "charlottia";
+          repo = "hdx";
+          rev = "116f2cef9cdc75a33c49c578d3b93b19e68597a7";
+          sha256 = "THrX3H1368OP+SXRb+S+cczvCbXubF/5s50VhrtDQbk=";
+        }) {};
+      in
+        pkgs.mkShell {
+          name = "weapon";
+          nativeBuildInputs = with pkgs; [
+            hdx
+            pineapple-pictures
+            hyfetch
+            varscan
+            ugarit-manifest-maker
+            # ... etc.
+          ];
+        }
+
 
 .. _Installing an HDL toolchain from source: https://notes.hrzn.ee/posts/0001-hdl-toolchain-source/
 
