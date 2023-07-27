@@ -9,7 +9,7 @@ Nix-y.
 Modes of operation
 ==================
 
-+ ``nix-shell``
++ ``nix develop`` / ``nix-shell``
 
   This is the default mode of operation.  The following packages are built from
   definitions in ``pkg/`` and added to ``PATH``:
@@ -26,12 +26,12 @@ Modes of operation
   Amaranth is configured to use the Yosys built by hdx, and not its built-in
   one.
 
-+ ``nix-shell amaranth-dev-shell.nix``
++ ``nix develop .#amaranth`` / ``nix-shell amaranth-dev-shell.nix``
 
   Like above, except Amaranth is not built and installed.  Instead, the
   submodule checkout at ``dev/amaranth/`` is installed in editable mode.
 
-+ ``nix-shell yosys-amaranth-dev-shell.nix``
++ ``nix develop .#yosys-amaranth`` / ``nix-shell yosys-amaranth-dev-shell.nix``
 
   Like above, except Yosys is also not built and installed.  Instead, the
   submodule checkout at ``dev/yosys/`` is configured to be compiled and

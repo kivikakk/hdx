@@ -1,5 +1,5 @@
-opts @ {...}: let
-  hdx = import ./. {inherit opts;};
+opts @ {pkgs ? import <nixpkgs> {}, ...}: let
+  hdx = import ./. opts;
 in
   with hdx.pkgs.lib;
     hdx.amaranth.overridePythonAttrs (prev: {
@@ -8,7 +8,7 @@ in
       src = null;
 
       nativeBuildInputs =
-        remove hdx.yosys prev.nativeBuildInputs
+        prev.nativeBuildInputs
         ++ hdx.yosys.nativeBuildInputs
         ++ subtractLists [hdx.amaranth hdx.yosys] (attrValues hdx.ours);
 
@@ -17,20 +17,24 @@ in
         ++ hdx.yosys.buildInputs;
 
       preShellHook = ''
+        export HDX_ROOT="$(pwd)"
+
         cd dev/yosys
         cat >Makefile.conf <<'EOF'
-        ${(hdx.yosys.overrideAttrs {makefileConfPrefix = toString ./dev/out;}).makefileConf}
+        ${(hdx.yosys.overrideAttrs {makefileConfPrefix = "$(HDX_ROOT)/dev/out";}).makefileConf}
         EOF
         cd ../..
 
         # setuptoolsShellHook looks for setup.py in cwd.
         cd dev/amaranth
 
-        export PATH="${toString ./dev/out/bin}:$PATH"
+        export PATH="$HDX_ROOT/dev/out/bin:$PATH"
       '';
 
       postShellHook = ''
         # Start shell in ./dev.
         cd ..
       '';
+
+      doCheck = false; # so yosys doesn't get pulled in for Amaranth test.
     })

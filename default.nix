@@ -1,11 +1,8 @@
-{
-  pkgs ? import <nixpkgs> {},
-  opts ? {},
-}:
+opts @ {pkgs ? import <nixpkgs> {}, ...}:
 with pkgs.lib;
   makeOverridable (
     opts @ {...}: let
-      hdx-config = import ./nix/hdx-config.nix {inherit pkgs;} opts;
+      hdx-config = import ./nix/hdx-config.nix opts;
       hdx-versions = import ./nix/hdx-versions.nix;
 
       stdenv = hdx-config.stdenv;
