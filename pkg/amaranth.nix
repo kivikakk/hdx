@@ -67,13 +67,14 @@ in
       wheel
     ];
 
-    propagatedBuildInputs = optional (yosys == null) amaranthYosys;
+    propagatedBuildInputs = with pythonPkgs;
+      [
+        pyvcd
+        jinja2
+      ]
+      ++ optional (yosys == null) amaranthYosys;
 
-    buildInputs = with pythonPkgs; [
-      pyvcd
-      jinja2
-      yosys
-    ];
+    buildInputs = [yosys];
 
     preBuild = ''
       export SETUPTOOLS_SCM_PRETEND_VERSION="${realVersion}"
