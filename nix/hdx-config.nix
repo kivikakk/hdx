@@ -1,4 +1,7 @@
-{pkgs}: {nextpnr_archs ? null}:
+{
+  pkgs ? import <nixpkgs> {},
+  nextpnr_archs ? null,
+}:
 with pkgs.lib; let
   ALL_NEXTPNR_ARCHS = ["generic" "ice40" "ecp5"];
   ALL_SYMBIYOSYS_SOLVERS = ["yices" "z3"];

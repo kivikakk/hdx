@@ -1,5 +1,5 @@
-opts @ {...}: let
-  hdx = import ./. {inherit opts;};
+opts @ {pkgs ? import <nixpkgs> {}, ...}: let
+  hdx = import ./. opts;
 in
   with hdx.pkgs.lib;
     hdx.amaranth.overridePythonAttrs (prev: {
@@ -12,6 +12,8 @@ in
         ++ (filter (p: p != hdx.amaranth) (attrValues hdx.ours));
 
       preShellHook = ''
+        export HDX_ROOT="$(pwd)"
+
         # setuptoolsShellHook looks for setup.py in cwd.
         cd dev/amaranth
       '';
