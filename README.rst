@@ -39,6 +39,30 @@ Modes of operation
   You'll need to actually ``make install`` Yosys at least once for this mode to
   function, including any use of Amaranth that depends on Yosys.
 
++ Your project's ``flake.nix``
+
+  .. code:: nix
+
+      {
+        inputs.hdx.url = github:charlottia/hdx;
+
+        outputs = {
+          self,
+          nixpkgs,
+          flake-utils,
+          hdx,
+        }:
+          flake-utils.lib.eachDefaultSystem (system: let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in {
+            devShells.default = pkgs.mkShell {
+              nativeBuildInputs = [
+                hdx.packages.${system}.default
+              ];
+            };
+          });
+      }
+
 + Your project's ``shell.nix``
 
   .. code:: nix
@@ -53,13 +77,8 @@ Modes of operation
       in
         pkgs.mkShell {
           name = "weapon";
-          nativeBuildInputs = with pkgs; [
+          nativeBuildInputs = [
             hdx
-            pineapple-pictures
-            hyfetch
-            varscan
-            ugarit-manifest-maker
-            # ... etc.
           ];
         }
 
