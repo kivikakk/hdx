@@ -4,7 +4,7 @@
     sha256s = {
       # XXX Well; isn't this the worst? Until I workaround
       # NixOS/nixpkgs#8567 better.
-      x86_64-linux = "OcgXn5sgTssl1Iiu/YLZ2fUgfCZXomsF/MDc85BCCaQ=";
+      x86_64-linux = "R0p/LX6hp84ZWbMZeW+63mLFM5HgmABo9+9Si9LKnxI=";
       aarch64-darwin = "afMA0nj+HQD0rxNqgf6dtI1lkUCetirnxQToDxE987g=";
     };
   };
