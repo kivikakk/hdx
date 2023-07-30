@@ -9,7 +9,7 @@ with pkgs.lib; let
   DEFAULTS = {
     inherit (pkgs) stdenv;
 
-    python = pkgs.python311;
+    python = import ./python.nix {python = pkgs.python311;};
 
     amaranth.enable = true;
     yosys.enable = true;
