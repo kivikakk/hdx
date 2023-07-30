@@ -55,10 +55,17 @@ in
     src = pkgs.fetchFromGitHub {
       owner = "amaranth-lang";
       repo = "amaranth";
-      inherit (hdx-versions.amaranth) rev;
-      sha256 = hdx-versions.amaranth.sha256s.${pkgs.system};
-      leaveDotGit = true; # needed for setuptools-scm
+      inherit (hdx-versions.amaranth) rev sha256;
     };
+
+    postUnpack = ''
+      # Workaround for NixOS/nixpkgs#8567.
+      pushd source
+      git init
+      git add -A .
+      git commit -m "leaveDotGit workaround"
+      popd
+    '';
 
     nativeBuildInputs = with pythonPkgs; [
       pkgs.git
