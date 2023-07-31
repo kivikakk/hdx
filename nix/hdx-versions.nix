@@ -36,8 +36,8 @@
     sha256 = "F2kylUuX1cbVnyEvObRr4l8EoqJIzZJjwpFyNyy+iP8=";
   };
   yices = {
-    rev = "Yices-2.6.4";
-    sha256 = "qdxh86CkKdm65oHcRgaafTG9GUOoIgTDjeWmRofIpNE=";
+    rev = "5a3e3f0fabf7d588c5adf1f791b26a590eac547f";
+    sha256 = "NM20zgIT2BkLVEGHZyovV90cM8XcXLwKeCFThkCP+9w=";
   };
   z3 = {
     rev = "z3-4.12.2";
