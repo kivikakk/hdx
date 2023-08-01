@@ -1,0 +1,6 @@
+
+--- a/sbysrc/sby_core.py
++++ b/sbysrc/sby_core.py
+@@ -197 +197 @@
+-                self.p = subprocess.Popen(["/usr/bin/env", "bash", "-c", self.cmdline], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
++                self.p = subprocess.Popen(["bash", "-c", self.cmdline], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
