@@ -52,6 +52,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = with pkgs; [
     pkg-config
+    clang
     git
     bison
     flex
