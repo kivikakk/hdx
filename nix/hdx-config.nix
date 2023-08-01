@@ -9,7 +9,7 @@ with pkgs.lib; let
   DEFAULTS = {
     inherit (pkgs) stdenv;
 
-    python = pkgs.python311;
+    python = import ./python.nix {python = pkgs.python311;};
 
     amaranth.enable = true;
     yosys.enable = true;
@@ -21,6 +21,17 @@ with pkgs.lib; let
       enable = true;
       solvers = ALL_SYMBIYOSYS_SOLVERS;
     };
+
+    leaveDotGitWorkaround = ''
+      # Workaround for NixOS/nixpkgs#8567.
+      pushd source
+      git init
+      git config user.email charlotte@example.com
+      git config user.name Charlotte
+      git add -A .
+      git commit -m "leaveDotGit workaround"
+      popd
+    '';
   };
 
   # Translate flat options. Remove null values before merging -- they're likely

@@ -13,10 +13,10 @@ in
     src = pkgs.fetchFromGitHub {
       owner = "amaranth-lang";
       repo = "amaranth-boards";
-      inherit (hdx-versions.amaranth-boards) rev;
-      sha256 = hdx-versions.amaranth-boards.sha256s.${pkgs.system};
-      leaveDotGit = true; # needed for setuptools-scm
+      inherit (hdx-versions.amaranth-boards) rev sha256;
     };
+
+    postUnpack = hdx-config.leaveDotGitWorkaround;
 
     nativeBuildInputs = [
       pkgs.git

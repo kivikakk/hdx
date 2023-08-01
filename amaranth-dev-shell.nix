@@ -17,4 +17,6 @@ in
         # setuptoolsShellHook looks for setup.py in cwd.
         cd dev/amaranth
       '';
+
+      doCheck = false;
     })

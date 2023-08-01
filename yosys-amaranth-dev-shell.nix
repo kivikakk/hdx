@@ -36,5 +36,5 @@ in
         cd ..
       '';
 
-      doCheck = false; # so yosys doesn't get pulled in for Amaranth test.
+      doCheck = false;
     })

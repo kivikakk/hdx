@@ -14,6 +14,10 @@ with pkgs.lib;
       inherit (hdx-versions.symbiyosys) rev sha256;
     };
 
+    patches = [
+      ../patches/sby_core.py.patch
+    ];
+
     makeFlags = [
       "PREFIX=$(out)"
     ];

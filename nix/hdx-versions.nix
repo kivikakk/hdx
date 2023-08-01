@@ -1,20 +1,12 @@
 {
   amaranth = {
     rev = "ea36c806630904aa5b5c18042207a62ca9045d12";
-    sha256s = {
-      # XXX Well; isn't this the worst? Until I workaround
-      # NixOS/nixpkgs#8567 better.
-      x86_64-linux = "OcgXn5sgTssl1Iiu/YLZ2fUgfCZXomsF/MDc85BCCaQ=";
-      aarch64-darwin = "afMA0nj+HQD0rxNqgf6dtI1lkUCetirnxQToDxE987g=";
-    };
+    sha256 = "MsyUcbjrcxg82cyr1veMP5AvhZfVRUmB9bcawwQhR5U=";
   };
 
   amaranth-boards = {
     rev = "510c28e3799aeca1cbf72ba26771d0951f98412e";
-    sha256s = {
-      x86_64-linux = "abcdeWkcuolUMMy9AVdvApvjiE6oS0PPAp/n5sIEel4=";
-      aarch64-darwin = "5jIchMuBHrqEOKpbWHirUpAGcemLlpk5T6rxl6EbzW8=";
-    };
+    sha256 = "mUJCdWkcuolUMMy9AVdvApvjiE6oS0PPAp/n5sIEel4=";
   };
 
   yosys = {
@@ -44,8 +36,8 @@
     sha256 = "F2kylUuX1cbVnyEvObRr4l8EoqJIzZJjwpFyNyy+iP8=";
   };
   yices = {
-    rev = "Yices-2.6.4";
-    sha256 = "qdxh86CkKdm65oHcRgaafTG9GUOoIgTDjeWmRofIpNE=";
+    rev = "5a3e3f0fabf7d588c5adf1f791b26a590eac547f";
+    sha256 = "NM20zgIT2BkLVEGHZyovV90cM8XcXLwKeCFThkCP+9w=";
   };
   z3 = {
     rev = "z3-4.12.2";
