@@ -16,14 +16,7 @@ in
       inherit (hdx-versions.amaranth-boards) rev sha256;
     };
 
-    postUnpack = ''
-      # Workaround for NixOS/nixpkgs#8567.
-      pushd source
-      git init
-      git add -A .
-      git commit -m "leaveDotGit workaround"
-      popd
-    '';
+    postUnpack = hdx-config.leaveDotGitWorkaround;
 
     nativeBuildInputs = [
       pkgs.git
