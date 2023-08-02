@@ -55,7 +55,7 @@ with pkgs.lib;
             ]
             ++ attrValues ours;
 
-          passthru = ours // {inherit pkgs ours;};
+          passthru = env;
         }
         // optionalAttrs (hdx-config.amaranth.enable) rec {
           buildInputs = [pkgs.makeWrapper];
