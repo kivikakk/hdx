@@ -41,8 +41,8 @@ with pkgs.lib; let
   };
 in
   pythonPkgs.buildPythonPackage rec {
-    name = "amaranth";
-    realVersion = "0.4.dev1+g${substring 0 7 src.rev}";
+    pname = "amaranth";
+    version = "0.4.0dev1+g${substring 0 7 src.rev}";
 
     # https://github.com/NixOS/nixpkgs/commit/7a65bb76f1db44f8af6e13d81d13f41d69fb1948
     # This fix exists for "setuptools", but not "pyproject" (which ends up
@@ -77,7 +77,7 @@ in
     buildInputs = [yosys];
 
     preBuild = ''
-      export SETUPTOOLS_SCM_PRETEND_VERSION="${realVersion}"
+      export SETUPTOOLS_SCM_PRETEND_VERSION="${version}"
     '';
 
     AMARANTH_USE_YOSYS =
@@ -94,4 +94,8 @@ in
       symbiyosys
       yices
     ];
+
+    meta = {
+      description = "Amaranth hardware definition language";
+    };
   }
