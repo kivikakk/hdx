@@ -14,9 +14,13 @@ with pkgs.lib;
       inherit (hdx-versions.symbiyosys) rev sha256;
     };
 
-    patches = [
-      ../patches/sby_core.py.patch
+    buildInputs = [
+      pkgs.coreutils
     ];
+
+    postPatch = ''
+      substituteInPlace sbysrc/sby_core.py --replace "/usr/bin/env" "${pkgs.coreutils}/bin/env"
+    '';
 
     makeFlags = [
       "PREFIX=$(out)"
