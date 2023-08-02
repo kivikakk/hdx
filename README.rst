@@ -110,3 +110,22 @@ what's idiomatic yet.  See `<nix/hdx-config.nix>`_:
 + Any of the packages included can be disabled.
 
 + If Yosys isn't built, Amaranth's built-in Yosys will be used instead.
+
+
+Hacks
+=====
+
++ Python on Nix's ``sitecustomize.py`` drops ``NIX_PYTHONPATH`` from the
+  environment when processing it, causing children opened with ``subprocess`` to
+  not be aware of packages that might've been added by that mechanism.
+
++ nix-darwin specific: IceStorm's ``icebox/Makefile`` needs to not determine its
+  ``sed``` use based   on ``uname``.  `You may not do that`_.
+
+  .. _You may not do that: https://aperture.ink/@charlotte/110737824873379605
+
++ SymbiYosys's ``sbysrc/sby_core.py`` needs to not invoke ``/usr/bin/env``.  It
+  may not exist.
+
++ Z3's ``z3.pc.cmake.in`` needs to not prepend ``${exec_prefix}/`` et al. to
+  ``@CMAKE_INSTALL_LIBDIR@`` et al.
