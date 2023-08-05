@@ -26,10 +26,18 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [boost];
 
+  cmakeFlags = [
+    "-DCMAKE_INSTALL_DATADIR=${placeholder "out"}/share"
+  ];
+
   postInstall = pkgs.lib.optionalString stdenv.isDarwin ''
     for f in $out/bin/* ; do
       install_name_tool -change "$out/lib/libtrellis.dylib" "$out/lib/trellis/libtrellis.dylib" "$f"
     done
+  '';
+
+  postInstallCheck = ''
+    $out/bin/ecppack /dev/null
   '';
 
   passthru.nextpnr = {

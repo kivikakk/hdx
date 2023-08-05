@@ -20,6 +20,7 @@ with pkgs.lib;
           inherit pkgs;
           inherit hdx-config hdx-versions;
           inherit stdenv;
+          inherit ours;
 
           boost = callPackage ./nix/boost.nix {};
         }
