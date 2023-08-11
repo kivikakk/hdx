@@ -1,14 +1,4 @@
 {
-  amaranth = {
-    rev = "ea36c806630904aa5b5c18042207a62ca9045d12";
-    sha256 = "MsyUcbjrcxg82cyr1veMP5AvhZfVRUmB9bcawwQhR5U=";
-  };
-
-  amaranth-boards = {
-    rev = "510c28e3799aeca1cbf72ba26771d0951f98412e";
-    sha256 = "mUJCdWkcuolUMMy9AVdvApvjiE6oS0PPAp/n5sIEel4=";
-  };
-
   yosys = {
     rev = "14d50a176d59a5eac95a57a01f9e933297251d5b";
     sha256 = "ZdtQ3tUEImJGYzN2j4f3fuxYUzTmSx6Vz8U7mLjgZXY=";

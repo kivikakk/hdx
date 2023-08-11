@@ -1,12 +1,13 @@
 {
   pkgs,
+  lib,
   yosys ? null,
   symbiyosys ? null,
   yices ? null,
+  hdx-inputs,
   hdx-config,
   hdx-versions,
-}:
-with pkgs.lib; let
+}: let
   python = hdx-config.python;
   pythonPkgs = python.pkgs;
 
@@ -42,7 +43,7 @@ with pkgs.lib; let
 in
   pythonPkgs.buildPythonPackage rec {
     pname = "amaranth";
-    version = "0.4.0dev1+g${substring 0 7 src.rev}";
+    version = "0.4.0dev1+g${lib.substring 0 7 src.rev}";
 
     # https://github.com/NixOS/nixpkgs/commit/7a65bb76f1db44f8af6e13d81d13f41d69fb1948
     # This fix exists for "setuptools", but not "pyproject" (which ends up
@@ -52,12 +53,7 @@ in
     # at ./. anyway.
     format = "setuptools";
 
-    src = pkgs.fetchFromGitHub {
-      owner = "amaranth-lang";
-      repo = "amaranth";
-      inherit (hdx-versions.amaranth) rev sha256;
-    };
-
+    src = hdx-inputs.amaranth;
     postUnpack = hdx-config.leaveDotGitWorkaround;
 
     nativeBuildInputs = with pythonPkgs; [
@@ -72,7 +68,7 @@ in
         pyvcd
         jinja2
       ]
-      ++ optional (yosys == null) amaranthYosys;
+      ++ lib.optional (yosys == null) amaranthYosys;
 
     buildInputs = [yosys];
 

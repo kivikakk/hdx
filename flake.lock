@@ -1,5 +1,53 @@
 {
   "nodes": {
+    "amaranth": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1691691127,
+        "narHash": "sha256-Gqq4iReeJsBA8+P2oQ0bFDjzk/4Xpo7ThrH3wQksK54=",
+        "owner": "amaranth-lang",
+        "repo": "amaranth",
+        "rev": "f976754e15e625d5b88beb7798e64f8b7ca20f48",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amaranth-lang",
+        "repo": "amaranth",
+        "type": "github"
+      }
+    },
+    "amaranth-boards": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1691507939,
+        "narHash": "sha256-2cr2LkDA47KkAAp0DTSYjd8jDEeXoWDWJn6k0+JxhaY=",
+        "owner": "amaranth-lang",
+        "repo": "amaranth-boards",
+        "rev": "dc82d934b93409f639d5c7fbac4c62afb7978260",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amaranth-lang",
+        "repo": "amaranth-boards",
+        "type": "github"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1673956053,
+        "narHash": "sha256-4gtG9iQuiKITOjNQQeQIpoIB6b16fm+504Ch3sNKLd8=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "35bb57c0c8d8b62bbfd284272c928ceb64ddbde9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -33,6 +81,9 @@
     },
     "root": {
       "inputs": {
+        "amaranth": "amaranth",
+        "amaranth-boards": "amaranth-boards",
+        "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs"
       }

@@ -1,21 +1,18 @@
 {
   pkgs,
+  lib,
   amaranth,
+  hdx-inputs,
   hdx-config,
   hdx-versions,
-}:
-with pkgs.lib; let
+}: let
   python = hdx-config.python;
   pythonPkgs = python.pkgs;
 in
   pythonPkgs.buildPythonPackage rec {
-    name = "amaranth-boards";
-    src = pkgs.fetchFromGitHub {
-      owner = "amaranth-lang";
-      repo = "amaranth-boards";
-      inherit (hdx-versions.amaranth-boards) rev sha256;
-    };
-
+    pname = "amaranth-boards";
+    version = "0.1.0dev1+g${lib.substring 0 7 src.rev}";
+    src = hdx-inputs.amaranth-boards;
     postUnpack = hdx-config.leaveDotGitWorkaround;
 
     nativeBuildInputs = [
