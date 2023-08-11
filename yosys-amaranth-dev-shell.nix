@@ -18,6 +18,7 @@ in
         ++ hdx.yosys.buildInputs;
 
       preShellHook = ''
+        ${hdx.devCheckHook ["dev/yosys" "dev/amaranth"] "nix develop hdx#yosys-amaranth"}
         export HDX_ROOT="$(pwd)"
 
         cd dev/yosys

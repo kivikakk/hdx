@@ -12,6 +12,7 @@ in
         ++ (filter (p: p != hdx.amaranth) (attrValues hdx.ours));
 
       preShellHook = ''
+        ${hdx.devCheckHook ["dev/amaranth"] "nix develop hdx#amaranth"}
         export HDX_ROOT="$(pwd)"
 
         # setuptoolsShellHook looks for setup.py in cwd.
