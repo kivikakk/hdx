@@ -43,13 +43,15 @@ stdenv.mkDerivation (finalAttrs: {
   # yosys's Makefile.conf can't override CXX. Double awkward.
   makefileConfPrefix = "$(out)";
   extraMakefileConf = "";
-  makefileConf = ''
-    PREFIX=${finalAttrs.makefileConfPrefix}
-    PRETTY=0
-    CONFIG=clang
-    # https://github.com/YosysHQ/yosys/issues/2011
-    CXXFLAGS+=-xc++
-  '' + finalAttrs.extraMakefileConf;
+  makefileConf =
+    ''
+      PREFIX=${finalAttrs.makefileConfPrefix}
+      PRETTY=0
+      CONFIG=clang
+      # https://github.com/YosysHQ/yosys/issues/2011
+      CXXFLAGS+=-xc++
+    ''
+    + finalAttrs.extraMakefileConf;
 
   nativeBuildInputs = with pkgs; [
     pkg-config
