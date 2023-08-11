@@ -9,7 +9,7 @@ Nix-y.
 Modes of operation
 ==================
 
-+ ``nix develop`` / ``nix-shell``
++ ``nix develop github:charlottia/hdx`` / ``nix-shell``
 
   This is the default mode of operation.  The following packages are built from
   definitions in ``pkg/`` and added to ``PATH``:
@@ -30,6 +30,7 @@ Modes of operation
 
   Like above, except Amaranth is not built and installed.  Instead, the
   submodule checkout at ``dev/amaranth/`` is installed in editable mode.
+  This must be invoked with a hdx checkout at cwd.
 
 + ``nix develop .#yosys-amaranth`` / ``nix-shell yosys-amaranth-dev-shell.nix``
 
@@ -110,6 +111,8 @@ what's idiomatic yet.  See `<nix/hdx-config.nix>`_:
 + Any of the packages included can be disabled.
 
 + If Yosys isn't built, Amaranth's built-in Yosys will be used instead.
+
+There is no equivalent usage for flakes.
 
 
 Hacks
