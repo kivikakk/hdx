@@ -11,7 +11,7 @@ in
         prev.nativeBuildInputs
         ++ hdx.yosys.nativeBuildInputs
         ++ subtractLists [hdx.amaranth hdx.yosys] (attrValues hdx.ours)
-        ++ [pkgs.gdb];
+        ++ [pkgs.gdb pkgs.verilog]; # TODO
 
       buildInputs =
         remove hdx.yosys prev.buildInputs
