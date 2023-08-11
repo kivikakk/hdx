@@ -10,7 +10,8 @@ in
       nativeBuildInputs =
         prev.nativeBuildInputs
         ++ hdx.yosys.nativeBuildInputs
-        ++ subtractLists [hdx.amaranth hdx.yosys] (attrValues hdx.ours);
+        ++ subtractLists [hdx.amaranth hdx.yosys] (attrValues hdx.ours)
+        ++ [pkgs.gdb];
 
       buildInputs =
         remove hdx.yosys prev.buildInputs
