@@ -21,7 +21,13 @@ in
 
         cd dev/yosys
         cat >Makefile.conf <<'EOF'
-        ${(hdx.yosys.overrideAttrs {makefileConfPrefix = "$(HDX_ROOT)/dev/out";}).makefileConf}
+        ${(hdx.yosys.overrideAttrs {
+          makefileConfPrefix = "$(HDX_ROOT)/dev/out";
+          extraMakefileConf = ''
+            ENABLE_DEBUG=1
+            STRIP=echo Not doing this: strip
+          '';
+        }).makefileConf}
         EOF
         cd ../..
 
