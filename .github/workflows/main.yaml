@@ -11,4 +11,7 @@ jobs:
       - name: Run the Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v2
       - run: nix build
-      - run: nix check
+      - run: nix flake check
+      - run: nix develop . --command true
+      - run: nix develop .#amaranth --command true
+      - run: nix develop .#yosys-amaranth --command true
