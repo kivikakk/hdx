@@ -2,7 +2,6 @@
   pkgs,
   lib,
   stdenv,
-  hdx-config,
   hdx-inputs,
 }:
 stdenv.mkDerivation rec {
@@ -11,11 +10,14 @@ stdenv.mkDerivation rec {
 
   src = hdx-inputs.yices;
 
-  nativeBuildInputs = with pkgs; [
-    autoreconfHook
-    gperf
-    gmp
-  ];
+  nativeBuildInputs = builtins.attrValues {
+    inherit
+      (pkgs)
+      autoreconfHook
+      gperf
+      gmp
+      ;
+  };
 
   enableParallelBuilding = true;
 }

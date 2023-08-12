@@ -2,8 +2,8 @@
   pkgs,
   lib,
   stdenv,
-  hdx-config,
   hdx-inputs,
+  python,
   boost,
 }:
 stdenv.mkDerivation (finalAttrs: rec {
@@ -12,11 +12,14 @@ stdenv.mkDerivation (finalAttrs: rec {
   src = hdx-inputs.trellis;
   sourceRoot = "source/libtrellis";
 
-  nativeBuildInputs = with pkgs; [
-    cmake
-    hdx-config.python
-    libftdi
-  ];
+  nativeBuildInputs = builtins.attrValues {
+    inherit python;
+    inherit
+      (pkgs)
+      cmake
+      libftdi
+      ;
+  };
 
   buildInputs = [boost];
 

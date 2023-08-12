@@ -1,13 +1,13 @@
 {
   pkgs,
   lib,
+  python,
   yosys ? null,
   symbiyosys ? null,
   yices ? null,
   hdx-inputs,
-  hdx-config,
+  leaveDotGitWorkaround,
 }: let
-  python = hdx-config.python;
   pythonPkgs = python.pkgs;
 
   wasmtime = pythonPkgs.buildPythonPackage rec {
@@ -53,21 +53,28 @@ in
     format = "setuptools";
 
     src = hdx-inputs.amaranth;
-    postUnpack = hdx-config.leaveDotGitWorkaround;
+    postUnpack = leaveDotGitWorkaround;
 
-    nativeBuildInputs = with pythonPkgs; [
-      pkgs.git
-      setuptools
-      setuptools-scm
-      wheel
-    ];
+    nativeBuildInputs = builtins.attrValues {
+      inherit (pkgs) git;
+      inherit
+        (pythonPkgs)
+        setuptools
+        setuptools-scm
+        wheel
+        ;
+    };
 
-    propagatedBuildInputs = with pythonPkgs;
-      [
-        pyvcd
-        jinja2
-      ]
-      ++ lib.optional (yosys == null) amaranthYosys;
+    propagatedBuildInputs = builtins.attrValues (
+      {
+        inherit
+          (pythonPkgs)
+          pyvcd
+          jinja2
+          ;
+      }
+      // lib.optionalAttrs (yosys == null) {inherit amaranthYosys;}
+    );
 
     buildInputs = [yosys];
 

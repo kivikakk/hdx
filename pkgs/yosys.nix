@@ -2,8 +2,8 @@
   pkgs,
   lib,
   stdenv,
-  hdx-config,
   hdx-inputs,
+  python,
   boost,
 }:
 stdenv.mkDerivation (finalAttrs: {
@@ -58,22 +58,27 @@ stdenv.mkDerivation (finalAttrs: {
     ''
     + finalAttrs.extraMakefileConf;
 
-  nativeBuildInputs = with pkgs; [
-    pkg-config
-    clang
-    git
-    bison
-    flex
-  ];
+  nativeBuildInputs = builtins.attrValues {
+    inherit
+      (pkgs)
+      pkg-config
+      clang
+      git
+      bison
+      flex
+      ;
+  };
 
-  buildInputs = with pkgs; [
-    hdx-config.python
-    tcl
-    readline
-    zlib
-    libffi
-    boost
-  ];
+  buildInputs = builtins.attrValues {
+    inherit python boost;
+    inherit
+      (pkgs)
+      tcl
+      readline
+      zlib
+      libffi
+      ;
+  };
 
   enableParallelBuilding = true;
 })

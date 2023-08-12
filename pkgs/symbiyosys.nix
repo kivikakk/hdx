@@ -2,7 +2,7 @@
   pkgs,
   lib,
   stdenv,
-  hdx-config,
+  python,
   hdx-inputs,
 }:
 stdenv.mkDerivation rec {
@@ -24,6 +24,6 @@ stdenv.mkDerivation rec {
   ];
 
   propagatedBuildInputs = [
-    hdx-config.python.pkgs.click
+    python.pkgs.click
   ];
 }

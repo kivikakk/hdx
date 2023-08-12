@@ -4,6 +4,7 @@
   stdenv,
   hdx-config,
   hdx-inputs,
+  python,
   boost,
   nextpnrArchs,
 }: let
@@ -18,10 +19,10 @@
       inherit version src;
       sourceRoot = "source/${archName}";
 
-      nativeBuildInputs = [
-        pkgs.cmake
-        hdx-config.python
-      ];
+      nativeBuildInputs = builtins.attrValues {
+        inherit python;
+        inherit (pkgs) cmake;
+      };
 
       inherit cmakeFlags;
 
@@ -43,14 +44,17 @@ in
     nativeBuildInputs =
       [pkgs.cmake] ++ chipdbs;
 
-    buildInputs = with pkgs;
-      [
-        hdx-config.python
-        boost
-        eigen
-        hdx-config.python.pkgs.apycula
-      ]
-      ++ builtins.attrValues nextpnrArchs;
+    buildInputs = builtins.attrValues (
+      {
+        inherit
+          python
+          boost
+          ;
+        inherit (pkgs) eigen;
+        inherit (python.pkgs) apycula;
+      }
+      // nextpnrArchs
+    );
 
     cmakeFlags =
       ["-DARCH=${lib.concatStringsSep ";" hdx-config.nextpnr.archs}"]

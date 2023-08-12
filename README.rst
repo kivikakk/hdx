@@ -11,7 +11,7 @@ Modes of operation
 + ``nix develop github:charlottia/hdx`` / ``nix-shell``
 
   This is the default mode of operation.  The following packages are built from
-  definitions in ``pkg/`` and added to ``PATH``:
+  definitions in ``pkgs/`` and added to ``PATH``:
 
   * Amaranth_
   * Yosys_

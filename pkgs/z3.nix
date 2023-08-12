@@ -2,7 +2,7 @@
   pkgs,
   lib,
   stdenv,
-  hdx-config,
+  python,
   hdx-inputs,
 }:
 stdenv.mkDerivation {
@@ -14,11 +14,14 @@ stdenv.mkDerivation {
     ../patches/z3.pc.cmake.in.patch
   ];
 
-  nativeBuildInputs = with pkgs; [
-    cmake
-    hdx-config.python
-    gmp
-  ];
+  nativeBuildInputs = builtins.attrValues {
+    inherit python;
+    inherit
+      (pkgs)
+      cmake
+      gmp
+      ;
+  };
 
   cmakeFlags = [
     "-DZ3_USE_LIB_GMP=ON"

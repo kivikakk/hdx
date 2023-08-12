@@ -3,12 +3,21 @@
   pkgs,
   hdx-inputs,
 }: let
-  lib = pkgs.lib;
+  inherit (pkgs) lib stdenv;
   inherit (lib) optionalAttrs elem;
 
-  hdx-config = import ./nix/hdx-config.nix {inherit pkgs;};
-
-  stdenv = hdx-config.stdenv;
+  hdx-config = {
+    amaranth.enable = true;
+    yosys.enable = true;
+    nextpnr = {
+      enable = true;
+      archs = ["generic" "ice40" "ecp5"];
+    };
+    symbiyosys = {
+      enable = true;
+      solvers = ["yices" "z3"];
+    };
+  };
 
   # I feel iffy about not mixing in pkgs here too -- especially given we
   # override Boost and it'd be easy to forget to include it in a module's
@@ -20,12 +29,23 @@
   callPackage = lib.callPackageWith env;
   env =
     {
-      inherit system pkgs lib;
+      inherit system pkgs lib stdenv;
       inherit hdx-inputs hdx-config;
-      inherit stdenv;
       inherit ours;
 
-      boost = callPackage ./nix/boost.nix {};
+      python = import ./pkgs/python.nix {python = pkgs.python311;};
+      boost = callPackage ./pkgs/boost.nix {};
+
+      leaveDotGitWorkaround = ''
+        # Workaround for NixOS/nixpkgs#8567.
+        pushd source
+        git init
+        git config user.email charlotte@example.com
+        git config user.name Charlotte
+        git add -A .
+        git commit -m "leaveDotGit workaround"
+        popd
+      '';
       devCheckHook = folders: cmd:
         lib.concatStringsSep "\n" (map (folder: ''
             if ! test -d "${folder}"; then
@@ -41,21 +61,21 @@
 
   nextpnrArchs =
     {}
-    // optionalAttrs (elem "ice40" hdx-config.nextpnr.archs) {icestorm = callPackage ./pkg/icestorm.nix {};}
-    // optionalAttrs (elem "ecp5" hdx-config.nextpnr.archs) {trellis = callPackage ./pkg/trellis.nix {};};
+    // optionalAttrs (elem "ice40" hdx-config.nextpnr.archs) {icestorm = callPackage ./pkgs/icestorm.nix {};}
+    // optionalAttrs (elem "ecp5" hdx-config.nextpnr.archs) {trellis = callPackage ./pkgs/trellis.nix {};};
 
   ours =
     {}
     // optionalAttrs (hdx-config.amaranth.enable) {
-      amaranth = callPackage ./pkg/amaranth.nix {};
-      amaranth-boards = callPackage ./pkg/amaranth-boards.nix {};
+      amaranth = callPackage ./pkgs/amaranth.nix {};
+      amaranth-boards = callPackage ./pkgs/amaranth-boards.nix {};
     }
-    // optionalAttrs (hdx-config.yosys.enable) {yosys = callPackage ./pkg/yosys.nix {};}
-    // optionalAttrs (hdx-config.nextpnr.enable) ({nextpnr = callPackage ./pkg/nextpnr.nix {inherit nextpnrArchs;};} // nextpnrArchs)
+    // optionalAttrs (hdx-config.yosys.enable) {yosys = callPackage ./pkgs/yosys.nix {};}
+    // optionalAttrs (hdx-config.nextpnr.enable) ({nextpnr = callPackage ./pkgs/nextpnr.nix {inherit nextpnrArchs;};} // nextpnrArchs)
     // optionalAttrs (hdx-config.symbiyosys.enable) (
-      {symbiyosys = callPackage ./pkg/symbiyosys.nix {};}
-      // optionalAttrs (elem "z3" hdx-config.symbiyosys.solvers) {z3 = callPackage ./pkg/z3.nix {};}
-      // optionalAttrs (elem "yices" hdx-config.symbiyosys.solvers) {yices = callPackage ./pkg/yices.nix {};}
+      {symbiyosys = callPackage ./pkgs/symbiyosys.nix {};}
+      // optionalAttrs (elem "z3" hdx-config.symbiyosys.solvers) {z3 = callPackage ./pkgs/z3.nix {};}
+      // optionalAttrs (elem "yices" hdx-config.symbiyosys.solvers) {yices = callPackage ./pkgs/yices.nix {};}
     );
 in
   stdenv.mkDerivation ({
@@ -65,7 +85,7 @@ in
 
       propagatedBuildInputs =
         [
-          hdx-config.python
+          env.python
         ]
         ++ builtins.attrValues ours;
 
@@ -77,7 +97,7 @@ in
       AMARANTH_USE_YOSYS = ours.amaranth.AMARANTH_USE_YOSYS;
 
       installPhase = ''
-        for b in ${hdx-config.python}/bin/*; do
+        for b in ${env.python}/bin/*; do
           makeWrapper "$b" "$out/bin/$(basename "$b")" --inherit-argv0 --set AMARANTH_USE_YOSYS ${AMARANTH_USE_YOSYS}
         done
       '';

@@ -2,7 +2,7 @@
   pkgs,
   lib,
   stdenv,
-  hdx-config,
+  python,
   hdx-inputs,
 }:
 stdenv.mkDerivation (finalAttrs: rec {
@@ -20,11 +20,14 @@ stdenv.mkDerivation (finalAttrs: rec {
     "PREFIX=$(out)"
   ];
 
-  nativeBuildInputs = with pkgs; [
-    pkg-config
-    hdx-config.python
-    libftdi
-  ];
+  nativeBuildInputs = builtins.attrValues {
+    inherit python;
+    inherit
+      (pkgs)
+      pkg-config
+      libftdi
+      ;
+  };
 
   passthru.nextpnr = {
     archName = "ice40";
