@@ -72,8 +72,8 @@ Modes of operation
         hdx = (import (pkgs.fetchFromGitHub {
           owner = "charlottia";
           repo = "hdx";
-          rev = "70f220182c3021ce55dd489b4b4cba521579009c";
-          sha256 = "YUl6/huI82cM4vrUVhORpNmrfcWKXVarT91CdpIpYuM=";
+          rev = "56e94f4b95d63bf4faeae839f5da06dffe85417f";
+          sha256 = "5TWmue+hPxtuwcXEavB2U+n89p3YcRqsQNjY2NCMPLE=";
         })).default;
       in
         pkgs.mkShell {
