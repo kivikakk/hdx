@@ -46,16 +46,6 @@
         git commit -m "leaveDotGit workaround"
         popd
       '';
-      devCheckHook = folders: cmd:
-        lib.concatStringsSep "\n" (map (folder: ''
-            if ! test -d "${folder}"; then
-              echo "ERROR: $(pwd) doesn't look like hdx root? (or no '${folder}' found)"
-              echo "'${cmd}' only works when executed with hdx-like cwd, otherwise we"
-              echo "can't set up correctly."
-              exit 1
-            fi
-          '')
-          folders);
     }
     // ours;
 
