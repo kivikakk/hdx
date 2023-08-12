@@ -1,28 +1,33 @@
 {
   pkgs,
+  lib,
   stdenv,
   hdx-config,
-  hdx-versions,
+  hdx-inputs,
   boost,
 }:
 stdenv.mkDerivation (finalAttrs: {
-  name = "yosys";
+  pname = "yosys";
+  version = "0.32dev1+g${lib.substring 0 7 hdx-inputs.yosys.rev}";
 
   srcs = [
-    (pkgs.fetchFromGitHub {
-      name = "yosys";
-      owner = "YosysHQ";
-      repo = "yosys";
-      inherit (hdx-versions.yosys) rev sha256;
-    })
-    (pkgs.fetchFromGitHub {
-      name = "abc";
-      owner = "YosysHQ";
-      repo = "abc";
-      inherit (hdx-versions.abc) rev sha256;
-    })
+    hdx-inputs.yosys
+    hdx-inputs.abc
     (pkgs.writeTextDir "yosys-Makefile.conf" finalAttrs.makefileConf)
   ];
+
+  unpackPhase = ''
+    runHook preUnpack
+
+    local -a srcsArray=( $srcs )
+    cp -pr --reflink=auto -- "''${srcsArray[0]}" yosys
+    cp -pr --reflink=auto -- "''${srcsArray[1]}" abc
+    cp -pr --reflink=auto -- "''${srcsArray[2]}" yosys-Makefile.conf
+
+    chmod -R u+w -- yosys
+
+    runHook postUnpack
+  '';
 
   sourceRoot = "yosys";
 
@@ -30,13 +35,13 @@ stdenv.mkDerivation (finalAttrs: {
     cp -r abc yosys
     chmod -R u+w yosys/abc
 
-    echo -n ${hdx-versions.yosys.rev} >yosys/.gitcommit
+    echo -n ${hdx-inputs.yosys.rev} >yosys/.gitcommit
     cp yosys-Makefile.conf/yosys-Makefile.conf yosys/Makefile.conf
 
     # Confirm abc we asked for matches yosys default.
     abcrev="$((cd yosys && make -qp 2>/dev/null || true) | awk -F' = ' '$1=="ABCREV" {print $2}')"
     echo "$abcrev" | grep -qiE '^[a-f0-9]+$'
-    echo "${hdx-versions.abc.rev}" | grep -q ^"$abcrev"
+    echo "${hdx-inputs.abc.rev}" | grep -q ^"$abcrev"
   '';
 
   # makeFlags with CXXFLAGS+=... ends up overriding CXXFLAGS entirely. Awkward.

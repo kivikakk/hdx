@@ -7,7 +7,6 @@
   inherit (lib) optionalAttrs elem;
 
   hdx-config = import ./nix/hdx-config.nix {inherit pkgs;};
-  hdx-versions = import ./nix/hdx-versions.nix;
 
   stdenv = hdx-config.stdenv;
 
@@ -22,7 +21,7 @@
   env =
     {
       inherit system pkgs lib;
-      inherit hdx-inputs hdx-config hdx-versions;
+      inherit hdx-inputs hdx-config;
       inherit stdenv;
       inherit ours;
 

@@ -1,24 +1,21 @@
 {
   pkgs,
+  lib,
   stdenv,
   hdx-config,
-  hdx-versions,
+  hdx-inputs,
 }:
-with pkgs.lib;
-  stdenv.mkDerivation {
-    name = "yices";
+stdenv.mkDerivation rec {
+  pname = "yices";
+  version = "2.6.4dev1+g${lib.substring 0 7 src.rev}";
 
-    src = pkgs.fetchFromGitHub {
-      owner = "SRI-CSL";
-      repo = "yices2";
-      inherit (hdx-versions.yices) rev sha256;
-    };
+  src = hdx-inputs.yices;
 
-    nativeBuildInputs = with pkgs; [
-      autoreconfHook
-      gperf
-      gmp
-    ];
+  nativeBuildInputs = with pkgs; [
+    autoreconfHook
+    gperf
+    gmp
+  ];
 
-    enableParallelBuilding = true;
-  }
+  enableParallelBuilding = true;
+}

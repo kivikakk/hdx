@@ -1,24 +1,21 @@
 {
   pkgs,
+  lib,
   stdenv,
   hdx-config,
-  hdx-versions,
+  hdx-inputs,
   boost,
   nextpnrArchs,
-}:
-with pkgs.lib; let
-  src = pkgs.fetchFromGitHub {
-    owner = "YosysHQ";
-    repo = "nextpnr";
-    inherit (hdx-versions.nextpnr) rev sha256;
-  };
+}: let
+  src = hdx-inputs.nextpnr;
+  version = "0.6dev1+g${lib.substring 0 7 src.rev}";
 
   mkChipdbDerivation = pkg: let
     inherit (pkg.nextpnr) archName cmakeFlags;
   in
     stdenv.mkDerivation (finalAttrs: {
-      name = "nextpnr-chipdb-${archName}";
-      inherit src;
+      pname = "nextpnr-chipdb-${archName}";
+      inherit version src;
       sourceRoot = "source/${archName}";
 
       nativeBuildInputs = [
@@ -33,15 +30,15 @@ with pkgs.lib; let
       '';
 
       passthru.nextpnr.cmakeFlags = [
-        "-D${toUpper archName}_CHIPDB=${finalAttrs.finalPackage}"
+        "-D${lib.toUpper archName}_CHIPDB=${finalAttrs.finalPackage}"
       ];
     });
 
-  chipdbs = map mkChipdbDerivation (attrValues nextpnrArchs);
+  chipdbs = map mkChipdbDerivation (builtins.attrValues nextpnrArchs);
 in
   stdenv.mkDerivation {
-    name = "nextpnr";
-    inherit src;
+    pname = "nextpnr";
+    inherit version src;
 
     nativeBuildInputs =
       [pkgs.cmake] ++ chipdbs;
@@ -53,9 +50,9 @@ in
         eigen
         hdx-config.python.pkgs.apycula
       ]
-      ++ attrValues nextpnrArchs;
+      ++ builtins.attrValues nextpnrArchs;
 
     cmakeFlags =
-      ["-DARCH=${concatStringsSep ";" hdx-config.nextpnr.archs}"]
-      ++ concatMap (pkg: pkg.nextpnr.cmakeFlags) (chipdbs ++ attrValues nextpnrArchs);
+      ["-DARCH=${lib.concatStringsSep ";" hdx-config.nextpnr.archs}"]
+      ++ lib.concatMap (pkg: pkg.nextpnr.cmakeFlags) (chipdbs ++ builtins.attrValues nextpnrArchs);
   }

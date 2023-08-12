@@ -6,7 +6,6 @@
   yices ? null,
   hdx-inputs,
   hdx-config,
-  hdx-versions,
 }: let
   python = hdx-config.python;
   pythonPkgs = python.pkgs;

@@ -1,32 +1,29 @@
 {
   pkgs,
+  lib,
   stdenv,
   hdx-config,
-  hdx-versions,
+  hdx-inputs,
 }:
-with pkgs.lib;
-  stdenv.mkDerivation {
-    name = "symbiyosys";
+stdenv.mkDerivation rec {
+  pname = "symbiyosys";
+  version = "yosys-0.32dev1+g${lib.substring 0 7 src.rev}";
 
-    src = pkgs.fetchFromGitHub {
-      owner = "YosysHQ";
-      repo = "sby";
-      inherit (hdx-versions.symbiyosys) rev sha256;
-    };
+  src = hdx-inputs.symbiyosys;
 
-    buildInputs = [
-      pkgs.coreutils
-    ];
+  buildInputs = [
+    pkgs.coreutils
+  ];
 
-    postPatch = ''
-      substituteInPlace sbysrc/sby_core.py --replace "/usr/bin/env" "${pkgs.coreutils}/bin/env"
-    '';
+  postPatch = ''
+    substituteInPlace sbysrc/sby_core.py --replace "/usr/bin/env" "${pkgs.coreutils}/bin/env"
+  '';
 
-    makeFlags = [
-      "PREFIX=$(out)"
-    ];
+  makeFlags = [
+    "PREFIX=$(out)"
+  ];
 
-    propagatedBuildInputs = [
-      hdx-config.python.pkgs.click
-    ];
-  }
+  propagatedBuildInputs = [
+    hdx-config.python.pkgs.click
+  ];
+}
