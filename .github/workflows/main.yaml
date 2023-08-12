@@ -13,5 +13,13 @@ jobs:
       - run: nix build
       - run: nix flake check
       - run: nix develop . --command true
+      - uses: actions/checkout@v3
+        with:
+          repository: amaranth-lang/amaranth
+          path: amaranth
       - run: nix develop .#amaranth --command true
+      - uses: actions/checkout@v3
+        with:
+          repository: YosysHQ/yosys
+          path: yosys
       - run: nix develop .#yosys-amaranth --command true
