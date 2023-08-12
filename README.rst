@@ -25,19 +25,20 @@ Modes of operation
   Amaranth is configured to use the Yosys built by hdx, and not its built-in
   one.
 
-+ ``nix develop .#amaranth`` / ``nix-shell amaranth-dev-shell.nix``
++ ``nix develop github:charlottia/hdx#amaranth`` / ``nix-shell .../hdx/amaranth-dev-shell.nix``
 
-  Like above, except Amaranth is not built and installed.  Instead, the
-  submodule checkout at ``dev/amaranth/`` is installed in editable mode.
-  This must be invoked with a hdx checkout at cwd.
+  Like above, except Amaranth is not built and installed.  Instead, an Amaranth
+  checkout in ``./`` or ``./amaranth/`` is expected, and installed in editable
+  mode.
 
-+ ``nix develop .#yosys-amaranth`` / ``nix-shell yosys-amaranth-dev-shell.nix``
++ ``nix develop github:charlottia/hdx#yosys-amaranth`` / ``nix-shell .../hdx/yosys-amaranth-dev-shell.nix``
 
-  Like above, except Yosys is also not built and installed.  Instead, the
-  submodule checkout at ``dev/yosys/`` is configured to be compiled and
-  installed to ``dev/out/``, and ``PATH`` has ``dev/out/bin/`` prepended.
-  You'll need to actually ``make install`` Yosys at least once for this mode to
-  function, including any use of Amaranth that depends on Yosys.
+  Like above, except the Amaranth checkout must be at ``./amaranth/`` and
+  a Yosys checkout is expected at ``./yosys/``.  Yosys is configured to
+  be compiled and installed to ``./hdx-out/``, and ``PATH`` has the output
+  directory's ``bin`` subdirectory prepended. You'll need to actually ``make
+  install`` Yosys at least once for this mode to function, including any use of
+  Amaranth that depends on Yosys.
 
 + Your project's ``flake.nix``
 

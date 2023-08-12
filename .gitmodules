@@ -1,6 +1,0 @@
-[submodule "dev/amaranth"]
-  path = dev/amaranth
-  url = git@github.com:charlottia/amaranth.git
-[submodule "dev/yosys"]
-  path = dev/yosys
-  url = git@github.com:charlottia/yosys.git

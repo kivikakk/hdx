@@ -18,7 +18,7 @@ in
       export HDX_START="$(pwd)"
 
       local _found=0 _dir
-      for _dir in . amaranth dev/amaranth; do
+      for _dir in . amaranth; do
         if grep -q 'name = "amaranth"' "$_dir/pyproject.toml"; then
           cd "$_dir"
           _found=1
@@ -26,7 +26,7 @@ in
         fi
       done
       if test "$_found" -eq 0; then
-        echo "ERROR: '$(pwd)' doesn't look like hdx or Amaranth root, and no"
+        echo "ERROR: '$(pwd)' doesn't look like Amaranth root, and no"
         echo "'amaranth' subdirectory was found."
         echo "'nix develop hdx#amaranth' only works when I can find Amaranth,"
         echo "otherwise I can't set up correctly."
