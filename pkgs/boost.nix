@@ -1,8 +1,9 @@
 {
   pkgs,
-  hdx-config,
+  stdenv,
+  python,
 }:
 pkgs.boost.override {
-  inherit (hdx-config) stdenv python;
+  inherit stdenv python;
   enablePython = true;
 }

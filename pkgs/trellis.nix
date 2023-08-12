@@ -1,28 +1,25 @@
 {
   pkgs,
+  lib,
   stdenv,
-  hdx-config,
-  hdx-versions,
+  hdx-inputs,
+  python,
   boost,
 }:
-stdenv.mkDerivation (finalAttrs: {
-  name = "trellis";
+stdenv.mkDerivation (finalAttrs: rec {
+  pname = "trellis";
+  version = "1.4dev1+g${lib.substring 0 7 src.rev}";
+  src = hdx-inputs.trellis;
+  sourceRoot = "source/libtrellis";
 
-  src = pkgs.fetchFromGitHub {
-    name = "prjtrellis";
-    owner = "YosysHQ";
-    repo = "prjtrellis";
-    inherit (hdx-versions.trellis) rev sha256;
-    fetchSubmodules = true;
+  nativeBuildInputs = builtins.attrValues {
+    inherit python;
+    inherit
+      (pkgs)
+      cmake
+      libftdi
+      ;
   };
-
-  sourceRoot = "prjtrellis/libtrellis";
-
-  nativeBuildInputs = with pkgs; [
-    cmake
-    hdx-config.python
-    libftdi
-  ];
 
   buildInputs = [boost];
 

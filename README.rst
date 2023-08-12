@@ -2,9 +2,8 @@
  hdx 
 =====
 
-Hello, baby's first little Nix repository thingy.  At present, I'm reproducing
-the setup described in `Installing an HDL toolchain from source`_, except
-Nix-y.
+This reproduces the setup described in `Installing an HDL toolchain from
+source`_ in Nix.
 
 Modes of operation
 ==================
@@ -12,7 +11,7 @@ Modes of operation
 + ``nix develop github:charlottia/hdx`` / ``nix-shell``
 
   This is the default mode of operation.  The following packages are built from
-  definitions in ``pkg/`` and added to ``PATH``:
+  definitions in ``pkgs/`` and added to ``PATH``:
 
   * Amaranth_
   * Yosys_
@@ -94,25 +93,6 @@ Modes of operation
 .. _SymbiYosys: https://github.com/YosysHQ/sby
 .. _Yices 2: https://github.com/SRI-CSL/yices2
 .. _Z3: https://github.com/Z3Prover/z3
-
-
-Configurability
-===============
-
-Any ``nix-shell`` invocation may take the following arguments:
-
-``nextpnr_archs``
-  A list of nextpnr_ architectures to build support for.  Valid items are
-  ``"generic"``, ``"ice40"`` and ``"ecp5"``.  At least one must be specified.
-
-More configurability is available, but not yet exposed -- I'm not really sure
-what's idiomatic yet.  See `<nix/hdx-config.nix>`_:
-
-+ Any of the packages included can be disabled.
-
-+ If Yosys isn't built, Amaranth's built-in Yosys will be used instead.
-
-There is no equivalent usage for flakes.
 
 
 Hacks
