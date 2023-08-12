@@ -26,7 +26,14 @@ in
       ++ hdx.yosys.buildInputs;
 
     preShellHook = ''
-      ${hdx.devCheckHook ["dev/yosys" "dev/amaranth"] "nix develop hdx#yosys-amaranth"}
+      if ! test -d dev/yosys -a -d dev/amaranth; then
+        echo "ERROR: $(pwd) doesn't look like hdx root?"
+        echo "(no 'dev/yosys', 'dev/amaranth' found)"
+        echo "'nix develop hdx#yosys-amaranth' only works when executed with hdx-like cwd,"
+        echo "otherwise I can't set up correctly."
+        exit 1
+      fi
+
       export HDX_ROOT="$(pwd)"
 
       cd dev/yosys
@@ -49,8 +56,8 @@ in
     '';
 
     postShellHook = ''
-      # Start shell in ./dev.
-      cd ..
+      # Start shell back at root, to avoid moving the user.
+      cd $HDX_ROOT
     '';
 
     doCheck = false;
