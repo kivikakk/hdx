@@ -30,7 +30,6 @@
       flake = false;
     };
     trellis = {
-      #type = "git";
       url = git+https://github.com/YosysHQ/prjtrellis?rev=e830a28077e1a789d32e75841312120ae624c8d6&submodules=1;
       flake = false;
     };
