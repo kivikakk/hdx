@@ -68,12 +68,12 @@ Modes of operation
   .. code:: nix
 
       {pkgs ? import <nixpkgs> {}}: let
-        hdx = import (pkgs.fetchFromGitHub {
+        hdx = (import (pkgs.fetchFromGitHub {
           owner = "charlottia";
           repo = "hdx";
-          rev = "116f2cef9cdc75a33c49c578d3b93b19e68597a7";
-          sha256 = "THrX3H1368OP+SXRb+S+cczvCbXubF/5s50VhrtDQbk=";
-        }) {};
+          rev = "70f220182c3021ce55dd489b4b4cba521579009c";
+          sha256 = "YUl6/huI82cM4vrUVhORpNmrfcWKXVarT91CdpIpYuM=";
+        })).default;
       in
         pkgs.mkShell {
           name = "weapon";
