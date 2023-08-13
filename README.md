@@ -23,9 +23,9 @@ has a few nice properties:
   something.
   * Bonus: HEAD versions of ~everything actually build (*and check*), even on
     nix-darwin.  Quite a few things in Nixpkgs won't.  (See [Hacks](#hacks).)
-* You want to mess with the Python version used by the whole toolchain, without
-  having to (a) override all of them and (b) subsequently understand all of
-  them in Nixpkgs when they refuse to build or quietly give you dynamic linking
+* You can mess with the Python version used by the whole toolchain, without
+  having to (a) override all of them and (b) subsequently understand all of them
+  in Nixpkgs when they refuse to build or quietly give you dynamic linking
   errors at runtime.
 * The reason I wanted this: you can use Amaranth and/or Yosys in "development
   mode", and have your on-disk checkouts of them used by the whole toolchain.
