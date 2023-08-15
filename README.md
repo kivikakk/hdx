@@ -134,4 +134,4 @@ has a few nice properties:
 hdx reproduces the setup described in [Installing an HDL toolchain from source]
 in Nix.
 
-[Installing an HDL toolchain from source]: https://notes.hrzn.ee/posts/0001-hdl-toolchain-source/
+[Installing an HDL toolchain from source]: https://lottia.net/notes/0001-hdl-toolchain-source.html
