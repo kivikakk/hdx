@@ -20,11 +20,11 @@
     "amaranth": {
       "flake": false,
       "locked": {
-        "lastModified": 1695894708,
-        "narHash": "sha256-E0rVXho4qPmWK1AQ46628N6vel1UMs7WoLFg1LwmXsQ=",
+        "lastModified": 1696811269,
+        "narHash": "sha256-cJhbp4bHPhKOzAVKRiBr450D7L7rE+CBrWW+Y8wS9MY=",
         "owner": "amaranth-lang",
         "repo": "amaranth",
-        "rev": "0c3ada62503359900f185a9b2d8f122b2d952013",
+        "rev": "7582ec301c2ef8cb233f6c862b2aff600b4ba603",
         "type": "github"
       },
       "original": {
@@ -68,11 +68,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1673956053,
-        "narHash": "sha256-4gtG9iQuiKITOjNQQeQIpoIB6b16fm+504Ch3sNKLd8=",
+        "lastModified": 1696426674,
+        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "35bb57c0c8d8b62bbfd284272c928ceb64ddbde9",
+        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
         "type": "github"
       },
       "original": {
@@ -132,13 +132,31 @@
         "type": "github"
       }
     },
+    "nextpnr-xilinx": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694503033,
+        "narHash": "sha256-qaofbhkhQx2d8nU8CCR821p5OwFPfOwQ4vW5Zs+tEfo=",
+        "ref": "refs/heads/xilinx-upstream",
+        "rev": "f79387599b420bfadf3dc218e55e1e77b1edb304",
+        "revCount": 2994,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/gatecat/nextpnr-xilinx"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/gatecat/nextpnr-xilinx"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1696165369,
-        "narHash": "sha256-pd1cjFHCoEf9q5f9B0HhlOwwpBI9RP3HbUE6xjI7wAI=",
+        "lastModified": 1696757521,
+        "narHash": "sha256-cfgtLNCBLFx2qOzRLI6DHfqTdfWI+UbvsKYa3b3fvaA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d7186d62bb68fac3c90f1d95515e613ef299e992",
+        "rev": "2646b294a146df2781b1ca49092450e8a32814e1",
         "type": "github"
       },
       "original": {
@@ -156,6 +174,7 @@
         "flake-utils": "flake-utils",
         "icestorm": "icestorm",
         "nextpnr": "nextpnr",
+        "nextpnr-xilinx": "nextpnr-xilinx",
         "nixpkgs": "nixpkgs",
         "symbiyosys": "symbiyosys",
         "trellis": "trellis",
@@ -234,11 +253,11 @@
     "yosys": {
       "flake": false,
       "locked": {
-        "lastModified": 1696032879,
-        "narHash": "sha256-Ti5HqCj7bKRTowZALUraBOZezT6XXb9Oz+56mYF5R84=",
+        "lastModified": 1696863919,
+        "narHash": "sha256-tY7nSPFC9wvsPZAIgBoWX+WfKzbZRSW1y6NiuCLmoY8=",
         "owner": "YosysHQ",
         "repo": "yosys",
-        "rev": "b52f6cb1991b7117d23fa119bf808f9fc1849789",
+        "rev": "3e227918105384dd955ce8b9908a0ebe36f8640f",
         "type": "github"
       },
       "original": {
