@@ -29,6 +29,8 @@ has a few nice properties:
   errors at runtime.
 * The reason I wanted this: you can use Amaranth and/or Yosys in "development
   mode", and have your on-disk checkouts of them used by the whole toolchain.
+* You can specify your desired upstream versions using flake inputs if there's
+  no definition changes needed by the bump! (See [below](#your-flake-nix).)
 
 [Python 3]: https://www.python.org/
 [Amaranth]: https://github.com/amaranth-lang/amaranth
@@ -66,7 +68,7 @@ has a few nice properties:
   install` Yosys at least once for this mode to function, including any use of
   Amaranth that depends on Yosys.
 
-* Your project's `flake.nix`
+* <a name="your-flake-nix" id="your-flake-nix"></a>Your project's `flake.nix`
 
   ```nix
   {
@@ -89,6 +91,15 @@ has a few nice properties:
       });
   }
   ```
+
+  * Want to specify a different version of a dependency? Easy:
+
+    ```nix
+    inputs = {
+      hdx.url = github:charlottia/hdx;
+      hdx.inputs.amaranth.url = github:charlottia/amaranth?ref=my-feature-branch;
+    };
+    ```
 
 * Your project's `shell.nix`
 
