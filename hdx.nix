@@ -1,8 +1,12 @@
-{
+inputs @ {
   system,
-  pkgs,
   hdx-inputs,
+  ...
 }: let
+  pkgs = inputs.pkgs.extend (final: prev: {
+    python311 = import ./pkgs/python.nix {python = prev.python311;};
+  });
+
   inherit (pkgs) lib stdenv;
   inherit (lib) optionalAttrs elem;
 
@@ -32,15 +36,15 @@
       inherit system pkgs lib stdenv;
       inherit hdx-inputs hdx-config;
       inherit ours;
+      python = pkgs.python311;
 
-      python = import ./pkgs/python.nix {python = pkgs.python311;};
       boost = callPackage ./pkgs/boost.nix {};
 
       leaveDotGitWorkaround = ''
         # Workaround for NixOS/nixpkgs#8567.
         pushd source
         git init
-        git config user.email charlotte@example.com
+        git config user.email charlotte@lottia.net
         git config user.name Charlotte
         git add -A .
         git commit -m "leaveDotGit workaround"
