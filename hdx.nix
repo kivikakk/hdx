@@ -32,7 +32,7 @@ inputs @ {
   # better.
   callPackage = lib.callPackageWith env;
   env =
-    {
+    rec {
       inherit system pkgs lib stdenv;
       inherit hdx-inputs hdx-config;
       inherit ours;
@@ -50,6 +50,24 @@ inputs @ {
         git commit -m "leaveDotGit workaround"
         popd
       '';
+
+      amaranthSetupHook =
+        pkgs.makeSetupHook {
+          name = "amaranth-setup-hook.sh";
+          propagatedBuildInputs = builtins.attrValues {
+            inherit
+              (python.pkgs)
+              pip
+              editables
+              ;
+          };
+          substitutions = {
+            pythonInterpreter = python.interpreter;
+            pythonSitePackages = python.sitePackages;
+          };
+          passthru.provides.setupHook = true;
+        }
+        ./amaranth-setup-hook.sh;
     }
     // ours;
 

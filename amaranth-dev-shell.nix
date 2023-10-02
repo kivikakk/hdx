@@ -10,17 +10,16 @@ in
 
     nativeBuildInputs =
       prev.nativeBuildInputs
-      ++ (lib.filter (p: p != hdx.amaranth) (builtins.attrValues hdx.ours));
+      ++ (lib.filter (p: p != hdx.amaranth) (builtins.attrValues hdx.ours))
+      ++ [hdx.amaranthSetupHook];
 
     preShellHook = ''
       set -e
       export HDX_START="$(pwd)"
 
-      # setuptoolsShellHook looks for setup.py in cwd.  Identify where amaranth
-      # might be and cd to it.
       local _found=0 _dir
       for _dir in . amaranth; do
-        if grep -q 'name = "amaranth"' "$_dir/pyproject.toml"; then
+        if grep -q 'name = "amaranth"' "$_dir/pyproject.toml" 2>/dev/null; then
           cd "$_dir"
           _found=1
           break

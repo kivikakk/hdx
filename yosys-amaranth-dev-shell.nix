@@ -17,6 +17,7 @@ in
       ++ hdx.yosys.nativeBuildInputs
       ++ lib.subtractLists [hdx.amaranth hdx.yosys] (builtins.attrValues hdx.ours)
       ++ [
+        hdx.amaranthSetupHook
         debuggerPkg
         pkgs.verilog # TODO
       ];
@@ -85,7 +86,7 @@ in
 
       cd ..
 
-      # setuptoolsShellHook looks for setup.py in cwd, so finish in amaranth/.
+      # amaranthSetupHook expects amaranth/ in cwd.
       cd amaranth
     '';
 
