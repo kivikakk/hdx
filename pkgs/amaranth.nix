@@ -50,19 +50,14 @@ in
     # installed editable, but you might not notice because (by default) the
     # shell drops you into the Amaranth clone where "import amaranth" finds it
     # at ./. anyway.
-    format = "setuptools";
+    format = "pyproject";
 
     src = hdx-inputs.amaranth;
     postUnpack = leaveDotGitWorkaround;
 
     nativeBuildInputs = builtins.attrValues {
       inherit (pkgs) git;
-      inherit
-        (pythonPkgs)
-        setuptools
-        setuptools-scm
-        wheel
-        ;
+      inherit (pythonPkgs) pdm-backend;
     };
 
     propagatedBuildInputs = builtins.attrValues (
@@ -76,11 +71,9 @@ in
       // lib.optionalAttrs (yosys == null) {inherit amaranthYosys;}
     );
 
-    buildInputs = [yosys];
-
-    preBuild = ''
-      export SETUPTOOLS_SCM_PRETEND_VERSION="${version}"
-    '';
+    buildInputs = builtins.attrValues {
+      inherit yosys;
+    };
 
     AMARANTH_USE_YOSYS =
       if yosys != null
