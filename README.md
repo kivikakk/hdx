@@ -63,7 +63,7 @@ has a few nice properties:
 
   Like above, except the Amaranth checkout must be at `./amaranth/` and
   a Yosys checkout is expected at `./yosys/`.  Yosys is configured to
-  be compiled and installed to `./hdx-out/`, and `PATH` has the output
+  be compiled and installed to `./yosys/hdx-out/`, and `PATH` has the output
   directory's `bin` subdirectory prepended.  You'll need to actually `make
   install` Yosys at least once for this mode to function, including any use of
   Amaranth that depends on Yosys.
@@ -92,7 +92,7 @@ has a few nice properties:
   }
   ```
 
-  * Want to specify a different version of a dependency? Easy:
+  * Want to specify a different version of a dependency?  WE HAVE A TOOL FOR THAT:
 
     ```nix
     inputs = {

@@ -86,7 +86,7 @@ in
 
       cd ..
 
-      # amaranthSetupHook expects amaranth/ in cwd.
+      # amaranthSetupHook expects cwd to be an Amaranth checkout.
       cd amaranth
     '';
 
