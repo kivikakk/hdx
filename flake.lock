@@ -49,6 +49,22 @@
         "type": "github"
       }
     },
+    "amaranth-stdio": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1692725502,
+        "narHash": "sha256-t66oXE5aTEqrDZ1EyBN8lkRSrV6dc2XLP2+KLpAo99Q=",
+        "owner": "amaranth-lang",
+        "repo": "amaranth-stdio",
+        "rev": "bb39058bd956cf89379c7cde9404998476470a07",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amaranth-lang",
+        "repo": "amaranth-stdio",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -135,6 +151,7 @@
         "abc": "abc",
         "amaranth": "amaranth",
         "amaranth-boards": "amaranth-boards",
+        "amaranth-stdio": "amaranth-stdio",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "icestorm": "icestorm",

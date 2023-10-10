@@ -13,6 +13,11 @@
       url = github:amaranth-lang/amaranth-boards;
       flake = false;
     };
+    amaranth-stdio = {
+      url = github:amaranth-lang/amaranth-stdio;
+      flake = false;
+    };
+
     yosys = {
       url = github:YosysHQ/yosys;
       flake = false;
