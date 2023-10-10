@@ -3,7 +3,7 @@
 hdx packages an open-source FPGA toolchain on Nix.  You get the following:
 
 * [Python 3].11
-* [Amaranth]
+* [Amaranth] (+ [`amaranth-boards`], [`amaranth-stdio`])
 * [Yosys]
 * [nextpnr]
 * [Project IceStorm]
@@ -34,6 +34,8 @@ has a few nice properties:
 
 [Python 3]: https://www.python.org/
 [Amaranth]: https://github.com/amaranth-lang/amaranth
+[`amaranth-boards`]: https://github.com/amaranth-lang/amaranth-boards
+[`amaranth-stdio`]: https://github.com/amaranth-lang/amaranth-stdio
 [Yosys]: https://github.com/YosysHQ/yosys
 [nextpnr]: https://github.com/YosysHQ/nextpnr
 [Project IceStorm]: https://github.com/YosysHQ/icestorm
