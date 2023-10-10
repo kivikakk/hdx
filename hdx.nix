@@ -17,6 +17,7 @@ inputs @ {
       enable = true;
       archs = ["generic" "ice40" "ecp5"];
     };
+    nextpnr-xilinx.enable = true;
     symbiyosys = {
       enable = true;
       solvers = ["yices" "z3"];
@@ -85,6 +86,7 @@ inputs @ {
     }
     // optionalAttrs (hdx-config.yosys.enable) {yosys = callPackage ./pkgs/yosys.nix {};}
     // optionalAttrs (hdx-config.nextpnr.enable) ({nextpnr = callPackage ./pkgs/nextpnr.nix {inherit nextpnrArchs;};} // nextpnrArchs)
+    // optionalAttrs (hdx-config.nextpnr-xilinx.enable) {nextpnr-xilinx = callPackage ./pkgs/nextpnr-xilinx.nix {};}
     // optionalAttrs (hdx-config.symbiyosys.enable) (
       {symbiyosys = callPackage ./pkgs/symbiyosys.nix {};}
       // optionalAttrs (elem "z3" hdx-config.symbiyosys.solvers) {z3 = callPackage ./pkgs/z3.nix {};}
