@@ -47,7 +47,7 @@ has a few nice properties:
 
 ## Modes of operation
 
-* `nix develop github:charlottia/hdx` / `nix-shell`
+* `nix develop github:kivikakk/hdx` / `nix-shell`
 
   This is the default mode of operation.  The above packages are built and added
   to `PATH`.
@@ -55,13 +55,13 @@ has a few nice properties:
   Amaranth is configured to use the Yosys built by hdx, and not its built-in
   one.
 
-* `nix develop github:charlottia/hdx#amaranth` / `nix-shell $HDX/amaranth-dev-shell.nix`
+* `nix develop github:kivikakk/hdx#amaranth` / `nix-shell $HDX/amaranth-dev-shell.nix`
 
   Like above, except Amaranth is not built and installed.  Instead, an Amaranth
   checkout in `./` or `./amaranth/` is expected, and installed in editable
   mode.
 
-* `nix develop github:charlottia/hdx#yosys-amaranth` / `nix-shell $HDX/yosys-amaranth-dev-shell.nix`
+* `nix develop github:kivikakk/hdx#yosys-amaranth` / `nix-shell $HDX/yosys-amaranth-dev-shell.nix`
 
   Like above, except the Amaranth checkout must be at `./amaranth/` and
   a Yosys checkout is expected at `./yosys/`.  Yosys is configured to
@@ -74,7 +74,7 @@ has a few nice properties:
 
   ```nix
   {
-    inputs.hdx.url = github:charlottia/hdx;
+    inputs.hdx.url = github:kivikakk/hdx;
 
     outputs = {
       self,
@@ -98,8 +98,8 @@ has a few nice properties:
 
     ```nix
     inputs = {
-      hdx.url = github:charlottia/hdx;
-      hdx.inputs.amaranth.url = github:charlottia/amaranth?ref=my-feature-branch;
+      hdx.url = github:kivikakk/hdx;
+      hdx.inputs.amaranth.url = github:kivikakk/amaranth?ref=my-feature-branch;
     };
     ```
 
@@ -108,7 +108,7 @@ has a few nice properties:
   ```nix
   {pkgs ? import <nixpkgs> {}}: let
     hdx = (import (pkgs.fetchFromGitHub {
-      owner = "charlottia";
+      owner = "kivikakk";
       repo = "hdx";
       rev = "56e94f4b95d63bf4faeae839f5da06dffe85417f";
       sha256 = "5TWmue+hPxtuwcXEavB2U+n89p3YcRqsQNjY2NCMPLE=";
