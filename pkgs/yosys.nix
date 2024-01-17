@@ -40,8 +40,8 @@ stdenv.mkDerivation (finalAttrs: {
 
     # Confirm abc we asked for matches yosys default.
     abcrev="$((cd yosys && make -qp 2>/dev/null || true) | awk -F' = ' '$1=="ABCREV" {print $2}')"
-    echo "$abcrev" | grep -qiE '^[a-f0-9]+$'
-    echo "${hdx-inputs.abc.rev}" | grep -q ^"$abcrev"
+    echo "$abcrev" | grep -qiE '^[a-f0-9]+$' || (echo 2>&1 "abcrev doesn't look right"; false)
+    echo "${hdx-inputs.abc.rev}" | grep -q ^"$abcrev" || (echo 2>&1 "abcrev mismatch"; false)
   '';
 
   # makeFlags with CXXFLAGS+=... ends up overriding CXXFLAGS entirely. Awkward.

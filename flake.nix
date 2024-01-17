@@ -1,5 +1,8 @@
 {
   inputs = {
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
+    flake-utils.url = github:numtide/flake-utils;
+
     flake-compat = {
       url = github:edolstra/flake-compat;
       flake = false;
@@ -23,7 +26,7 @@
       flake = false;
     };
     abc = {
-      url = github:YosysHQ/abc?rev=daad9ede0137dc58487a0abc126253e671a85b14;
+      url = github:YosysHQ/abc?rev=896e5e7dedf9b9b1459fa019f1fa8aa8101fdf43;
       flake = false;
     };
     nextpnr = {
