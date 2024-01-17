@@ -1,4 +1,4 @@
-# hdx 
+# [hdx](https://hrzn.ee/kivikakk/hdx)
 
 hdx packages an open-source FPGA toolchain on Nix.  You get the following:
 
