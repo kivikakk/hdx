@@ -83,7 +83,10 @@ inputs @ {
       amaranth-boards = callPackage ./pkgs/amaranth-boards.nix {};
       amaranth-stdio = callPackage ./pkgs/amaranth-stdio.nix {};
     }
-    // optionalAttrs (hdx-config.yosys.enable) {yosys = callPackage ./pkgs/yosys.nix {};}
+    // optionalAttrs (hdx-config.yosys.enable) {
+      yosys = callPackage ./pkgs/yosys.nix {};
+      abc = callPackage ./pkgs/abc.nix {};
+    }
     // optionalAttrs (hdx-config.nextpnr.enable) ({nextpnr = callPackage ./pkgs/nextpnr.nix {inherit nextpnrArchs;};} // nextpnrArchs)
     // optionalAttrs (hdx-config.symbiyosys.enable) (
       {symbiyosys = callPackage ./pkgs/symbiyosys.nix {};}

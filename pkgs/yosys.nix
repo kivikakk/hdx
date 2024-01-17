@@ -5,43 +5,30 @@
   hdx-inputs,
   python,
   boost,
+  abc,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "yosys";
   version = "0.32dev1+g${lib.substring 0 7 hdx-inputs.yosys.rev}";
 
-  srcs = [
-    hdx-inputs.yosys
-    hdx-inputs.abc
-    (pkgs.writeTextDir "yosys-Makefile.conf" finalAttrs.makefileConf)
-  ];
+  src = hdx-inputs.yosys;
 
-  unpackPhase = ''
-    runHook preUnpack
-
-    local -a srcsArray=( $srcs )
-    cp -pr --reflink=auto -- "''${srcsArray[0]}" yosys
-    cp -pr --reflink=auto -- "''${srcsArray[1]}" abc
-    cp -pr --reflink=auto -- "''${srcsArray[2]}" yosys-Makefile.conf
-
-    chmod -R u+w -- yosys
-
-    runHook postUnpack
-  '';
-
-  sourceRoot = "yosys";
-
-  postUnpack = ''
-    cp -r abc yosys
-    chmod -R u+w yosys/abc
-
-    echo -n ${hdx-inputs.yosys.rev} >yosys/.gitcommit
-    cp yosys-Makefile.conf/yosys-Makefile.conf yosys/Makefile.conf
+  postPatch = ''
+    set -ex
+    env
+    pwd
+    ls -la
+    echo -n ${hdx-inputs.yosys.rev} >.gitcommit
+    cp ${pkgs.writeText "Makefile.conf" finalAttrs.makefileConf} Makefile.conf
+    ls -la Makefile.conf
 
     # Confirm abc we asked for matches yosys default.
-    abcrev="$((cd yosys && make -qp 2>/dev/null || true) | awk -F' = ' '$1=="ABCREV" {print $2}')"
+    abcrev="$((make -qp 2>/dev/null || true) | awk -F' = ' '$1=="ABCREV" {print $2}')"
     echo "$abcrev" | grep -qiE '^[a-f0-9]+$' || (echo 2>&1 "abcrev doesn't look right"; false)
     echo "${hdx-inputs.abc.rev}" | grep -q ^"$abcrev" || (echo 2>&1 "abcrev mismatch"; false)
+
+    chmod u+w Makefile.conf
+    echo ABCEXTERNAL=abc >> Makefile.conf
   '';
 
   # makeFlags with CXXFLAGS+=... ends up overriding CXXFLAGS entirely. Awkward.
@@ -59,6 +46,7 @@ stdenv.mkDerivation (finalAttrs: {
     + finalAttrs.extraMakefileConf;
 
   nativeBuildInputs = builtins.attrValues {
+    inherit abc;
     inherit
       (pkgs)
       pkg-config
