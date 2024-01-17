@@ -19,4 +19,6 @@ in
       inherit (pythonPkgs) setuptools-scm;
       inherit amaranth;
     };
+
+    doCheck = false; # PEP 517 blah blah
   }
