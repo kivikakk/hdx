@@ -20,11 +20,11 @@
     "amaranth": {
       "flake": false,
       "locked": {
-        "lastModified": 1705407283,
-        "narHash": "sha256-oKVDVKSS7lFgZyjwYQ9YacVBqW4xrNZP2XwyUPXAq5A=",
+        "lastModified": 1705516156,
+        "narHash": "sha256-tWB5S1VugOZzfL5bhw1WD0WZMpeyrOvEbxRwo9W/sKA=",
         "owner": "amaranth-lang",
         "repo": "amaranth",
-        "rev": "2fecd1c78bfe240540e21a607e71304c2f28abda",
+        "rev": "6211eca4ac7c6f23a8a7bc47534a9bd5656f3447",
         "type": "github"
       },
       "original": {
@@ -52,11 +52,11 @@
     "amaranth-stdio": {
       "flake": false,
       "locked": {
-        "lastModified": 1702340331,
-        "narHash": "sha256-0hOblS89XVDX15c3S6OhG/tFe4U4lDAJ/vxZj806ZuQ=",
+        "lastModified": 1705517149,
+        "narHash": "sha256-ZjDHLRVK19N4PyAeHj08QMu8FSrAGeTuUYFIvi02ai0=",
         "owner": "amaranth-lang",
         "repo": "amaranth-stdio",
-        "rev": "eecd49c9bc0b10d3196e204a643c865ea6bd238e",
+        "rev": "4aa39e8c9dc68c4e3605bbb80a0ca84e3a25d019",
         "type": "github"
       },
       "original": {
@@ -237,11 +237,11 @@
     "yosys": {
       "flake": false,
       "locked": {
-        "lastModified": 1705450574,
-        "narHash": "sha256-wt4C0Yp9JjMB/5PlNYguH3zoSHPa8LRqcvitc+X316I=",
+        "lastModified": 1705510613,
+        "narHash": "sha256-HjIkm+lorm8if/f5enLAzrFBd2ZkxtLsJUjkzVWCFgo=",
         "owner": "YosysHQ",
         "repo": "yosys",
-        "rev": "37a6c9a097ddb7e3fff6463b6e4f2d26f671f710",
+        "rev": "e1f4c5c9cbbeafb5e43db6d58cff99377b6e5803",
         "type": "github"
       },
       "original": {
