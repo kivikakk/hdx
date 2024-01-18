@@ -11,12 +11,13 @@ in
   pythonPkgs.buildPythonPackage rec {
     pname = "amaranth-stdio";
     version = "0.1.0dev1+g${lib.substring 0 7 src.rev}";
+    format = "pyproject";
     src = hdx-inputs.amaranth-stdio;
     postUnpack = leaveDotGitWorkaround;
 
     nativeBuildInputs = builtins.attrValues {
       inherit (pkgs) git;
-      inherit (pythonPkgs) setuptools-scm;
+      inherit (pythonPkgs) pdm-backend;
       inherit amaranth;
     };
   }
