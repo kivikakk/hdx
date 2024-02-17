@@ -1,24 +1,25 @@
 {
-  pkgs,
+  git,
   lib,
-  amaranth,
+  hdxInputs,
   python,
-  hdx-inputs,
-  leaveDotGitWorkaround,
-}: let
-  pythonPkgs = python.pkgs;
-in
-  pythonPkgs.buildPythonPackage rec {
-    pname = "amaranth-boards";
-    version = "0.1.0dev1+g${lib.substring 0 7 src.rev}";
-    src = hdx-inputs.amaranth-boards;
-    postUnpack = leaveDotGitWorkaround;
+  amaranth,
+}:
+python.pkgs.buildPythonPackage rec {
+  pname = "amaranth-boards";
+  version = "0.1.0dev1+g${lib.substring 0 7 src.rev}";
+  format = "pyproject";
+  src = hdxInputs.amaranth-boards;
 
-    nativeBuildInputs = builtins.attrValues {
-      inherit (pkgs) git;
-      inherit (pythonPkgs) setuptools-scm;
-      inherit amaranth;
-    };
+  nativeBuildInputs = [
+    git
+    python.pkgs.setuptools-scm
+    amaranth
+  ];
 
-    doCheck = false; # PEP 517 blah blah
-  }
+  preBuild = ''
+    export SETUPTOOLS_SCM_PRETEND_VERSION="${version}"
+  '';
+
+  doCheck = false; # PEP 517 blah blah
+}

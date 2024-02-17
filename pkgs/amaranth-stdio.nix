@@ -1,23 +1,19 @@
 {
-  pkgs,
+  git,
   lib,
-  amaranth,
+  hdxInputs,
   python,
-  hdx-inputs,
-  leaveDotGitWorkaround,
-}: let
-  pythonPkgs = python.pkgs;
-in
-  pythonPkgs.buildPythonPackage rec {
-    pname = "amaranth-stdio";
-    version = "0.1.0dev1+g${lib.substring 0 7 src.rev}";
-    format = "pyproject";
-    src = hdx-inputs.amaranth-stdio;
-    postUnpack = leaveDotGitWorkaround;
+  amaranth,
+}:
+python.pkgs.buildPythonPackage rec {
+  pname = "amaranth-stdio";
+  version = "0.1.0dev1+g${lib.substring 0 7 src.rev}";
+  format = "pyproject";
+  src = hdxInputs.amaranth-stdio;
 
-    nativeBuildInputs = builtins.attrValues {
-      inherit (pkgs) git;
-      inherit (pythonPkgs) pdm-backend;
-      inherit amaranth;
-    };
-  }
+  nativeBuildInputs = [
+    git
+    python.pkgs.pdm-backend
+    amaranth
+  ];
+}
