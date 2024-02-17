@@ -130,5 +130,11 @@
               ./amaranth-yosys-shell-hook.sh);
         });
       };
-    });
+    })
+    // {
+      templates.rainhdx = {
+        path = ./rainhdx/template;
+        description = "A minimal FPGA project using Amaranth";
+      };
+    };
 }
