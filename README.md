@@ -1,15 +1,15 @@
 # [hdx](https://hrzn.ee/kivikakk/hdx)
 
 hdx packages [Amaranth] (+ [`-boards`][amaranth-boards],
-[`-stdio`][amaranth-stdio]]) and [Yosys] on Nix. These are already available in
+[`-stdio`][amaranth-stdio]) and [Yosys] on Nix. These are already available in
 nixpkgs, but hdx also lets you use on-disk checkouts for Amaranth and/or Yosys.
 This lets you test your own changes (or debug crashes) in the context of your
 own project on Nix.
 
 It also ships with [Rain](#rain), a small framework for building projects with
 Amaranth. A Rain project also has a devShell for using an on-disk Yosys
-checkout. (Planned: Amaranth also, depending on how much work it is to get
-two editable checkouts at once.)
+checkout. (Planned: Amaranth also, depending on how much work it is to get two
+editable checkouts at once.)
 
 [Amaranth]: https://github.com/amaranth-lang/amaranth
 [amaranth-boards]: https://github.com/amaranth-lang/amaranth-boards
