@@ -8,8 +8,9 @@
 #     https://pdm-backend.fming.dev/build_config/#editables.
 #     We don't use it directly, but PDM depends on the library anyway.
 
-amaranthShellHook() {
-  echo "Executing amaranthShellHook"
+hdxSetupHook() {
+  echo "Executing hdxSetupHook"
+  set -e
   runHook preShellHook
 
   tmp_path=$(mktemp -d)
@@ -26,7 +27,7 @@ amaranthShellHook() {
   export NIX_PYTHONPATH="$tmp_path/@pythonSitePackages@:${NIX_PYTHONPATH-}"
 
   runHook postShellHook
-  echo "Finished executing amaranthShellHook"
+  echo "Finished executing hdxSetupHook"
 }
 
-shellHook=amaranthShellHook
+shellHook=hdxSetupHook

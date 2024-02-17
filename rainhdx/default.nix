@@ -1,8 +1,16 @@
 {
+  stdenv,
+  verilog,
   python,
+  gdb,
+  lldb,
   jq,
+  lib,
   hdx,
+  hdxSetupHook,
   rainhdx,
+  amaranth,
+  yosys,
 }: let
   rainNativeBuildInputs = [
     python.pkgs.pdm-backend
@@ -34,19 +42,63 @@ in
 
       buildProject = opts: let
         inherit (opts) name;
-      in
-        python.pkgs.buildPythonPackage (opts
+        self = python.pkgs.buildPythonPackage (opts
           // {
             format = opts.format or "pyproject";
 
             nativeBuildInputs =
               (opts.nativeBuildInputs or [])
               ++ rainNativeBuildInputs
-              ++ [rainhdx];
+              ++ [
+                rainhdx
+                hdxSetupHook
+              ];
 
             doCheck = opts.doCheck or false;
 
             pythonImportsCheck = opts.pythonImportsCheck or [name];
+
+            passthru.devShells = {
+              default = self;
+
+              yosys = self.overridePythonAttrs (prev: {
+                # TODO: deduplicate with ../flake.nix's devShells.amaranth-yosys.
+                name = "${name}+yosys";
+                src = null;
+
+                nativeBuildInputs =
+                  prev.nativeBuildInputs
+                  ++ yosys.nativeBuildInputs
+                  ++ [
+                    (
+                      if stdenv.isDarwin
+                      then lldb
+                      else gdb
+                    )
+                    verilog
+                  ];
+
+                buildInputs =
+                  (prev.buildInputs or [])
+                  ++ yosys.buildInputs;
+
+                preShellHook =
+                  lib.replaceStrings ["@Makefile.conf.hdx@"] [
+                    (yosys.overrideAttrs {
+                      makefileConfPrefix = "$(HDX_OUT)";
+                      extraMakefileConf = ''
+                        ENABLE_DEBUG=1
+                        STRIP=echo hdx: Not doing this: strip
+                      '';
+                    })
+                    .makefileConf
+                  ]
+                  (builtins.readFile
+                    ../yosys-shell-hook.sh);
+
+                inherit (amaranth) AMARANTH_USE_YOSYS;
+              });
+            };
 
             checkPhase = ''
               set -euo pipefail
@@ -68,5 +120,7 @@ in
               env
             '';
           });
+      in
+        self;
     };
   }

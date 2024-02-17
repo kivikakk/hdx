@@ -7,8 +7,9 @@ This lets you test your own changes (or debug crashes) in the context of your
 own project on Nix.
 
 It also ships with [Rain](#rain), a small framework for building projects with
-Amaranth. A Rain project also has devShells for using on-disk Amaranth and/or
-Yosys checkouts. (last sentence is WIP.)
+Amaranth. A Rain project also has a devShell for using an on-disk Yosys
+checkout. (Planned: Amaranth also, depending on how much work it is to get
+two editable checkouts at once.)
 
 [Amaranth]: https://github.com/amaranth-lang/amaranth
 [amaranth-boards]: https://github.com/amaranth-lang/amaranth-boards
@@ -90,6 +91,9 @@ proj` to see what the default CLI options are.
 
 There's a workable example at <https://hrzn.ee/kivikakk/ledmatriks> to check
 out.
+
+If you want to use your own on-disk checkout of Yosys with your Rain project,
+`nix develop .#yosys` will expect a Yosys checkout at `./yosys` or `../yosys`.
 
 
 ## Background

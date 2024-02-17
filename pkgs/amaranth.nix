@@ -40,7 +40,7 @@
 in
   python.pkgs.buildPythonPackage rec {
     pname = "amaranth";
-    version = "0.4.0dev1+g${lib.substring 0 7 src.rev}";
+    version = "0.4.4dev1+g${lib.substring 0 7 src.rev}";
     format = "pyproject";
     src = hdxInputs.amaranth;
 
@@ -58,10 +58,7 @@ in
 
     buildInputs = [yosys];
 
-    AMARANTH_USE_YOSYS =
-      if yosys != null
-      then "system"
-      else "builtin";
+    AMARANTH_USE_YOSYS = "system";
 
     doCheck = true;
 

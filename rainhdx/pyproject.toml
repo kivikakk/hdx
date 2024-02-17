@@ -6,7 +6,7 @@ authors = [
     {name = "Amelia Cuss", email = "amelia@kivikakk.ee"},
 ]
 dependencies = [
-    "amaranth >= 0.4, < 0.6",
+    "amaranth >= 0.4.4dev1, < 0.6",
 ]
 requires-python = ">=3.8"
 license = {text = "BSD-2-Clause"}

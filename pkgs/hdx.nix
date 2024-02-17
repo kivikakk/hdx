@@ -34,8 +34,6 @@ stdenv.mkDerivation {
     trellis
   ];
 
-  # passthru = env;
-
   buildInputs = [makeWrapper];
 
   inherit (amaranth) AMARANTH_USE_YOSYS;

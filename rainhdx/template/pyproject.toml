@@ -6,7 +6,7 @@ authors = [
     {name = "nimi", email = "correo"},
 ]
 dependencies = [
-    "amaranth >= 0.4.0dev0, < 0.6",
+    "amaranth >= 0.4.4dev1, < 0.6",
     "rain >= 0.1",
 ]
 requires-python = ">=3.8"

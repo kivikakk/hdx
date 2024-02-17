@@ -39,9 +39,9 @@
       inherit (pkgs) lib;
       python = pkgs.python311;
 
-      amaranthSetupHook =
+      hdxSetupHook =
         pkgs.makeSetupHook {
-          name = "amaranth-setup-hook.sh";
+          name = "hdx-setup-hook.sh";
           propagatedBuildInputs = [
             python.pkgs.pip
             python.pkgs.editables
@@ -52,7 +52,7 @@
           };
           passthru.provides.setupHook = true;
         }
-        ./amaranth-setup-hook.sh;
+        ./hdx-setup-hook.sh;
 
       callPackage = pkgs.lib.callPackageWith env;
       env =
@@ -60,6 +60,7 @@
         // {
           inherit python;
           hdxInputs = inputs;
+          inherit hdxSetupHook;
 
           amaranth = callPackage ./pkgs/amaranth.nix {};
           amaranth-boards = callPackage ./pkgs/amaranth-boards.nix {};
@@ -85,7 +86,7 @@
           nativeBuildInputs =
             prev.nativeBuildInputs
             ++ lib.remove env.amaranth env.hdx.propagatedBuildInputs
-            ++ [amaranthSetupHook];
+            ++ [hdxSetupHook];
 
           preShellHook = builtins.readFile ./amaranth-shell-hook.sh;
           postShellHook = ''
@@ -104,7 +105,7 @@
             ++ env.yosys.nativeBuildInputs
             ++ [
               (
-                if builtins.elem system lib.platforms.darwin
+                if pkgs.stdenv.isDarwin
                 then pkgs.lldb
                 else pkgs.gdb
               )
