@@ -6,9 +6,9 @@ nixpkgs, but hdx also lets you use on-disk checkouts for Amaranth and/or Yosys.
 This lets you test your own changes (or debug crashes) in the context of your
 own project on Nix.
 
-It also ships with [Rain](#Rain), a small framework for building projects with Amaranth.
-A Rain project also has devShells for using on-disk Amaranth and/or Yosys
-checkouts.
+It also ships with [Rain](#rain), a small framework for building projects with
+Amaranth. A Rain project also has devShells for using on-disk Amaranth and/or
+Yosys checkouts. (last sentence is WIP.)
 
 [Amaranth]: https://github.com/amaranth-lang/amaranth
 [amaranth-boards]: https://github.com/amaranth-lang/amaranth-boards
