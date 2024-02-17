@@ -4,7 +4,6 @@
   stdenv,
   hdx-inputs,
   python,
-  boost,
   abc,
 }:
 stdenv.mkDerivation (finalAttrs: {
@@ -58,9 +57,10 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   buildInputs = builtins.attrValues {
-    inherit python boost;
+    inherit python;
     inherit
       (pkgs)
+      boost
       tcl
       readline
       zlib
