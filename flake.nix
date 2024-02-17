@@ -1,4 +1,6 @@
 {
+  description = "A build system for Yosys and Amaranth, and a framework for building projects with them";
+
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
     flake-utils.url = github:numtide/flake-utils;
@@ -24,30 +26,6 @@
       url = github:YosysHQ/abc?rev=896e5e7dedf9b9b1459fa019f1fa8aa8101fdf43;
       flake = false;
     };
-    nextpnr = {
-      url = github:YosysHQ/nextpnr?rev=54b2045726fc3fe77857c05c81a5ab77e98ba851;
-      flake = false;
-    };
-    icestorm = {
-      url = github:YosysHQ/icestorm?rev=d20a5e9001f46262bf0cef220f1a6943946e421d;
-      flake = false;
-    };
-    trellis = {
-      url = git+https://github.com/YosysHQ/prjtrellis?rev=e830a28077e1a789d32e75841312120ae624c8d6&submodules=1;
-      flake = false;
-    };
-    symbiyosys = {
-      url = github:YosysHQ/sby?rev=cf0a761a3a0ba2e38258ff72f93505c85834dd16;
-      flake = false;
-    };
-    yices = {
-      url = github:SRI-CSL/yices2?rev=5a3e3f0fabf7d588c5adf1f791b26a590eac547f;
-      flake = false;
-    };
-    z3 = {
-      url = github:Z3Prover/z3?ref=z3-4.12.2;
-      flake = false;
-    };
   };
 
   outputs = inputs @ {
@@ -57,32 +35,100 @@
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {inherit system;};
       inherit (pkgs) lib;
+      python = pkgs.python311;
 
-      hdx = import ./hdx.nix {
-        inherit system pkgs;
-        hdx-inputs = inputs;
-      };
-    in rec {
-      packages.default = hdx;
+      amaranthSetupHook =
+        pkgs.makeSetupHook {
+          name = "amaranth-setup-hook.sh";
+          propagatedBuildInputs = [
+            python.pkgs.pip
+            python.pkgs.editables
+          ];
+          substitutions = {
+            pythonInterpreter = python.interpreter;
+            pythonSitePackages = python.sitePackages;
+          };
+          passthru.provides.setupHook = true;
+        }
+        ./amaranth-setup-hook.sh;
+
+      callPackage = pkgs.lib.callPackageWith env;
+      env =
+        pkgs
+        // {
+          inherit python;
+          hdxInputs = inputs;
+
+          amaranth = callPackage ./pkgs/amaranth.nix {};
+          amaranth-boards = callPackage ./pkgs/amaranth-boards.nix {};
+          amaranth-stdio = callPackage ./pkgs/amaranth-stdio.nix {};
+          yosys = callPackage ./pkgs/yosys.nix {};
+          abc = callPackage ./pkgs/abc.nix {};
+          hdx = callPackage ./pkgs/hdx.nix {};
+          rainhdx = callPackage ./rainhdx {};
+        };
+    in {
+      packages.default = env.hdx;
+      packages.rainhdx = env.rainhdx;
 
       formatter = pkgs.alejandra;
 
-      devShells = {
-        default = hdx;
-        amaranth = import ./amaranth-dev-shell.nix {inherit hdx;};
-        yosys-amaranth = import ./yosys-amaranth-dev-shell.nix {inherit hdx;};
-      };
+      devShells = rec {
+        default = env.hdx;
 
-      checks = {
-        ensure-ecppack-call-works =
-          pkgs.runCommand "ensure-ecppack-call-works" {
-            nativeBuildInputs = [packages.default];
-          } ''
-            ecppack ${packages.default.trellis}/share/trellis/misc/basecfgs/empty_lfe5u-85f.config /dev/null
-            touch $out
+        amaranth = env.amaranth.overridePythonAttrs (prev: {
+          name = "hdx-amaranth";
+          src = null;
+
+          nativeBuildInputs =
+            prev.nativeBuildInputs
+            ++ lib.remove env.amaranth env.hdx.propagatedBuildInputs
+            ++ [amaranthSetupHook];
+
+          preShellHook = builtins.readFile ./amaranth-shell-hook.sh;
+          postShellHook = ''
+            # Start shell back where we came from.
+            cd $HDX_START
           '';
+
+          doCheck = false;
+        });
+
+        amaranth-yosys = amaranth.overridePythonAttrs (prev: {
+          name = "hdx-amaranth+yosys";
+
+          nativeBuildInputs =
+            lib.remove env.yosys prev.nativeBuildInputs
+            ++ env.yosys.nativeBuildInputs
+            ++ [
+              (
+                if builtins.elem system lib.platforms.darwin
+                then pkgs.lldb
+                else pkgs.gdb
+              )
+              pkgs.verilog
+            ];
+
+          buildInputs =
+            lib.remove env.yosys prev.buildInputs
+            ++ env.yosys.buildInputs;
+
+          preShellHook =
+            lib.replaceStrings ["@Makefile.conf.hdx@"] [
+              (env.yosys.overrideAttrs {
+                makefileConfPrefix = "$(HDX_OUT)";
+                extraMakefileConf = ''
+                  ENABLE_DEBUG=1
+                  STRIP=echo hdx: Not doing this: strip
+                '';
+              })
+              .makefileConf
+            ]
+            (builtins.readFile
+              ./amaranth-yosys-shell-hook.sh);
+        });
       };
     });
 }

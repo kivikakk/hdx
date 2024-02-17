@@ -1,80 +1,50 @@
 # [hdx](https://hrzn.ee/kivikakk/hdx)
 
-hdx packages an open-source FPGA toolchain on Nix.  You get the following:
+hdx packages [Amaranth] (+ [`-boards`][amaranth-boards],
+[`-stdio`][amaranth-stdio]]) and [Yosys] on Nix. These are already available in
+nixpkgs, but hdx also lets you use on-disk checkouts for Amaranth and/or Yosys.
+This lets you test your own changes (or debug crashes) in the context of your
+own project on Nix.
 
-* [Python 3].11
-* [Amaranth] (+ [`amaranth-boards`], [`amaranth-stdio`])
-* [Yosys]
-* [nextpnr]
-* [Project IceStorm]
-* [Project Trellis]
-* [SymbiYosys]
-* [Yices 2]
-* [Z3]
+It also ships with [Rain](#Rain), a small framework for building projects with Amaranth.
+A Rain project also has devShells for using on-disk Amaranth and/or Yosys
+checkouts.
 
-With the exclusion of Python, the package definitions are written de novo.  This
-has a few nice properties:
-
-* It's pretty easy to see what's going on.
-* Want to add another target to nextpnr ~~anyway, for a laugh~~?  ~~We had
-  a tool for that~~ It's easy to do, and you don't have to bring up a Nixpkgs
-  overlay, refactor the chipdb derivation out when you get tired of the build
-  times and still don't have it working yet, and then override nextpnr or
-  something.
-  * Bonus: HEAD versions of ~everything actually build (*and check*), even on
-    nix-darwin.  Quite a few things in Nixpkgs won't.  (See [Hacks](#hacks).)
-* You can mess with the Python version used by the whole toolchain, without
-  having to (a) override all of them and (b) subsequently understand all of them
-  in Nixpkgs when they refuse to build or quietly give you dynamic linking
-  errors at runtime.
-* The reason I wanted this: you can use Amaranth and/or Yosys in "development
-  mode", and have your on-disk checkouts of them used by the whole toolchain.
-* You can specify your desired upstream versions using flake inputs if there's
-  no definition changes needed by the bump! (See [below](#your-flake-nix).)
-
-[Python 3]: https://www.python.org/
 [Amaranth]: https://github.com/amaranth-lang/amaranth
-[`amaranth-boards`]: https://github.com/amaranth-lang/amaranth-boards
-[`amaranth-stdio`]: https://github.com/amaranth-lang/amaranth-stdio
+[amaranth-boards]: https://github.com/amaranth-lang/amaranth-boards
+[amaranth-stdio]: https://github.com/amaranth-lang/amaranth-stdio
 [Yosys]: https://github.com/YosysHQ/yosys
-[nextpnr]: https://github.com/YosysHQ/nextpnr
-[Project IceStorm]: https://github.com/YosysHQ/icestorm
-[Project Trellis]: https://github.com/YosysHQ/prjtrellis
-[SymbiYosys]: https://github.com/YosysHQ/sby
-[Yices 2]: https://github.com/SRI-CSL/yices2
-[Z3]: https://github.com/Z3Prover/z3
 
 
-## Modes of operation
+## Usage
 
-* `nix develop github:kivikakk/hdx`
+* `nix develop git+https://hrzn.ee/kivikakk/hdx`
 
-  This is the default mode of operation.  The above packages are built and added
+  This is the default mode of operation. Yosys and Amaranth are built and added
   to `PATH`.
 
   Amaranth is configured to use the Yosys built by hdx, and not its built-in
   one.
 
-* `nix develop github:kivikakk/hdx#amaranth`
+* `nix develop git+https://hrzn.ee/kivikakk/hdx#amaranth`
 
-  Like above, except Amaranth is not built and installed.  Instead, an Amaranth
-  checkout in `./` or `./amaranth/` is expected, and installed in editable
-  mode.
+  An Amaranth checkout in `./` or `./amaranth/` is expected, and installed in
+  editable mode. Yosys is still built, added to `PATH`, and used by your
+  Amaranth checkout as usual.
 
-* `nix develop github:kivikakk/hdx#yosys-amaranth`
+* `nix develop git+https://hrzn.ee/kivikakk/hdx#amaranth-yosys`
 
-  Like above, except the Amaranth checkout must be at `./amaranth/` and
-  a Yosys checkout is expected at `./yosys/`.  Yosys is configured to
-  be compiled and installed to `./yosys/hdx-out/`, and `PATH` has the output
-  directory's `bin` subdirectory prepended.  You'll need to actually `make
-  install` Yosys at least once for this mode to function, including any use of
-  Amaranth that depends on Yosys.
+  An Amaranth checkout is expected at `./amaranth/`, and a Yosys checkout is
+  expected at `./yosys`. Yosys is configured to be compiled and installed to
+  `./yosys/hdx-out/`, and `PATH` has the output directory's `bin` subdirectory
+  prepended. You'll need to actually `make install` Yosys at least once for this
+  mode to function, including any use of Amaranth that depends on Yosys.
 
 * <a name="your-flake-nix" id="your-flake-nix"></a>Your project's `flake.nix`
 
   ```nix
   {
-    inputs.hdx.url = github:kivikakk/hdx;
+    inputs.hdx.url = git+https://hrzn.ee/kivikakk/hdx;
 
     outputs = {
       self,
@@ -98,34 +68,21 @@ has a few nice properties:
 
     ```nix
     inputs = {
-      hdx.url = github:kivikakk/hdx;
-      hdx.inputs.amaranth.url = github:kivikakk/amaranth?ref=my-feature-branch;
+      hdx.url = git+https://hrzn.ee/kivikakk/hdx;
+      hdx.inputs.amaranth.url = git+https://codeberg.org/lilnyonker/amaranth?ref=my-feature-branch;
     };
     ```
 
 
-## Hacks
+## Rain
 
-* Python on Nix's `sitecustomize.py` drops `NIX_PYTHONPATH` from the
-  environment when processing it, causing children opened with `subprocess` to
-  not be aware of packages that might've been added by that mechanism.  This
-  breaks some of Amaranth's tests.
-
-* nix-darwin specific: IceStorm's `icebox/Makefile` determines its `sed` use
-  based on `uname`.  [You may not do that].
-
-  [You may not do that]: https://aperture.ink/@charlotte/110737824873379605
-
-* SymbiYosys's `sbysrc/sby_core.py` invokes `/usr/bin/env`.  It may not
-  exist.
-
-* Z3's `z3.pc.cmake.in` prepends `${exec_prefix}/` et al. to
-  `@CMAKE_INSTALL_LIBDIR@` et al.  This produces frakenpaths on Nix.
+See example at <https://hrzn.ee/kivikakk/ledmatriks>.
 
 
 ## Background
 
-hdx reproduces the setup described in [Installing an HDL toolchain from source]
-in Nix.
+hdx originally reproduced the entire setup described in [Installing an HDL
+toolchain from source] in Nix, and mostly served as a way for me to learn Nix.
+It's since been refined in its scope.
 
 [Installing an HDL toolchain from source]: https://lottia.net/notes/0001-hdl-toolchain-source.html

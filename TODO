@@ -1,2 +1,0 @@
-- xilinx, gowin
-- nix-shell {yosys,}amaranth-dev-shell.nix complains when trying to uninstall amaranth (!).  Dependency has bled through amaranth-boards, probably.

@@ -1,28 +1,19 @@
 {
-  pkgs,
-  lib,
   stdenv,
-  hdx-inputs,
+  lib,
+  hdxInputs,
+  clang,
+  readline,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "abc";
-  version = "0.37dev1+g${lib.substring 0 7 hdx-inputs.abc.rev}";
+  version = "0.37dev1+g${lib.substring 0 7 hdxInputs.abc.rev}";
 
-  src = hdx-inputs.abc;
+  src = hdxInputs.abc;
 
-  nativeBuildInputs = builtins.attrValues {
-    inherit
-      (pkgs)
-      clang
-      ;
-  };
+  nativeBuildInputs = [clang];
 
-  buildInputs = builtins.attrValues {
-    inherit
-      (pkgs)
-      readline
-      ;
-  };
+  buildInputs = [readline];
 
   makeFlags = [
     "CC=clang"
