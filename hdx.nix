@@ -47,39 +47,39 @@ inputs @ {
     // ours;
 
   ours = {
-      amaranth = callPackage ./pkgs/amaranth.nix {};
-      amaranth-boards = callPackage ./pkgs/amaranth-boards.nix {};
-      amaranth-stdio = callPackage ./pkgs/amaranth-stdio.nix {};
-      yosys = callPackage ./pkgs/yosys.nix {};
-      abc = callPackage ./pkgs/abc.nix {};
-    };
+    amaranth = callPackage ./pkgs/amaranth.nix {};
+    amaranth-boards = callPackage ./pkgs/amaranth-boards.nix {};
+    amaranth-stdio = callPackage ./pkgs/amaranth-stdio.nix {};
+    yosys = callPackage ./pkgs/yosys.nix {};
+    abc = callPackage ./pkgs/abc.nix {};
+  };
 in
-  stdenv.mkDerivation (rec {
-      name = "hdx";
+  stdenv.mkDerivation rec {
+    name = "hdx";
 
-      dontUnpack = true;
+    dontUnpack = true;
 
-      propagatedBuildInputs =
-        [
-          env.python
-          pkgs.nextpnr
-          pkgs.symbiyosys
-          pkgs.z3_4_12
-          pkgs.yices
-          pkgs.icestorm
-          pkgs.trellis
-        ]
-        ++ builtins.attrValues ours;
+    propagatedBuildInputs =
+      [
+        env.python
+        pkgs.nextpnr
+        pkgs.symbiyosys
+        pkgs.z3_4_12
+        pkgs.yices
+        pkgs.icestorm
+        pkgs.trellis
+      ]
+      ++ builtins.attrValues ours;
 
-      passthru = env;
+    passthru = env;
 
-      buildInputs = [pkgs.makeWrapper];
+    buildInputs = [pkgs.makeWrapper];
 
-      AMARANTH_USE_YOSYS = ours.amaranth.AMARANTH_USE_YOSYS;
+    AMARANTH_USE_YOSYS = ours.amaranth.AMARANTH_USE_YOSYS;
 
-      installPhase = ''
-        for b in ${env.python}/bin/*; do
-          makeWrapper "$b" "$out/bin/$(basename "$b")" --inherit-argv0 --set AMARANTH_USE_YOSYS ${AMARANTH_USE_YOSYS}
-        done
-      '';
-    })
+    installPhase = ''
+      for b in ${env.python}/bin/*; do
+        makeWrapper "$b" "$out/bin/$(basename "$b")" --inherit-argv0 --set AMARANTH_USE_YOSYS ${AMARANTH_USE_YOSYS}
+      done
+    '';
+  }

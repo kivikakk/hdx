@@ -1,6 +1,4 @@
-{hdx ? null}:
-if hdx != null
-then let
+{hdx}: let
   inherit (hdx) system pkgs lib;
   debuggerPkg =
     if builtins.match ".*-darwin" system != null
@@ -97,21 +95,3 @@ in
 
     doCheck = false;
   })
-else
-  (
-    import
-    (
-      let
-        lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-      in
-        fetchTarball {
-          url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
-          sha256 = lock.nodes.flake-compat.locked.narHash;
-        }
-    )
-    {src = ./.;}
-  )
-  .defaultNix
-  .devShells
-  .${builtins.currentSystem}
-  .yosys-amaranth
