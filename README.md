@@ -64,7 +64,8 @@ checkouts.
   }
   ```
 
-  * Want to specify a different version of a dependency?  WE HAVE A TOOL FOR THAT:
+  * Want to specify a different version of a dependency? WE HAVE A TOOL FOR
+    THAT:
 
     ```nix
     inputs = {
@@ -76,7 +77,19 @@ checkouts.
 
 ## Rain
 
-See example at <https://hrzn.ee/kivikakk/ledmatriks>.
+To get started, you can use the included flake template:
+
+```shell
+mkdir nyonkomatic
+cd nyonkomatic
+nix flake init -t git+https://hrzn.ee/kivikakk/hdx#rainhdx
+```
+
+Then you can enter a development environment with `nix develop`. Try `python -m
+proj` to see what the default CLI options are.
+
+There's a workable example at <https://hrzn.ee/kivikakk/ledmatriks> to check
+out.
 
 
 ## Background
