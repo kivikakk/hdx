@@ -17,7 +17,7 @@
       pkgs = import nixpkgs {inherit system;};
       inherit (hdx.packages.${system}) rainhdx;
       inherit (rainhdx) python;
-    in {
+    in rec {
       formatter = pkgs.alejandra;
 
       packages.default = rainhdx.buildProject {
@@ -28,5 +28,7 @@
           python.pkgs.pypng
         ];
       };
+
+      devShells = packages.default.devShells;
     });
 }
