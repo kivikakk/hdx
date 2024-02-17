@@ -7,7 +7,7 @@ authors = [
 ]
 dependencies = [
     "amaranth >= 0.4.4dev1, < 0.6",
-    "rain >= 0.1",
+    "rainhdx >= 0.1",
 ]
 requires-python = ">=3.8"
 license = {text = "BSD-2-Clause"}
