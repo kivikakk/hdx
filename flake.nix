@@ -3,11 +3,6 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
     flake-utils.url = github:numtide/flake-utils;
 
-    flake-compat = {
-      url = github:edolstra/flake-compat;
-      flake = false;
-    };
-
     amaranth = {
       url = github:amaranth-lang/amaranth;
       flake = false;
