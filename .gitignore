@@ -2,3 +2,5 @@ result
 result-*
 amaranth
 yosys
+build
+__pycache__

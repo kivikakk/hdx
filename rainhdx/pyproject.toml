@@ -1,0 +1,21 @@
+[project]
+name = "rainhdx"
+version = "0.1"
+description = "A small framework for building projects with Amaranth"
+authors = [
+    {name = "Amelia Cuss", email = "amelia@kivikakk.ee"},
+]
+dependencies = [
+    "amaranth >= 0.4, < 0.6",
+]
+requires-python = ">=3.8"
+license = {text = "BSD-2-Clause"}
+
+[project.optional-dependencies]
+build = [
+    "amaranth-boards",  # for test
+]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

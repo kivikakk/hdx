@@ -67,9 +67,11 @@
           yosys = callPackage ./pkgs/yosys.nix {};
           abc = callPackage ./pkgs/abc.nix {};
           hdx = callPackage ./pkgs/hdx.nix {};
+          rainhdx = callPackage ./rainhdx {};
         };
     in {
       packages.default = env.hdx;
+      packages.rainhdx = env.rainhdx;
 
       formatter = pkgs.alejandra;
 
@@ -124,8 +126,8 @@
               })
               .makefileConf
             ]
-              (builtins.readFile
-                ./amaranth-yosys-shell-hook.sh);
+            (builtins.readFile
+              ./amaranth-yosys-shell-hook.sh);
         });
       };
     });
