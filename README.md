@@ -32,7 +32,7 @@ checkouts.
   editable mode. Yosys is still built, added to `PATH`, and used by your
   Amaranth checkout as usual.
 
-* `nix develop git+https://hrzn.ee/kivikakk/hdx#yosys-amaranth`
+* `nix develop git+https://hrzn.ee/kivikakk/hdx#amaranth-yosys`
 
   An Amaranth checkout is expected at `./amaranth/`, and a Yosys checkout is
   expected at `./yosys`. Yosys is configured to be compiled and installed to

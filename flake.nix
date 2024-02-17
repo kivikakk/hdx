@@ -36,18 +36,16 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
+      inherit (pkgs) lib;
       python = pkgs.python311;
 
       amaranthSetupHook =
         pkgs.makeSetupHook {
           name = "amaranth-setup-hook.sh";
-          propagatedBuildInputs = builtins.attrValues {
-            inherit
-              (python.pkgs)
-              pip
-              editables
-              ;
-          };
+          propagatedBuildInputs = [
+            python.pkgs.pip
+            python.pkgs.editables
+          ];
           substitutions = {
             pythonInterpreter = python.interpreter;
             pythonSitePackages = python.sitePackages;
@@ -61,7 +59,6 @@
         pkgs
         // {
           inherit python;
-          inherit amaranthSetupHook;
           hdxInputs = inputs;
 
           amaranth = callPackage ./pkgs/amaranth.nix {};
@@ -71,15 +68,65 @@
           abc = callPackage ./pkgs/abc.nix {};
           hdx = callPackage ./pkgs/hdx.nix {};
         };
-    in rec {
+    in {
       packages.default = env.hdx;
 
       formatter = pkgs.alejandra;
 
-      devShells = {
+      devShells = rec {
         default = env.hdx;
-        #amaranth = import ./amaranth-dev-shell.nix {inherit hdx;};
-        #yosys-amaranth = import ./yosys-amaranth-dev-shell.nix {inherit hdx;};
+
+        amaranth = env.amaranth.overridePythonAttrs (prev: {
+          name = "hdx-amaranth";
+          src = null;
+
+          nativeBuildInputs =
+            prev.nativeBuildInputs
+            ++ lib.remove env.amaranth env.hdx.propagatedBuildInputs
+            ++ [amaranthSetupHook];
+
+          preShellHook = builtins.readFile ./amaranth-shell-hook.sh;
+          postShellHook = ''
+            # Start shell back where we came from.
+            cd $HDX_START
+          '';
+
+          doCheck = false;
+        });
+
+        amaranth-yosys = amaranth.overridePythonAttrs (prev: {
+          name = "hdx-amaranth+yosys";
+
+          nativeBuildInputs =
+            lib.remove env.yosys prev.nativeBuildInputs
+            ++ env.yosys.nativeBuildInputs
+            ++ [
+              (
+                if builtins.elem system lib.platforms.darwin
+                then pkgs.lldb
+                else pkgs.gdb
+              )
+              pkgs.verilog
+            ];
+
+          buildInputs =
+            lib.remove env.yosys prev.buildInputs
+            ++ env.yosys.buildInputs;
+
+          preShellHook =
+            lib.replaceStrings ["@Makefile.conf.hdx@"] [
+              (env.yosys.overrideAttrs {
+                makefileConfPrefix = "$(HDX_OUT)";
+                extraMakefileConf = ''
+                  ENABLE_DEBUG=1
+                  STRIP=echo hdx: Not doing this: strip
+                '';
+              })
+              .makefileConf
+            ]
+              (builtins.readFile
+                ./amaranth-yosys-shell-hook.sh);
+        });
       };
     });
 }
