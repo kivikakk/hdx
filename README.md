@@ -36,10 +36,11 @@ editable checkouts at once.)
 * `nix develop git+https://hrzn.ee/kivikakk/hdx#amaranth-yosys`
 
   An Amaranth checkout is expected at `./amaranth/`, and a Yosys checkout is
-  expected at `./yosys`. Yosys is configured to be compiled and installed to
-  `./yosys/hdx-out/`, and `PATH` has the output directory's `bin` subdirectory
-  prepended. You'll need to actually `make install` Yosys at least once for this
-  mode to function, including any use of Amaranth that depends on Yosys.
+  expected at `./yosys`. Amaranth is installed in editable mode. Yosys is
+  configured to be compiled and installed to `./yosys/hdx-out/`, and `PATH` has
+  the output directory's `bin` subdirectory prepended. You'll need to actually
+  `make install` Yosys at least once for this mode to function, including any
+  use of Amaranth that depends on Yosys.
 
 * <a name="your-flake-nix" id="your-flake-nix"></a>Your project's `flake.nix`
 
