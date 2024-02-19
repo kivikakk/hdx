@@ -72,7 +72,9 @@ class Project:
     ]
 
     def __init_subclass__(self):
-        self.origin = Path(sys._getframe(1).f_code.co_filename).absolute()
+        # We expect to be called from project-root/module/__init.py__ or similar;
+        # self.origin is project-root.
+        self.origin = Path(sys._getframe(1).f_code.co_filename).parent.parent.absolute()
         extras = self.__dict__.keys() - {"__module__", "__doc__", "origin"}
         for prop in self.PROPS:
             prop.validate(self)
@@ -89,7 +91,7 @@ class ProjectPath:
         self.rp = rp
 
     def __call__(self, *components):
-        return self.rp.origin.parent.parent.joinpath(*components)
+        return self.rp.origin.joinpath(*components)
 
     def build(self, *components):
         return self("build", *components)

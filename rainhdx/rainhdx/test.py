@@ -17,10 +17,8 @@ def add_arguments(rp, parser):
 
 
 def main(rp, args):
-    base = Path(rp.origin).parent
-    top_level = base
-    if args.subdir:
-        base = args.subdir
+    top_level = Path(rp.origin)
+    base = args.subdir or top_level
     suite = TestLoader().discover(base, top_level_dir=top_level)
     result = TextTestRunner(buffer=not args.verbose, verbosity=2).run(suite)
     sys.exit(0 if result.wasSuccessful() else 1)
