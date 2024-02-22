@@ -51,13 +51,17 @@ def main(rp, args):
 
     elaboratable = construct_top(rp, args, platform)
 
-    with logtime(logging.DEBUG, "synthesis"):
-        products = platform.build(
-            elaboratable,
-            name=rp.name,
-            debug_verilog=args.verilog,
-            yosys_opts="-g",
+    with logtime(logging.DEBUG, "RTLIL generation"):
+        plan = platform.prepare(
+            elaboratable, rp.name, debug_verilog=args.verilog, yosys_opts="-g"
         )
+    fn = f"{rp.name}.il"
+    size = len(plan.files[fn])
+    logger.debug(f"{fn!r}: {size:,} bytes")
+
+    with logtime(logging.DEBUG, "synthesis"):
+        products = plan.execute_local("build")
+
     if args.program:
         with logtime(logging.DEBUG, "programming"):
             platform.toolchain_program(products, rp.name)
