@@ -27,6 +27,9 @@ yosysShellHook() {
     fi
     export PATH="$HDX_OUT/bin:$PATH"
 
+    # This ensures e.g. sby uses the right version, and not the one in its closure.
+    export YOSYS="$HDX_OUT/bin/yosys"
+
     # Install a Makefile.conf that will compile Yosys correctly (and for debug),
     # and install it where we expect.  Ensure we don't overwrite a user's own one.
     cat >Makefile.conf.hdx <<'EOF'
