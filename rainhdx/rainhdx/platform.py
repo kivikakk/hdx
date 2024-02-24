@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 
 from amaranth.build import Platform as AmaranthPlatform
 
@@ -32,12 +32,7 @@ class Platform(metaclass=PlatformRegistry):
     def freq(self):
         return self.default_clk_frequency
 
-
-class test(Platform):
-    simulation = True
-
     @property
+    @abstractmethod
     def default_clk_frequency(self):
-        from .sim import clock
-
-        return int(1 / clock())
+        ...

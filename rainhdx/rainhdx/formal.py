@@ -22,7 +22,7 @@ def main(rp, args):
     design = rp.formal_top()
     output = rtlil.convert(
         design,
-        platform=Platform["test"],
+        platform=Platform["formal"],
         name=f"{rp.name}_formal",
         ports=design.ports,
     )
