@@ -18,7 +18,6 @@
     python.pkgs.python-lsp-black
     python.pkgs.pyls-isort
     python.pkgs.pylsp-rope
-    python.pkgs.pylsp-mypy
     python.pkgs.pyflakes
     python.pkgs.pytest
     jq
