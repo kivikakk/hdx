@@ -23,7 +23,7 @@
       flake = false;
     };
     abc = {
-      url = github:YosysHQ/abc?rev=896e5e7dedf9b9b1459fa019f1fa8aa8101fdf43;
+      url = github:YosysHQ/abc?rev=0cd90d0d2c5338277d832a1d890bed286486bcf5;
       flake = false;
     };
   };
