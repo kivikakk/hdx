@@ -37,6 +37,22 @@
 
     doCheck = true;
   };
+
+  pdmBackend =  python.pkgs.buildPythonPackage rec {
+    pname = "pdm_backend";
+    version = "2.2.1";
+    format = "wheel";
+    src = fetchPypi {
+      inherit pname version format;
+      sha256 = "oz+Clcp9gSDviHGLm2hijozKQQJoa+DweDv1hEOZ8pY=";
+      dist = "py3";
+      python = "py3";
+    };
+
+    nativeBuildInputs = [];
+
+    doCheck = true;
+  };
 in
   python.pkgs.buildPythonPackage rec {
     pname = "amaranth";
@@ -46,7 +62,7 @@ in
 
     nativeBuildInputs = [
       git
-      python.pkgs.pdm-backend
+      pdmBackend
     ];
 
     propagatedBuildInputs =
@@ -58,6 +74,7 @@ in
 
     buildInputs = [yosys];
 
+    PDM_BUILD_SCM_VERSION = version;
     AMARANTH_USE_YOSYS = "system";
 
     doCheck = true;

@@ -3,28 +3,28 @@
     "abc": {
       "flake": false,
       "locked": {
-        "lastModified": 1709561743,
-        "narHash": "sha256-1v/HOYF/ZdfR75eC3uYySKs2k6ZLCTUI0rtzPQs0hKQ=",
+        "lastModified": 1713872952,
+        "narHash": "sha256-1VHI03S3POkD+LJzBdnhLy1GPzAcbEzctbUhnUPd21k=",
         "owner": "YosysHQ",
         "repo": "abc",
-        "rev": "0cd90d0d2c5338277d832a1d890bed286486bcf5",
+        "rev": "03da96f12fb4deb153cc0dc73936df346ecd4bcf",
         "type": "github"
       },
       "original": {
         "owner": "YosysHQ",
         "repo": "abc",
-        "rev": "0cd90d0d2c5338277d832a1d890bed286486bcf5",
+        "rev": "03da96f12fb4deb153cc0dc73936df346ecd4bcf",
         "type": "github"
       }
     },
     "amaranth": {
       "flake": false,
       "locked": {
-        "lastModified": 1712829774,
-        "narHash": "sha256-okmDbM1YFmdrXj7kCLkRuYg2yl9QvrSGyFqx5aVMyWQ=",
+        "lastModified": 1713608936,
+        "narHash": "sha256-oIGcLM5Xa9hzSZar9+4oYgidEuugmC/idt1cb1bOkuo=",
         "owner": "amaranth-lang",
         "repo": "amaranth",
-        "rev": "3c870d6b732939e5b3d2cd5001501eeb0dd2fa8a",
+        "rev": "9201cc3179d53c9fcfb6443e571533d64dbdd417",
         "type": "github"
       },
       "original": {
@@ -36,11 +36,11 @@
     "amaranth-boards": {
       "flake": false,
       "locked": {
-        "lastModified": 1709132360,
-        "narHash": "sha256-C1NFu3vBaplju1HKrfzJa/z78H0AN09CZ4f5CeBdVuw=",
+        "lastModified": 1713501600,
+        "narHash": "sha256-vEw3LgdKaKLBurw07q/MKCaZNB028+vS59SZbMmrxeI=",
         "owner": "amaranth-lang",
         "repo": "amaranth-boards",
-        "rev": "b67996c48f1bc91412605acd7012f242514d3927",
+        "rev": "8be265b8ed89c1bbb4d9785a14dcfa415898a9d7",
         "type": "github"
       },
       "original": {
@@ -85,11 +85,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1712588820,
-        "narHash": "sha256-y31s5idk3jMJMAVE4Ud9AdI7HT3CgTAeMTJ0StqKN7Y=",
+        "lastModified": 1713995372,
+        "narHash": "sha256-fFE3M0vCoiSwCX02z8VF58jXFRj9enYUSTqjyHAjrds=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d272ca50d1f7424fbfcd1e6f1c9e01d92f6da167",
+        "rev": "dd37924974b9202f8226ed5d74a252a9785aedf8",
         "type": "github"
       },
       "original": {
@@ -128,11 +128,11 @@
     "yosys": {
       "flake": false,
       "locked": {
-        "lastModified": 1712794594,
-        "narHash": "sha256-6yM4sn6G/nS6FSu6cUeVt9VzpRViX6m0z7xcgfaN04I=",
+        "lastModified": 1714031784,
+        "narHash": "sha256-Txm/yRzhOl4nwWOob/u1DfSZtWQ985pm4o18QrXUlnU=",
         "owner": "YosysHQ",
         "repo": "yosys",
-        "rev": "47bdb3e32f71add7a48ec6215e9838048d52609a",
+        "rev": "34d9a7451e95f6cbbfc7d58d735c846aa7eed797",
         "type": "github"
       },
       "original": {
