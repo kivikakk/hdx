@@ -1,5 +1,4 @@
 import json
-import logging
 import sys
 from argparse import ArgumentParser
 from functools import partialmethod
@@ -7,7 +6,7 @@ from pathlib import Path
 
 from amaranth import Elaboratable
 
-from . import build, formal, logger, test
+from . import build, cxxsim, formal, test
 from .platform import Platform
 
 __all__ = ["Project", "Platform", "FormalHelper", "cli"]
@@ -64,6 +63,12 @@ class Project:
             issubclass=Elaboratable,
         ),
         Prop(
+            "cxxsim_top",
+            description="a reference to the top-level C++ simulator test elaboratable",
+            required=False,
+            issubclass=Elaboratable,
+        ),
+        Prop(
             "formal_top",
             description="a reference to the top-level formal elaboratable",
             required=False,
@@ -102,7 +107,10 @@ def cli(rp):
     subparsers = parser.add_subparsers(required=True)
 
     test.add_arguments(rp, subparsers.add_parser("test", help="run the unit tests"))
-    # cxxsim
+    if hasattr(rp, "cxxsim_top"):
+        cxxsim.add_arguments(
+            rp, subparsers.add_parser("cxxsim", help="run the C++ simulator tests")
+        )
     if hasattr(rp, "formal_top"):
         formal.add_arguments(
             rp, subparsers.add_parser("formal", help="formally verify the design")
