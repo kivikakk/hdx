@@ -42,6 +42,12 @@ def add_arguments(rp, parser):
         default=_Optimize.rtl,
     )
     parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        help="generate source-level debug information",
+    )
+    parser.add_argument(
         "-v",
         "--vcd",
         action="store_true",
@@ -79,7 +85,8 @@ def main(rp, args):
     for cc_path, o_path in cc_o_paths.items():
         cmd = [
             "c++",
-            *(["-O3"] if args.optimize.opt_rtl else []),
+            *(["-O3"] if args.optimize.opt_rtl else ["-O0"]),
+            *(["-g"] if args.debug else []),
             "-I" + str(rp.path("build")),
             "-I" + str(yosys.data_dir() / "include" / "backends" / "cxxrtl" / "runtime"),
             "-c",
