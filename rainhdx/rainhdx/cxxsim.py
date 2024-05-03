@@ -80,7 +80,7 @@ def main(rp, args):
         cmd = [
             "c++",
             *(["-O3"] if args.optimize.opt_rtl else []),
-            "-I" + str(rp.path(".")),
+            "-I" + str(rp.path("build")),
             "-I" + str(yosys.data_dir() / "include" / "backends" / "cxxrtl" / "runtime"),
             "-c",
             cc_path,
