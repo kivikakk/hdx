@@ -7,6 +7,7 @@ from pathlib import Path
 from amaranth._toolchain.yosys import find_yosys
 from amaranth.back import rtlil
 
+from .logger import logger
 from .platform import Platform
 
 __all__ = ["add_arguments"]
@@ -69,40 +70,41 @@ def main(rp, args):
     )
 
     cc_o_paths = {
-        rp.path("cxxsim/main.cc"): rp.path.build("main.o"),
+        cxxrtl_cc_path: rp.path.build(f"{rp.name}.o"),
     }
+    for path in rp.path("cxxsim").glob("*.cc"):
+        cc_o_paths[path] = rp.path.build(f"{path.stem}.o")
 
     for cc_path, o_path in cc_o_paths.items():
-        subprocess.run(
-            [
-                "c++",
-                *(["-O3"] if args.optimize.opt_rtl else []),
-                "-I" + str(rp.path(".")),
-                "-I" + str(yosys.data_dir() / "include" / "backends" / "cxxrtl" / "runtime"),
-                "-c",
-                cc_path,
-                "-o",
-                o_path,
-            ],
-            check=True,
-        )
-
-    exe_o_path = rp.path.build("cxxsim")
-    subprocess.run(
-        [
+        cmd = [
             "c++",
             *(["-O3"] if args.optimize.opt_rtl else []),
-            *cc_o_paths.values(),
+            "-I" + str(rp.path(".")),
+            "-I" + str(yosys.data_dir() / "include" / "backends" / "cxxrtl" / "runtime"),
+            "-c",
+            cc_path,
             "-o",
-            exe_o_path,
-        ],
-        check=True,
-    )
+            o_path,
+        ]
+        logger.debug(" ".join(str(e) for e in cmd))
+        subprocess.run(cmd, check=True)
+
+    exe_o_path = rp.path.build("cxxsim")
+    cmd = [
+        "c++",
+        *(["-O3"] if args.optimize.opt_rtl else []),
+        *cc_o_paths.values(),
+        "-o",
+        exe_o_path,
+    ]
+    logger.debug(" ".join(str(e) for e in cmd))
+    subprocess.run(cmd, check=True)
 
     if not args.compile:
         cmd = [exe_o_path]
         if args.vcd:
             cmd += ["--vcd"]
+        logger.debug(" ".join(str(e) for e in cmd))
         subprocess.run(cmd, cwd=rp.path("cxxsim"), check=True)
 
 
