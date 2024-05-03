@@ -75,6 +75,7 @@ def main(rp, args):
     for path in rp.path("cxxsim").glob("*.cc"):
         cc_o_paths[path] = rp.path.build(f"{path.stem}.o")
 
+    procs = []
     for cc_path, o_path in cc_o_paths.items():
         cmd = [
             "c++",
@@ -87,7 +88,18 @@ def main(rp, args):
             o_path,
         ]
         logger.debug(" ".join(str(e) for e in cmd))
-        subprocess.run(cmd, check=True)
+        procs.append((cc_path, subprocess.Popen(cmd)))
+
+    failed = []
+    for cc_path, p in procs:
+        if p.wait() != 0:
+            failed.append(cc_path)
+
+    if failed:
+        logger.error("Failed to build paths:")
+        for p in failed:
+            logger.error(f"- {p}")
+        raise RuntimeError("failed compile step")
 
     exe_o_path = rp.path.build("cxxsim")
     cmd = [
