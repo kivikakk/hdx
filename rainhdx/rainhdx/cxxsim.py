@@ -53,6 +53,11 @@ def add_arguments(rp, parser):
         action="store_true",
         help="output a VCD file",
     )
+    parser.add_argument(
+        "other_compile",
+        nargs="*",
+        help="other compile-time arguments",
+    )
 
 
 def main(rp, args):
@@ -87,6 +92,7 @@ def main(rp, args):
             "c++",
             *(["-O3"] if args.optimize.opt_rtl else ["-O0"]),
             *(["-g"] if args.debug else []),
+            *args.other_compile,
             "-I" + str(rp.path("build")),
             "-I" + str(yosys.data_dir() / "include" / "backends" / "cxxrtl" / "runtime"),
             "-c",
@@ -112,6 +118,7 @@ def main(rp, args):
     cmd = [
         "c++",
         *(["-O3"] if args.optimize.opt_rtl else []),
+        *args.other_compile,
         *cc_o_paths.values(),
         "-o",
         exe_o_path,
