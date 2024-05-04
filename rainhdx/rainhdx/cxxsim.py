@@ -93,6 +93,7 @@ def main(rp, args):
             *(["-O3"] if args.optimize.opt_rtl else ["-O0"]),
             *(["-g"] if args.debug else []),
             *args.other_compile,
+            "-Wall",
             "-I" + str(rp.path("build")),
             "-I" + str(yosys.data_dir() / "include" / "backends" / "cxxrtl" / "runtime"),
             "-c",
